@@ -5,8 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +22,7 @@ import lombok.Setter;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+
     private int id;
     private String name;
     private String address;
@@ -34,6 +33,5 @@ public class Customer {
     private Date dateUpdate;
     private int accountId;
     private float total;
-
 
 }

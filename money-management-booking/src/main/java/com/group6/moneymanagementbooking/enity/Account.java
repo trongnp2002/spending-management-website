@@ -1,10 +1,11 @@
 package com.group6.moneymanagementbooking.enity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,17 +19,26 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-
+@Table(name = "Accounts")
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int id;
+
     private String name;
-    private String passWord;
+
+    private String password;
+    
+    @Column( unique = true)
     private String email;
+
     private String address;
-    private boolean isActive;
-    private boolean isAdmin;
+
+    private String phone;
+
+    private boolean is_Active;
+
+    private boolean is_Admin;
 
 }

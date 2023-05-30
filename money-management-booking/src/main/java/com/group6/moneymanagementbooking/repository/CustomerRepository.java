@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.group6.moneymanagementbooking.enity.User;
+import com.group6.moneymanagementbooking.enity.Customer;
 
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 
-    public Optional<User> findByEmail(String email);
+    public Optional<Customer> findByEmail(String email);
     
 }

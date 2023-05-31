@@ -2,11 +2,13 @@ package com.group6.moneymanagementbooking.service.impl;
 
 import java.util.Optional;
 
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.group6.moneymanagementbooking.enity.Account;
 import com.group6.moneymanagementbooking.exception.custom.CustomBadRequestException;
+import com.group6.moneymanagementbooking.model.Captcha;
 import com.group6.moneymanagementbooking.model.CustomError;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTOLoginRequest;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTORegister;
@@ -23,18 +25,28 @@ import lombok.RequiredArgsConstructor;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final Captcha captcha1;
     @Override
-    public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest) throws CustomBadRequestException {
+    public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest, String captcha) throws CustomBadRequestException {
 
         Optional<Account> accounOptional = accountRepository.findByEmail(accountDTOLoginRequest.getEmail());
+        if(!captcha.equals(accountDTOLoginRequest.getCaptcha())){
+            captcha1.setCaptchaCode();
+            System.out.println(captcha1.getCaptchaCode());
+            throw new CustomBadRequestException(CustomError.builder().code("401").message("Captcha does not correct").build());
+        }
         if(accounOptional.isPresent()){
             Account account = accounOptional.get();
             if(!passwordEncoder.matches(accountDTOLoginRequest.getPassword(), account.getPassword())){
+                captcha1.setCaptchaCode();
+                System.out.println(captcha1.getCaptchaCode());
                throw new CustomBadRequestException(CustomError.builder().code("404").message("Username or Passwrod is incorrect!!!").build());
             }
+        }else{
+            throw new CustomBadRequestException(CustomError.builder().code("404").message("This account does not exits").build());
+
         }
 
-      
         return builDtoResponse(accounOptional.get());
     }
 
@@ -57,6 +69,5 @@ public class AccountServiceImpl implements AccountService {
         return accountDTOResponse;
     }
 
-   
-    
+
 }

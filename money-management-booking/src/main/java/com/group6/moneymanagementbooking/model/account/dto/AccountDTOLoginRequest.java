@@ -8,4 +8,6 @@ import lombok.Data;
 public class AccountDTOLoginRequest {
     private String email;
     private String password;
+    private String captcha;
+    
 }

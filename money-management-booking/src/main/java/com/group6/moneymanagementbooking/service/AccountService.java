@@ -9,6 +9,6 @@ public interface AccountService {
 
    public AccountDTOResponse registerAccount(AccountDTORegister accountDTORegister) throws CustomBadRequestException;
 
-   public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest) throws CustomBadRequestException;
+   public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest, String captcha) throws CustomBadRequestException;
     
 }

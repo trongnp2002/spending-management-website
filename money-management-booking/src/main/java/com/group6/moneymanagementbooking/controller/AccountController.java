@@ -29,7 +29,7 @@ public class AccountController {
    
     
      @PostMapping("/account/register")
-     public AccountDTOResponse registerAccount(@RequestBody AccountDTORegister accountDTORegister ){
+     public AccountDTOResponse registerAccount(@RequestBody AccountDTORegister accountDTORegister ) throws CustomBadRequestException{
         return accountService.registerAccount(accountDTORegister);
      }
 

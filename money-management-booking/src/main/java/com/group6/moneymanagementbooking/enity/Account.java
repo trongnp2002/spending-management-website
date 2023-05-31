@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-@Table(name = "dbo.Account")
+@Table(name = "Accounts")
 public class Account {
 
     @Id

@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest) throws CustomBadRequestException {
 
-        Optional<Account> accounOptional = accountRepository.findByAccountEmail(accountDTOLoginRequest.getEmail());
+        Optional<Account> accounOptional = accountRepository.findByEmail(accountDTOLoginRequest.getEmail());
         if(accounOptional.isPresent()){
             Account account = accounOptional.get();
             if(!passwordEncoder.matches(accountDTOLoginRequest.getPassword(), account.getPassword())){
@@ -39,9 +39,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTOResponse registerAccount(AccountDTORegister accountDTORegister) {
+    public AccountDTOResponse registerAccount(AccountDTORegister accountDTORegister) throws CustomBadRequestException {
         if(!accountDTORegister.getPassword().equals(accountDTORegister.getRepeatPassword())){
-            System.out.println("password invalid");
+            throw new CustomBadRequestException(CustomError.builder().code("404").message("Re-password and password is different!!!").build());
         }
         Account account = AccountMapper.toAccount(accountDTORegister);
         account.setPassword(passwordEncoder.encode(account.getPassword()));

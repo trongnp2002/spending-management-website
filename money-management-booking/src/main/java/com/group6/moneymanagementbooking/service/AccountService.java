@@ -7,7 +7,7 @@ import com.group6.moneymanagementbooking.model.account.dto.AccountDTOResponse;
 
 public interface AccountService {
 
-   public AccountDTOResponse registerAccount(AccountDTORegister accountDTORegister);
+   public AccountDTOResponse registerAccount(AccountDTORegister accountDTORegister) throws CustomBadRequestException;
 
    public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest) throws CustomBadRequestException;
     

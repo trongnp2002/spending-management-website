@@ -2,9 +2,12 @@ package com.group6.moneymanagementbooking.service.impl;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.group6.moneymanagementbooking.enity.Account;
+import com.group6.moneymanagementbooking.exception.custom.CustomBadRequestException;
+import com.group6.moneymanagementbooking.model.CustomError;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTOLoginRequest;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTORegister;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTOResponse;
@@ -19,22 +22,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
-    private final JwtTokenUtil jwtTokenUtil;
-    
+    private final PasswordEncoder passwordEncoder;
     @Override
-    public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest) {
+    public AccountDTOResponse loginAccount(AccountDTOLoginRequest accountDTOLoginRequest) throws CustomBadRequestException {
 
-        Optional<Account> accounOptional = accountRepository.findByEmail(accountDTOLoginRequest.getEmail());
-        boolean isAuthen = false;
+        Optional<Account> accounOptional = accountRepository.findByAccountEmail(accountDTOLoginRequest.getEmail());
         if(accounOptional.isPresent()){
             Account account = accounOptional.get();
-            if(account.getPassword().equals(accountDTOLoginRequest.getPassword())){
-                isAuthen = true;
+            if(!passwordEncoder.matches(accountDTOLoginRequest.getPassword(), account.getPassword())){
+               throw new CustomBadRequestException(CustomError.builder().code("404").message("Username or Passwrod is incorrect!!!").build());
             }
         }
-        if(!isAuthen){
-            System.out.println("username and password incorrect.");
-        }
+
       
         return builDtoResponse(accounOptional.get());
     }
@@ -45,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
             System.out.println("password invalid");
         }
         Account account = AccountMapper.toAccount(accountDTORegister);
-
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         account = accountRepository.save(account);
 
        
@@ -54,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 
     private AccountDTOResponse builDtoResponse(Account account){
         AccountDTOResponse accountDTOResponse = AccountMapper.toAccountDTOResponse(account);
-        accountDTOResponse.setToken(jwtTokenUtil.generateToken(account, 24 * 60 * 60));
+        accountDTOResponse.setToken(JwtTokenUtil.generateToken(account, 24 * 60 * 60 ));
         return accountDTOResponse;
     }
 

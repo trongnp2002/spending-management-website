@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group6.moneymanagementbooking.exception.custom.CustomBadRequestException;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTOLoginRequest;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTORegister;
 import com.group6.moneymanagementbooking.model.account.dto.AccountDTOResponse;
@@ -20,21 +21,9 @@ import lombok.RequiredArgsConstructor;
 public class AccountController {
     private final AccountService accountService;
    
-    
-
-
-
-
-
-
-
-
-
-
-
 
     @PostMapping("/account/login")
-    public AccountDTOResponse loginAccount(@RequestBody AccountDTOLoginRequest accountDTOLoginRequest ){
+    public AccountDTOResponse loginAccount(@RequestBody AccountDTOLoginRequest accountDTOLoginRequest ) throws CustomBadRequestException{
        return accountService.loginAccount(accountDTOLoginRequest);
     }
    

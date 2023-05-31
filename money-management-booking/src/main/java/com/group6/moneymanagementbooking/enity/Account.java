@@ -19,26 +19,33 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-@Table(name = "Accounts")
+@Table(name = "dbo.Account")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "accountID")
+    private int accountID;
 
-    private String name;
+    @Column(name = "accountName")
+    private String accountName;
 
+    @Column(name = "password")
     private String password;
     
-    @Column( unique = true)
-    private String email;
+    @Column(name ="accountEmail" , unique = true)
+    private String accountEmail;
 
-    private String address;
+    @Column(name = "accountAddress")
+    private String accountAddress;
 
-    private String phone;
+    @Column(name = "accountPhone")
+    private String accountPhone;
 
+    @Column(name = "isActive")
     private boolean is_Active;
 
+    @Column(name = "isAdmin")
     private boolean is_Admin;
 
 }

@@ -21,7 +21,7 @@ public class JwtTokenUtil {
 
   public static String generateToken(Account account, long expiredDate) {
     Map<String, Object> claims = new HashMap<>();
-    TokenPayload tokenPayload = TokenPayload.builder().accountId(account.getAccountID()).email(account.getAccountEmail()).build();
+    TokenPayload tokenPayload = TokenPayload.builder().accountId(account.getId()).email(account.getEmail()).build();
     claims.put("payload", tokenPayload);
     return Jwts.builder().setClaims(claims).setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + expiredDate * 1000))
@@ -46,7 +46,7 @@ public class JwtTokenUtil {
 
   public static boolean validate(String token, Account account) {
     TokenPayload tokenPayload = getTokenPayLoad(token);
-    return tokenPayload.getAccountId() == account.getAccountID() && tokenPayload.getEmail().equals(account.getAccountEmail())
+    return tokenPayload.getAccountId() == account.getId() && tokenPayload.getEmail().equals(account.getEmail())
         && !isTokenExpired(token);
   }
 

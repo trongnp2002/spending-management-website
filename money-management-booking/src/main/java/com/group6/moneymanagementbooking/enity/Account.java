@@ -24,28 +24,21 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "accountID")
-    private int accountID;
 
-    @Column(name = "accountName")
-    private String accountName;
+    private int id;
 
-    @Column(name = "password")
+    private String name;
+
     private String password;
-    
-    @Column(name ="accountEmail" , unique = true)
-    private String accountEmail;
 
-    @Column(name = "accountAddress")
-    private String accountAddress;
+    private String email;
 
-    @Column(name = "accountPhone")
-    private String accountPhone;
+    private String address;
 
-    @Column(name = "isActive")
+    private String phone;
+
     private boolean is_Active;
 
-    @Column(name = "isAdmin")
     private boolean is_Admin;
 
 }

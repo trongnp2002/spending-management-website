@@ -14,25 +14,20 @@ let current = 1;
 
 function sendOTP() {
   var email = document.getElementById("userEmailInput").value;
-  if (email === "") {
-    alert("Email cannot be empty!!!");
-  } else {
-    $.ajax({
-      url: "/api/otps/sendOTP",
-      type: "GET",
-      data: {
-        userInput: email
-      },
-      success: function (data) {
-        if (data !== null && data !== "") {
-          alert(data)
-        }
-      },
+  $.ajax({
+    url: "/api/otps/sendOTP",
+    type: "GET",
+    data: {
+      userInput: email
+    },
+    success: function (data) {
+      if (data !== null && data !== "") {
+        alert(data)
+      }
+    },
 
-    });
-    alert("OTP already send to your email! You have 60sec to confirm OTP!")
-  }
-
+  });
+  alert("OTP already send to your email! You have 60sec to confirm OTP!")
 }
 
 
@@ -124,31 +119,13 @@ prevBtnFourth.addEventListener("click", function (event) {
   current -= 1;
 });
 
-
-$('#password, #repeatPassword').on('keyup', function () {
-  if ($('#password').val() == $('#repeatPassword').val()) {
-    $('#message').html('Re-password is matching').css('color', 'green');
-  } else
-    $('#message').html('Re-password is not Matching').css('color', 'red');
-});
-
-function checkEmail(email) {
-  var emailUser = email.value;
-  var mess = document.getElementById("emailMess");
-  $.ajax({
-    url: "/api/accounts/checkEmail",
-    type: "GET",
-    data: {
-      userEmail: emailUser
-    },
-    success: function (data) {
-      if (data !== null && data !== "") {
-        mess.innerHTML = "<h5 style='color:red;'>Email already exits!!!</h5>";
-      } else {
-        mess.innerHTML = "<h5 style='color:green;'>Email is valid!!!</h5>";
-      }
-    },
-
-  });
-
+function checkRepeatPassword() {
+  var password = document.getElementById("password").value;
+  var repeatPassword = document.getElementById("repeatPassword").value;
+  var mess = document.getElementById("message");
+  if (repeatPassword !== password) {
+    mess.innerHTML = "<h6 style ='color: red'>Re-password not correct!!!</h6>";
+  } else {
+    mess.innerHTML = "<h6 style ='color: green'>Re-password is correct!!!</h6>";
+  }
 }

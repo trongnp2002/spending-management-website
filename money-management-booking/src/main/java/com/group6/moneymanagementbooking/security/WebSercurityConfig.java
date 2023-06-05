@@ -39,6 +39,9 @@ import lombok.RequiredArgsConstructor;
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeRequests()
                 .antMatchers("/api/accounts/login").permitAll()
+                .antMatchers("/api/accounts/register").permitAll()
+                .antMatchers("/api/accounts/checkEmail").permitAll()
+
                 .antMatchers("/api/otps/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/accounts/**").permitAll()
                 .antMatchers("/api/**").authenticated()

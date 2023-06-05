@@ -10,7 +10,7 @@ public class AccountMapper {
     }
 
     public static Account toAccount(AccountDTORegister accountDTORegister){
-        return  Account.builder().name(accountDTORegister.getName()).email(accountDTORegister.getEmail())
+        return  Account.builder().name(accountDTORegister.getFirstName()+" "+accountDTORegister.getLastName()).email(accountDTORegister.getEmail())
         .password(accountDTORegister.getPassword()).phone(accountDTORegister.getPhone()).address(accountDTORegister.getAddress()).is_Active(true).is_Admin(false).build();
     }
 }

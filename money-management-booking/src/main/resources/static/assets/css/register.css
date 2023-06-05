@@ -227,3 +227,7 @@ form .register_page .register_btns button.register_next{
 
     justify-content: center;
 }
+#message{
+  height: 24px;
+  line-height: 24px;
+}

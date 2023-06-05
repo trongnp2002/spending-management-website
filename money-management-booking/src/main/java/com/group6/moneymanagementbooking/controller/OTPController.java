@@ -1,5 +1,6 @@
 package com.group6.moneymanagementbooking.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.group6.moneymanagementbooking.service.AccountService;
 import com.group6.moneymanagementbooking.service.OTPService;
+import com.group6.moneymanagementbooking.service.impl.AccountServiceImpl;
 import com.group6.moneymanagementbooking.util.EmailUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -25,10 +28,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OTPController {
     private final OTPService otpService;
-
+    private final AccountServiceImpl accountServiceImpl;
     @GetMapping(value = "/sendOTP")
     @ResponseStatus(value = HttpStatus.OK)
-    public void sendOTPMail(HttpServletRequest request) throws EmailException {
+    public void sendOTPMail(HttpServletRequest request, HttpServletResponse response)
+            throws EmailException, IOException {
         String email = (String) request.getParameter("userInput");
         int otp = 0;
         HttpSession mySession = request.getSession();
@@ -36,13 +40,19 @@ public class OTPController {
         otp = rand.nextInt(1000000);
         String htmlContent = "<h1>Active your account by code here: " + otp
                 + "</h1> <h2>Note: The email can only exist in 1 minute from the time it started sending!!!!!</h2>";
+        PrintWriter out = response.getWriter();
 
-        EmailUtils.sendVerifyEmail(email, "Dear MyFriend, ", htmlContent);
+        try {
+            EmailUtils.sendVerifyEmail(email, "Dear MyFriend, ", htmlContent);
 
-        System.out.println("Mail sent successfully.");
-
+            System.out.println("Mail sent successfully.");
+        } catch (Exception e) {
+            out.println("Something went wrong!! Please click the send OTP button again!!!");
+        }
+   
         mySession.setAttribute("otp1", otp);
         mySession.setAttribute("account", email);
+        mySession.setAttribute("OTPage", System.currentTimeMillis());
     }
 
     @GetMapping(value = "confirmOTP")
@@ -53,6 +63,7 @@ public class OTPController {
             otpService.confirm(request, response, model);
         } catch (Exception e) {
             out.println(e.getMessage());
+
         }
     }
 

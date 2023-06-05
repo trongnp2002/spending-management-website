@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href='@{/assets/themify-icons-font/themify-icons/themify-icons.css}' rel='stylesheet'>
+    <link rel="stylesheet" th:href="@{/assets/css/login.css}">
+
+</head>
+
+<body>
+    <div class="login_box">
+        <div class="login_container">
+
+            <div class="login_top">
+                <header>ODB Login</header>
+            </div>
+
+
+            <form id="login_form" th:action="@{/api/accounts/login}" th:object="${accountDTOLoginRequest}" method="POST">
+                <div class="login_input-field ">
+                    <input type="text" class="input" placeholder="Email" name="email" th:field="*{email}">
+                    <i class='ti-email'></i>
+                </div>
+
+                <div class="login_input-field">
+                    <input type="Password" class="input" placeholder="Password" name="password" th:field="*{password}">
+                    <i class='ti-lock'></i>
+                </div>
+
+                <div class="login_input-field captcha_input_box">
+
+                    <div class="capctcha_input-field captch_input">
+                        <input id="captcha_user_input" class="input" placeholder="Enter captcha" />
+
+                    </div>
+                    <div class="capctcha_input-field  captch_box">
+                        <input class="inputt" type="text" value="" disabled />
+                        <button class="captcha_refresh_button" type="button">
+                            <i class='ti-reload'></i>
+                        </button>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+                <p class="login_mess" style="color: red"></p>
+
+
+
+                <div class="login_input-field captcha_button disabled">
+                    <button type="button" class="login_submit" value="Login">Login</button>
+                </div>
+
+
+
+            </form>
+
+            <div class="login_two-col">
+                <div class="login_one">
+                    <label><a href="homepage.jsp">Homepage</a></label>
+                </div>
+                <div class="login_one">
+                    <label><a href="register.jsp">Register</a></label>
+                </div>
+                <div class="login_two">
+                    <label><a href="forgotpass.jsp">Forgot password?</a></label>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/assets/javascrip/login.js}"></script>
+</body>
+
+</html>

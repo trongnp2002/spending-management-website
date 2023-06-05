@@ -18,7 +18,7 @@ import com.group6.moneymanagementbooking.enity.Account;
 @Component
 public class JwtTokenUtil {
   private static final String secret = "TRONG_DZ";
-
+   
   public static String generateToken(Account account, long expiredDate) {
     Map<String, Object> claims = new HashMap<>();
     TokenPayload tokenPayload = TokenPayload.builder().accountId(account.getId()).email(account.getEmail()).build();
@@ -34,13 +34,14 @@ public class JwtTokenUtil {
     return getClamsFromToken(token, (Claims claim) -> {
 
       Map<String, Object> result = (Map<String, Object>) claim.get("payload");
-      return TokenPayload.builder().accountId((int) result.get("userId")).email(result.get("email").toString()).build();
+      return TokenPayload.builder().accountId((int) result.get("accountId")).email(result.get("email").toString()).build();
 
     });
   }
 
   private static <T> T getClamsFromToken(String token, Function<Claims, T> clamResovel) {
     final Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    System.out.println(claims);
     return clamResovel.apply(claims);
   }
 

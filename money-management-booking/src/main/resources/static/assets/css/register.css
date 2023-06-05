@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  background: url("https://wallpapercave.com/wp/wp5054620.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+::selection{
+  color: #fff;
+  background: #d43f8d;
+}
+.register_container{
+  width: 330px;
+  background: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 50px 35px 10px 35px;
+}
+.register_container header{
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0 0 30px 0;
+}
+.register_container .register_form-outer{
+  width: 100%;
+  overflow: hidden;
+}
+.register_container .register_form-outer form{
+  display: flex;
+  width: 400%;
+}
+.register_form-outer form .register_page{
+  width: 25%;
+  transition: margin-left 0.3s ease-in-out;
+}
+.register_form-outer form .register_page .register_title{
+  text-align: left;
+  font-size: 25px;
+  font-weight: 500;
+}
+.register_form-outer form .register_page .register_field{
+  width: 330px;
+  height: 45px;
+  margin: 45px 0;
+  display: flex;
+  position: relative;
+}
+form .register_page .register_field .register_label{
+  position: absolute;
+  top: -30px;
+  font-weight: 500;
+}
+form .register_page .register_field input{
+  height: 100%;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding-left: 15px;
+  font-size: 18px;
+}
+form .register_page .register_field select{
+  width: 100%;
+  padding-left: 10px;
+  font-size: 17px;
+  font-weight: 500;
+}
+form .register_page .register_field button{
+  width: 100%;
+  height: calc(100% + 5px);
+  border: none;
+  background: #d33f8d;
+  margin-top: -20px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.5s ease;
+}
+form .register_page .register_field button:hover{
+  background: #000;
+}
+form .register_page .register_btns button{
+  margin-top: -20px!important;
+}
+form .register_page .register_btns button.register_prev{
+  margin-right: 3px;
+  font-size: 17px;
+}
+form .register_page .register_btns button.register_next{
+  margin-left: 3px;
+}
+.register_container .register_progress-bar{
+  display: flex;
+  margin: 40px 0;
+  user-select: none;
+}
+.register_container .register_progress-bar .register_step{
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+.register_container .register_progress-bar .register_step p{
+  font-weight: 500;
+  font-size: 18px;
+  color: #000;
+  margin-bottom: 8px;
+}
+.register_progress-bar .register_step .register_bullet{
+  height: 25px;
+  width: 25px;
+  border: 2px solid #000;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  transition: 0.2s;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 25px;
+}
+.register_progress-bar .register_step .register_bullet.active{
+  border-color: #d43f8d;
+  background: #d43f8d;
+}
+.register_progress-bar .register_step .register_bullet span{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.register_progress-bar .register_step .register_bullet.active span{
+  display: none;
+}
+.register_progress-bar .register_step .register_bullet:before,
+.register_progress-bar .register_step .register_bullet:after{
+  position: absolute;
+  content: '';
+  bottom: 11px;
+  right: -51px;
+  height: 3px;
+  width: 44px;
+  background: #262626;
+}
+.register_progress-bar .register_step .register_bullet.active:after{
+  background: #d43f8d;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: animate 0.3s linear forwards;
+}
+@keyframes animate {
+  100%{
+    transform: scaleX(1);
+  }
+}
+.register_progress-bar .register_step:last-child .register_bullet:before,
+.register_progress-bar .register_step:last-child .register_bullet:after{
+  display: none;
+}
+.register_progress-bar .register_step p.active{
+  color: #d43f8d;
+  transition: 0.2s linear;
+}
+.register_progress-bar .register_step .register_check{
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  font-size: 15px;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+.register_progress-bar .register_step .register_check.active{
+  display: block;
+  color: #fff;
+}
+.register_OTP{
+    display: flex;
+    float: left;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    float: left;
+}
+.register_sendOTP_button{
+    flex-grow: 1;
+    height: 100%;
+}
+
+.register_inputOTP{
+    width: 70%;
+    margin-right: 12px;
+    height: 100%;
+}
+.register_sendOTP_button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left: 12px;
+    margin-top: 20px;
+    
+}
+.register_sendOTP_button button{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register_sendOTP_button p{
+
+    font-size: 12px;
+
+    justify-content: center;
+}

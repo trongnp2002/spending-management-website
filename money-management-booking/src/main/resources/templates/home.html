@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div th:object="${session.tokenPayLoad}">
+        <p>username: <span th:text="*{accountId}"></span></p>
+        <p>username: <span th:text="*{email}"></span></p>
+
+    </div>
+    <a th:href="@{/api/accounts/index}">an de sang index</a>
 </body>
 </html>

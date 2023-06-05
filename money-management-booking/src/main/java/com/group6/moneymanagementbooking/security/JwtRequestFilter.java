@@ -1,6 +1,5 @@
 package com.group6.moneymanagementbooking.security;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +7,10 @@ import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,9 +31,10 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
-    // protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-    //         throws ServletException, IOException {
-    //   filterChain.doFilter(request, response);
+    // protected void doFilterInternal(HttpServletRequest request,
+    // HttpServletResponse response, FilterChain filterChain)
+    // throws ServletException, IOException {
+    // filterChain.doFilter(request, response);
     // }
 
     private final AccountRepository accountRepository;
@@ -40,30 +42,50 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        final String requestTokenHeader = request.getHeader("Authorization");
+        Cookie cookies[] = request.getCookies();
+        String requestTokenHeader = "";
 
         String token = "";
         TokenPayload tokenPayload = null;
 
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Token ")) {
-            token = requestTokenHeader.substring(6).trim();
-            try {
-                tokenPayload = JwtTokenUtil.getTokenPayLoad(token);
-            } catch (SignatureException se) {
-                System.out.println("Invalid JWT signature");
-            } catch (IllegalArgumentException illae) {
-                System.out.println("Unable to get jwt");
-            } catch (ExpiredJwtException exe) {
-                System.out.println("Token has expired");
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {
+                    requestTokenHeader = cookie.getValue();
+                }
+            }
+            if (requestTokenHeader.length() >0) {
+                token = requestTokenHeader;
+
+                try {
+                    tokenPayload = JwtTokenUtil.getTokenPayLoad(token);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("tokenPayLoad", tokenPayload);
+                    // if(session.getAttribute("tokenPayLoad") == null){
+                       
+                    // }else{
+                    //     TokenPayload userToken = (TokenPayload) session.getAttribute("tokenPayLoad");
+                    //     if(userToken.getAccountId() != tokenPayload.getAccountId()){
+                    //         session.removeAttribute("tokenPayLoad");
+                    //         session.setAttribute("tokenPayLoad", tokenPayload);
+                    //     }
+                    // }
+                } catch (SignatureException se) {
+                    System.out.println("Invalid JWT signature");
+                } catch (IllegalArgumentException illae) {
+                    System.out.println("Unable to get jwt");
+                } catch (ExpiredJwtException exe) {
+                    System.out.println("Token has expired");
+                }
             }
         } else {
-            System.out.println("JWT token does not start with 'Token'");
+            System.out.println("Cookie not exits");
         }
         if (tokenPayload != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             Optional<Account> accountOptional = accountRepository.findById(tokenPayload.getAccountId());
 
             if (accountOptional.isPresent()) {
-              Account account = accountOptional.get();
+                Account account = accountOptional.get();
                 if (JwtTokenUtil.validate(token, account)) {
                     List<SimpleGrantedAuthority> authority = new ArrayList<>();
                     UserDetails userDetails = new org.springframework.security.core.userdetails.User(account.getEmail(),

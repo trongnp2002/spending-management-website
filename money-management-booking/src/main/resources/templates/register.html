@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Multi Step Form | CodingNepal</title>
+    <link rel="stylesheet" th:href="@{/assets/css/register.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+
+<body>
+    <div class="register_container">
+        <header>Signup Form</header>
+        <div class="register_progress-bar">
+            <div class="register_step">
+                <p>
+                    Email
+                </p>
+                <div class="register_bullet">
+                    <span>1</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+            <div class="register_step">
+                <p>
+                    Name
+                </p>
+                <div class="register_bullet">
+                    <span>2</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+            <div class="register_step">
+                <p>
+                    Contact
+                </p>
+                <div class="register_bullet">
+                    <span>3</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+            <div class="register_step">
+                <p>
+                    Submit
+                </p>
+                <div class="register_bullet">
+                    <span>4</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+        </div>
+        <div class="register_form-outer">
+            <form action="#">
+                <div class="register_page register_slide-page">
+                    <div class="register_title">
+                        Email Address:
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Email
+                        </div>
+                        <input type="text" id="userEmailInput">
+                    </div>
+                    <div class="register_field ">
+                        <div class="register_label">
+                            OTP
+                        </div>
+                        <div class="register_OTP">
+                            <div class="register_inputOTP">
+                                <input type="text" id="userOTPInput">
+                            </div>
+                            <div class="register_sendOTP_button">
+                                <button onclick="sendOTP()" type="button"><p>Send OTP</p> </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="register_field">
+                        <button class="firstNext register_next" >Next</button>
+                    </div>
+                </div>
+                <div class="register_page">
+                    <div class="register_title">
+                        Basic Info:
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            First Name
+                        </div>
+                        <input type="text">
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Last Name
+                        </div>
+                        <input type="Number">
+                    </div>
+                    <div class="register_field register_btns">
+                        <button class="prev-1 register_prev">Previous</button>
+                        <button class="next-1 register_next">Next</button>
+                    </div>
+                </div>
+                <div class="register_page">
+                    <div class="register_title">
+                        Contact Infor:
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Phone
+                        </div>
+                        <input type="text">
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Address
+                        </div>
+                        <input type="text">
+                    </div>
+                    <div class="register_field register_btns">
+                        <button class="prev-2 register_prev">Previous</button>
+                        <button class="next-2 register_next">Next</button>
+                    </div>
+                </div>
+                <div class="register_page">
+                    <div class="register_title">
+                        Login Details:
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Password
+                        </div>
+                        <input type="password">
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Re-password
+                        </div>
+                        <input type="password">
+                    </div>
+                    <div class="register_field register_btns">
+                        <button class="prev-3 register_prev">Previous</button>
+                        <button class="register_submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script th:src="@{/assets/javascrip/register.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+</body>
+
+</html>

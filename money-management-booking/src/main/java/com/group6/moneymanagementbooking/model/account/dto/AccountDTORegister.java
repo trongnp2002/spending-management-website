@@ -1,16 +1,21 @@
 package com.group6.moneymanagementbooking.model.account.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class AccountDTORegister {
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String repeatPassword;
     private String phone;
     private String address;
+    
+
     
 }

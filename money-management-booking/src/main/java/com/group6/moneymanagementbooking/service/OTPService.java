@@ -20,6 +20,7 @@ public class OTPService {
         int realOtp = (int) (session.getAttribute("otp1"));
         String email = request.getParameter("email");
         String emailSession = (String) session.getAttribute("account");
+        long OTPage = (long)session.getAttribute("OTPage");
         if (!email.equals(emailSession)) {
 
             throw new Exception("Email not valid");
@@ -29,6 +30,9 @@ public class OTPService {
             throw new Exception("OTP is not valid!!!");
 
         } else {
+            if(System.currentTimeMillis() - OTPage > 60*1000){
+                throw new Exception("Your OTP is expired!!");
+            }
             int userOTPNum = Integer.parseInt(userOTPInput);
             if (userOTPNum != realOtp) {
 

@@ -20,12 +20,12 @@ function sendOTP() {
     data: {
       userInput: email
     },
-    success: {
+    success: function(){
+       
+      } ,
 
-    },
-
-  }
-  );
+  });
+  alert("OTP already send to your email! You have 60sec to confirm OTP!")
 }
 
 
@@ -41,9 +41,8 @@ nextBtnFirst.addEventListener("click", function (event) {
         email: email
       },
       success: function (data) {
-
         event.preventDefault();
-        if (data!==null && data === "") {
+        if (data !== null && data === "") {
           slidePage.style.marginLeft = "-25%";
           bullet[current - 1].classList.add("active");
           progressCheck[current - 1].classList.add("active");

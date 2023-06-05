@@ -43,6 +43,7 @@ public class OTPController {
 
         mySession.setAttribute("otp1", otp);
         mySession.setAttribute("account", email);
+        mySession.setAttribute("OTPage", System.currentTimeMillis());
     }
 
     @GetMapping(value = "confirmOTP")
@@ -53,6 +54,7 @@ public class OTPController {
             otpService.confirm(request, response, model);
         } catch (Exception e) {
             out.println(e.getMessage());
+            
         }
     }
 

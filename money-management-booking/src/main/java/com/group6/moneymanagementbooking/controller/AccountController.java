@@ -32,11 +32,12 @@ public class AccountController {
     public String getLoginFunction(Model model) throws CustomBadRequestException {
         AccountDTOLoginRequest accountDTOLoginRequest =  AccountDTOLoginRequest.builder().build();
         model.addAttribute("accountDTOLoginRequest", accountDTOLoginRequest);
+        model.addAttribute("report", "");
         return "login";
     }
     @PostMapping("/accounts/login")
-    public String postLoginFuntion(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("accountDTOLoginRequest") AccountDTOLoginRequest accountDTOLoginRequest) throws CustomBadRequestException {
-       return accountService.loginAccount(request,response,accountDTOLoginRequest);
+    public String postLoginFuntion(Model model, HttpServletRequest request, HttpServletResponse response, @ModelAttribute("accountDTOLoginRequest") AccountDTOLoginRequest accountDTOLoginRequest) throws CustomBadRequestException {
+       return accountService.loginAccount(model, request,response,accountDTOLoginRequest);
        
     }
     @GetMapping("/accounts/home")
@@ -51,16 +52,21 @@ public class AccountController {
         return "register";
     }
     @PostMapping("/accounts/register")
-    public String register(@ModelAttribute("accountDTORegister") AccountDTORegister accountDTORegister) throws Exception{
-        return accountService.registerAccount(accountDTORegister);
+    public String register(Model model, @ModelAttribute("accountDTORegister") AccountDTORegister accountDTORegister) throws Exception{
+        return accountService.registerAccount(model, accountDTORegister);
     }
 
 
-    @GetMapping("/accounts/checkEmail")
+    @GetMapping("/accounts/check/email")
     @ResponseStatus(value = HttpStatus.OK)
     public void checkEmail(HttpServletRequest request, HttpServletResponse response) throws Exception{
         accountService.checkEmail(request, response);
 
     }
- 
+    @GetMapping("/accounts/check/phone")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void checkPhone(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        accountService.checkPhone(request, response);
+
+    }
 }

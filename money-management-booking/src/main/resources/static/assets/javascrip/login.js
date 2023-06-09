@@ -59,3 +59,21 @@ submitButton.addEventListener("click", submitBtnClick);
 
 // Generate a captcha when the page loads
 generateCaptcha();
+
+function report(data) {
+  if (data != null && data !== "") {
+    $('#report').html(data);
+    $('.alert').addClass("show");
+    $('.alert').removeClass("hide");
+    $('.alert').addClass("showAlert");
+    setTimeout(function () {
+      $('.alert').removeClass("show");
+      $('.alert').addClass("hide");
+    }, 5000);
+
+    $('.close-btn').click(function () {
+      $('.alert').removeClass("show");
+      $('.alert').addClass("hide");
+    });
+  }
+}

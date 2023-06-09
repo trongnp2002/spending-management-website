@@ -61,15 +61,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     tokenPayload = JwtTokenUtil.getTokenPayLoad(token);
                     HttpSession session = request.getSession();
                     session.setAttribute("tokenPayLoad", tokenPayload);
-                    // if(session.getAttribute("tokenPayLoad") == null){
-                       
-                    // }else{
-                    //     TokenPayload userToken = (TokenPayload) session.getAttribute("tokenPayLoad");
-                    //     if(userToken.getAccountId() != tokenPayload.getAccountId()){
-                    //         session.removeAttribute("tokenPayLoad");
-                    //         session.setAttribute("tokenPayLoad", tokenPayload);
-                    //     }
-                    // }
+
                 } catch (SignatureException se) {
                     System.out.println("Invalid JWT signature");
                 } catch (IllegalArgumentException illae) {
@@ -88,6 +80,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 Account account = accountOptional.get();
                 if (JwtTokenUtil.validate(token, account)) {
                     List<SimpleGrantedAuthority> authority = new ArrayList<>();
+                 
+                    authority.add(new SimpleGrantedAuthority(account.getRoll()));
                     UserDetails userDetails = new org.springframework.security.core.userdetails.User(account.getEmail(),
                             account.getPassword(), authority);
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

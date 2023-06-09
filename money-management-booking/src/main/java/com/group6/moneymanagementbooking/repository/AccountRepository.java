@@ -11,5 +11,7 @@ import com.group6.moneymanagementbooking.enity.Account;
 public interface AccountRepository extends JpaRepository<Account, Integer>{
 
     public Optional<Account> findByEmail(String email);
+
+    public Optional<Account> findByPhone(String phone);
     
 }

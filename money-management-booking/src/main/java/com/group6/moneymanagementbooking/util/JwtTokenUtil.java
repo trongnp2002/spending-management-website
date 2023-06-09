@@ -41,7 +41,6 @@ public class JwtTokenUtil {
 
   private static <T> T getClamsFromToken(String token, Function<Claims, T> clamResovel) {
     final Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-    System.out.println(claims);
     return clamResovel.apply(claims);
   }
 

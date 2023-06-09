@@ -11,7 +11,14 @@
 
 </head>
 
-<body>
+<body th:onload="report([[${report}]])">
+    <div class="alert alert_hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="alert_msg" id="report" style="padding-left: 20px;"></span>
+        <div class="alert_close-btn">
+           <span class="fas fa-times"></span>
+        </div>
+     </div>
     <div class="login_box">
         <div class="login_container">
 
@@ -68,13 +75,15 @@
                     <label><a href="homepage.jsp">Homepage</a></label>
                 </div>
                 <div class="login_one">
-                    <label><a href="register.jsp">Register</a></label>
+                    <label><a href="/api/accounts/register">Register</a></label>
                 </div>
                 <div class="login_two">
                     <label><a href="forgotpass.jsp">Forgot password?</a></label>
                 </div>
             </div>
         </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline ="javascript"></script>
+
         <script th:src="@{/assets/javascrip/login.js}"></script>
 </body>
 

@@ -88,16 +88,16 @@ nextBtnThird.addEventListener("click", function (event) {
   progressText[current - 1].classList.add("active");
   current += 1;
 });
-submitBtn.addEventListener("click", function () {
-  bullet[current - 1].classList.add("active");
-  progressCheck[current - 1].classList.add("active");
-  progressText[current - 1].classList.add("active");
-  current += 1;
-  setTimeout(function () {
-    alert("Your Form Successfully Signed up");
-    location.reload();
-  }, 800);
-});
+// submitBtn.addEventListener("click", function () {
+//   bullet[current - 1].classList.add("active");
+//   progressCheck[current - 1].classList.add("active");
+//   progressText[current - 1].classList.add("active");
+//   current += 1;
+//   setTimeout(function () {
+//     alert("Your Form Successfully Signed up");
+//     location.reload();
+//   }, 800);
+// });
 
 prevBtnSec.addEventListener("click", function (event) {
   event.preventDefault();
@@ -134,21 +134,61 @@ $('#password, #repeatPassword').on('keyup', function () {
 
 function checkEmail(email) {
   var emailUser = email.value;
-  var mess = document.getElementById("emailMess");
+
   $.ajax({
-    url: "/api/accounts/checkEmail",
+    url: "/api/accounts/check/email",
     type: "GET",
     data: {
       userEmail: emailUser
     },
     success: function (data) {
+      var mess = document.getElementById("emailMess");
       if (data !== null && data !== "") {
-        mess.innerHTML = "<h5 style='color:red;'>Email already exits!!!</h5>";
-      } else {
-        mess.innerHTML = "<h5 style='color:green;'>Email is valid!!!</h5>";
+        mess.innerHTML = data;
+      }
+    },
+    error: function (xhr) {
+      var errorData = JSON.parse(xhr.responseText);
+      var errorMessage = errorData.error.message;
+      mess.innerHTML = "<h5 style='color:red;'>a</h5>";
+    }
+  });
+}
+
+function checkPhone(phone) {
+  var phoneUser = phone.value;
+
+  $.ajax({
+    url: "/api/accounts/check/phone",
+    type: "GET",
+    data: {
+      userPhone: phoneUser
+    },
+    success: function (data) {
+      var mess = document.getElementById("phoneMess");
+      if (data !== null && data !== "") {
+        mess.innerHTML = data;
+
       }
     },
 
   });
-
 }
+function report(data) {
+  if (data != null && data !== "") {
+    $('#report').html(data);
+    $('.alert').addClass("show");
+    $('.alert').removeClass("hide");
+    $('.alert').addClass("showAlert");
+    setTimeout(function () {
+      $('.alert').removeClass("show");
+      $('.alert').addClass("hide");
+    }, 5000);
+
+    $('.close-btn').click(function () {
+      $('.alert').removeClass("show");
+      $('.alert').addClass("hide");
+    });
+  }
+}
+

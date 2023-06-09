@@ -1,6 +1,5 @@
 package com.group6.moneymanagementbooking.util;
 
-import java.util.UUID;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;

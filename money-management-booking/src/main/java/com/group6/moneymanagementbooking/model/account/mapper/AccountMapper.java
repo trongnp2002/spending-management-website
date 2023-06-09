@@ -11,6 +11,6 @@ public class AccountMapper {
 
     public static Account toAccount(AccountDTORegister accountDTORegister){
         return  Account.builder().name(accountDTORegister.getFirstName()+" "+accountDTORegister.getLastName()).email(accountDTORegister.getEmail())
-        .password(accountDTORegister.getPassword()).phone(accountDTORegister.getPhone()).address(accountDTORegister.getAddress()).is_Active(true).is_Admin(false).build();
+        .password(accountDTORegister.getPassword()).phone(accountDTORegister.getPhone()).address(accountDTORegister.getAddress()).is_Active(true).roll("ROLE_USER").build();
     }
 }

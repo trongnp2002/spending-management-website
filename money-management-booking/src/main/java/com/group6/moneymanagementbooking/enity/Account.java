@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @Table(name = "Accounts")
-public class Account extends Validation{
+public class Account extends Validation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +48,5 @@ public class Account extends Validation{
 
     private boolean is_Active;
 
-    private boolean is_Admin;
-
+    private String roll;
 }

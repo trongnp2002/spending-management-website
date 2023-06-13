@@ -28,6 +28,24 @@ import lombok.RequiredArgsConstructor;
 public class AccountController {
     private final AccountService accountService;
     
+    @GetMapping("/homepage")
+    public String homepag(Model model) throws CustomBadRequestException {
+      //  AccountDTOLoginRequest accountDTOLoginRequest =  AccountDTOLoginRequest.builder().build();
+     //   model.addAttribute("accountDTOLoginRequest", accountDTOLoginRequest);
+        return "home";
+    }
+
+    
+    @GetMapping("/homepage/dashboard")
+    public String dashboard(Model model) throws CustomBadRequestException {
+      //  AccountDTOLoginRequest accountDTOLoginRequest =  AccountDTOLoginRequest.builder().build();
+     //   model.addAttribute("accountDTOLoginRequest", accountDTOLoginRequest);
+        return "dashboard";
+    }
+
+   
+
+
     @GetMapping("/accounts/login")
     public String getLoginFunction(Model model) throws CustomBadRequestException {
         AccountDTOLoginRequest accountDTOLoginRequest =  AccountDTOLoginRequest.builder().build();

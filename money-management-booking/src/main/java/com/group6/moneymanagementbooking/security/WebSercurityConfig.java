@@ -38,7 +38,16 @@ import lombok.RequiredArgsConstructor;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeRequests()
+                .antMatchers("/api/homepage/dashboard").permitAll()
+                .antMatchers("/api/homepage").permitAll()
+                .antMatchers("/editprofile").permitAll()
+                .antMatchers("/getimage/**").permitAll()
+                .antMatchers("/editprofile/displayImage/**").permitAll()
+
+                
+
                 .antMatchers("/api/accounts/login").permitAll()
+                .antMatchers("/api/homepage").permitAll()
                 .antMatchers("/api/accounts/register").permitAll()
                 .antMatchers("/api/accounts/checkEmail").permitAll()
 

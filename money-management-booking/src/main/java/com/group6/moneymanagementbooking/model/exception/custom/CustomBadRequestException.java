@@ -1,4 +1,4 @@
-package com.group6.moneymanagementbooking.exception.custom;
+package com.group6.moneymanagementbooking.model.exception.custom;
 
 import com.group6.moneymanagementbooking.model.CustomError;
 

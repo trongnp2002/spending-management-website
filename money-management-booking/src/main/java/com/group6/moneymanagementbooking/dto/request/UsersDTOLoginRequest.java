@@ -1,5 +1,4 @@
-package com.group6.moneymanagementbooking.model.account.dto;
-
+package com.group6.moneymanagementbooking.dto.request;
 
 
 import lombok.AllArgsConstructor;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountDTOLoginRequest{
+public class UsersDTOLoginRequest{
     private String email;
     private String password;
 

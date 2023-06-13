@@ -10,7 +10,14 @@
 
 </head>
 
-<body>
+<body th:onload="report([[${report}]])">
+    <div class="alert alert_hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="alert_msg" id="report" style="padding-left: 20px;"></span>
+        <div class="alert_close-btn">
+           <span class="fas fa-times"></span>
+        </div>
+     </div>
     <div class="register_container">
         <header>Signup Form</header>
         <div class="register_progress-bar">
@@ -50,9 +57,10 @@
                 </div>
                 <div class="register_check fas fa-check"></div>
             </div>
+         
         </div>
         <div class="register_form-outer">
-            <form th:action="@{/api/accounts/register}" th:object="${accountDTORegister}" method="POST">
+            <form th:action="@{/register}" th:object="${accountDTORegister}" method="POST">
                 <div class="register_page register_slide-page">
                     <div class="register_title">
                         Email Address:
@@ -63,7 +71,7 @@
                         <div class="register_label">
                             Email
                         </div>
-                        <input type="email" id="userEmailInput" name="email" th:field="*{email}" onchange="checkEmail(this)">
+                        <input type="email" id="userEmailInput" name="email" th:field="*{email}" onkeyup="checkEmail(this)">
                     </div>
                     <div class="register_field ">
                         <div class="register_label">
@@ -77,11 +85,15 @@
                                 <button type="button" onclick="sendOTP()"><p>Send OTP</p> </button>
                             </div>
                         </div>
-
                     </div>
-                    <div class="register_field">
+                    <div class="register_field" style="margin-bottom: 20px;">
                         <button type="button" class="firstNext register_next" >Next</button>
                     </div>
+                    <div>
+                        <a th:href="@{/login}" style="font-size: 12px;">Already have an account??</a>
+
+                    </div>
+
                 </div>
                 <div class="register_page">
                     <div class="register_title">
@@ -91,13 +103,13 @@
                         <div class="register_label">
                             First Name
                         </div>
-                        <input type="text" name="firstName" th:field="*{firstName}">
+                        <input type="text" name="firstName" th:field="*{firstName}" required>
                     </div>
                     <div class="register_field">
                         <div class="register_label">
                             Last Name
                         </div>
-                        <input type="text" name="lastName" th:field="*{lastName}">
+                        <input type="text" name="lastName" th:field="*{lastName}" >
                     </div>
                     <div class="register_field register_btns">
                         <button type="button" class="prev-1 register_prev">Previous</button>
@@ -108,17 +120,18 @@
                     <div class="register_title">
                         Contact Infor:
                     </div>
+                    <p id="phoneMess" style="line-height: 24px; height: 24px; margin-top: 20px;"></p>
                     <div class="register_field">
                         <div class="register_label">
                             Phone
                         </div>
-                        <input type="text" name="phone" th:field="*{phone}">
+                        <input type="text" name="phone" th:field="*{phone}" onkeyup="checkPhone(this)" required>
                     </div>
                     <div class="register_field">
                         <div class="register_label">
                             Address
                         </div>
-                        <input type="text" name="address" th:field="*{address}">
+                        <input type="text" name="address" th:field="*{address}" >
                     </div>
                     <div class="register_field register_btns">
                         <button type="button" class="prev-2 register_prev">Previous</button>
@@ -133,13 +146,13 @@
                         <div class="register_label">
                             Password
                         </div>
-                        <input type="password" name="password" id="password" th:field="*{password}">
+                        <input type="password" name="password" id="password" th:field="*{password}" required>
                     </div>
                     <div class="register_field">
                         <div class="register_label">
                             Re-password
                         </div>
-                        <input type="password" name="repeatPassword" id="repeatPassword" th:field="*{repeatPassword}">
+                        <input type="password" name="repeatPassword" id="repeatPassword" th:field="*{repeatPassword}" required>
                     </div>
                     <p id="message"></p>
                     <div class="register_field register_btns">
@@ -150,8 +163,10 @@
             </form>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script th:src="@{/assets/javascrip/register.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline ="javascript"></script>
+
+    <script th:src="@{/assets/javascrip/register.js}" >
+    </script>
 
 
 </body>

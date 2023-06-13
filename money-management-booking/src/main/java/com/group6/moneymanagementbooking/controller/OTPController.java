@@ -1,5 +1,6 @@
 package com.group6.moneymanagementbooking.controller;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
@@ -16,19 +17,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.group6.moneymanagementbooking.service.AccountService;
 import com.group6.moneymanagementbooking.service.OTPService;
-import com.group6.moneymanagementbooking.service.impl.AccountServiceImpl;
 import com.group6.moneymanagementbooking.util.EmailUtils;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/api/otps")
+@RequestMapping("/otps")
 @RequiredArgsConstructor
 public class OTPController {
     private final OTPService otpService;
-    private final AccountServiceImpl accountServiceImpl;
     @GetMapping(value = "/sendOTP")
     @ResponseStatus(value = HttpStatus.OK)
     public void sendOTPMail(HttpServletRequest request, HttpServletResponse response)
@@ -44,7 +42,6 @@ public class OTPController {
 
         try {
             EmailUtils.sendVerifyEmail(email, "Dear MyFriend, ", htmlContent);
-
             System.out.println("Mail sent successfully.");
         } catch (Exception e) {
             out.println("Something went wrong!! Please click the send OTP button again!!!");

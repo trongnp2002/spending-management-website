@@ -1,4 +1,6 @@
-package com.group6.moneymanagementbooking.exception.custom;
+package com.group6.moneymanagementbooking.model.exception.custom;
+
+
 
 import java.util.HashMap;
 import java.util.Map;

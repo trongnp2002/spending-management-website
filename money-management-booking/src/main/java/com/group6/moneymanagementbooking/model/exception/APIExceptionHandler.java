@@ -1,4 +1,5 @@
-package com.group6.moneymanagementbooking.exception;
+package com.group6.moneymanagementbooking.model.exception;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +12,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.group6.moneymanagementbooking.exception.custom.CustomBadRequestException;
 import com.group6.moneymanagementbooking.model.CustomError;
+import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
+
+
+
+
 
 @RestControllerAdvice
 public class APIExceptionHandler {

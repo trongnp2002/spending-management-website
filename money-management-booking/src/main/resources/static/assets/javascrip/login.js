@@ -41,7 +41,7 @@ const submitBtnClick = () => {
   // Check if the entered captcha text is correct or not
   if (captchaInputBox.value === captchaText) {
     document.getElementById("login_form").submit();
-    document.getElementById("captcha_user_input").value = "";
+   
 
   } else {
     message.innerText = "Entered captcha is not correct";
@@ -59,3 +59,21 @@ submitButton.addEventListener("click", submitBtnClick);
 
 // Generate a captcha when the page loads
 generateCaptcha();
+
+function report(data) {
+  if (data != null && data !== "") {
+    $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!!</p>");
+    $('.alert').addClass("show");
+    $('.alert').removeClass("hide");
+    $('.alert').addClass("showAlert");
+    setTimeout(function () {
+      $('.alert').removeClass("show");
+      $('.alert').addClass("hide");
+    }, 5000);
+
+    $('.close-btn').click(function () {
+      $('.alert').removeClass("show");
+      $('.alert').addClass("hide");
+    });
+  }
+}

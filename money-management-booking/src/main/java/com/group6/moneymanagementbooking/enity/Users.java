@@ -1,5 +1,6 @@
 package com.group6.moneymanagementbooking.enity;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.Validation;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,32 +21,40 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-@Table(name = "Accounts")
-public class Account extends Validation{
+@Table(name = "users")
+public class Users extends Validation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "Name cannot be empty")
-    private String name;
+    private String first_name;
 
-    @NotNull(message = "Password cannot be emtpy")
-    private String password;
+    private String last_name;
     @Column(unique = true)
 
-    @NotNull(message = "Email cannot be empty")
-    @Email(message = "Email is invalid")
     private String email;
+
+    @Column(unique = true)
+    private String phone;
 
     private String address;
 
-    @Column(unique = true)
-    @NotNull(message = "Phone cannot be empty")
-    private String phone;
+    private String password;
 
-    private boolean is_Active;
+    private String token;
 
-    private boolean is_Admin;
+    private String role;
 
+    private boolean is_active;
+
+    private double annually_spending;
+
+    private double monthly_spending;
+
+    private double monthly_saving;
+
+    private double monthly_earning;
+
+    private String currency;
 }

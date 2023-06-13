@@ -1,4 +1,5 @@
-package com.group6.moneymanagementbooking.model.account.dto;
+package com.group6.moneymanagementbooking.dto.request;
+
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class AccountDTORegister {
+public class UsersDTORegisterRequest {
     private String firstName;
     private String lastName;
     private String email;

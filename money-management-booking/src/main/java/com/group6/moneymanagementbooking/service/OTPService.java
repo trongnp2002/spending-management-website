@@ -7,8 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.group6.moneymanagementbooking.exception.custom.CustomBadRequestException;
-import com.group6.moneymanagementbooking.model.CustomError;
 import com.group6.moneymanagementbooking.util.StringUtils;
 
 @Service

@@ -1,13 +1,11 @@
 package com.group6.moneymanagementbooking.enity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.Validation;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @Table(name = "users")
-public class Users extends Validation {
+public class Users  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +43,7 @@ public class Users extends Validation {
     private String token;
 
     private String role;
-
+    @Column(name = "is_active")
     private boolean is_active;
 
     private double annually_spending;

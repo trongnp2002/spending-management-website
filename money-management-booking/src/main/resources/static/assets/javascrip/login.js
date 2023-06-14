@@ -41,7 +41,7 @@ const submitBtnClick = () => {
   // Check if the entered captcha text is correct or not
   if (captchaInputBox.value === captchaText) {
     document.getElementById("login_form").submit();
-   
+
 
   } else {
     message.innerText = "Entered captcha is not correct";
@@ -60,9 +60,14 @@ submitButton.addEventListener("click", submitBtnClick);
 // Generate a captcha when the page loads
 generateCaptcha();
 
-function report(data) {
-  if (data != null && data !== "") {
-    $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!!</p>");
+function report(error, disabled) {
+  if (error !== null || disabled !== null) {
+    if(error !== null){
+      $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!!</p>");
+    }
+    if(disabled !== null){
+      $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Your account has been disabled!!!</p>");
+    }
     $('.alert').addClass("show");
     $('.alert').removeClass("hide");
     $('.alert').addClass("showAlert");
@@ -76,4 +81,5 @@ function report(data) {
       $('.alert').addClass("hide");
     });
   }
+
 }

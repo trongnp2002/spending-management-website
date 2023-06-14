@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.group6.moneymanagementbooking.service.EmailService;
 import com.group6.moneymanagementbooking.service.OTPService;
-import com.group6.moneymanagementbooking.util.EmailUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OTPController {
     private final OTPService otpService;
+    private final EmailService emailService;
     @GetMapping(value = "/sendOTP")
     @ResponseStatus(value = HttpStatus.OK)
     public void sendOTPMail(HttpServletRequest request, HttpServletResponse response)
@@ -41,10 +42,10 @@ public class OTPController {
         PrintWriter out = response.getWriter();
 
         try {
-            EmailUtils.sendVerifyEmail(email, "Dear MyFriend, ", htmlContent);
+            emailService.sendVerifyEmail(email, "Dear MyFriend, ", htmlContent);
             System.out.println("Mail sent successfully.");
-        } catch (Exception e) {
-            out.println("Something went wrong!! Please click the send OTP button again!!!");
+        } catch (EmailException e) {
+            out.println(e.getMessage());
         }
    
         mySession.setAttribute("otp1", otp);

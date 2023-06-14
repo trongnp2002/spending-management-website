@@ -306,3 +306,12 @@ label a {
     font-size: 22px;
     line-height: 40px;
   }
+  #remember-me{
+    padding-left: 12px;
+    font-size: 12px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }

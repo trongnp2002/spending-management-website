@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
+import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTOLoginRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
@@ -29,25 +29,38 @@ public class LoginController {
 
 
     @GetMapping("/login")
-    public String getLoginFunction(Model model) throws CustomBadRequestException {
+    public String goToLoginPage (Model model) throws CustomBadRequestException {
         UsersDTOLoginRequest accountDTOLoginRequest =  UsersDTOLoginRequest.builder().build();
-        model.addAttribute("accountDTOLoginRequest", accountDTOLoginRequest);
+        model.addAttribute("usersDTOLoginRequest", accountDTOLoginRequest);
         model.addAttribute("report", "");
         return "login";
     }
 
 
     @GetMapping("/register")
-    public String goToRegister(Model model, HttpServletRequest request){
-        UsersDTORegisterRequest accountDTORegister =  UsersDTORegisterRequest.builder().build();
-        model.addAttribute("accountDTORegister", accountDTORegister);
+    public String registerGet(Model model, HttpServletRequest request){
+        UsersDTORegisterRequest usersDTORegister =  UsersDTORegisterRequest.builder().build();
+        model.addAttribute("usersDTORegister", usersDTORegister);
         return "register";
     }
+
     @PostMapping("/register")
-    public String register(Model model, @ModelAttribute("accountDTORegister") UsersDTORegisterRequest accountDTORegister) throws Exception{
+    public String registerPost(Model model, @ModelAttribute("usersDTORegister") UsersDTORegisterRequest accountDTORegister) throws Exception{
         return userService.registerAccount(model, accountDTORegister);
     }
 
+
+    @GetMapping("/forgot-password")
+    public String forgotPasswordGET(Model model, HttpServletRequest request){
+        UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest =  UsersDTOForgotPasswordRequest.builder().build();
+        model.addAttribute("usersDTOForgotPasswordRequest", usersDTOForgotPasswordRequest);
+        return "forgot-password";
+    }
+    
+    @PostMapping("/forgot-password")
+    public String forgotPasswordPost(Model model, @ModelAttribute("usersDTOForgotPasswordRequest") UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest) throws Exception{
+        return userService.forgotPassword(model, usersDTOForgotPasswordRequest);
+    }
 
 
 }

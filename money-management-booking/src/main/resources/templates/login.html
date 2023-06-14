@@ -8,6 +8,7 @@
 
     <link th:href='@{/assets/themify-icons-font/themify-icons/themify-icons.css}' rel='stylesheet'>
     <link rel="stylesheet" th:href="@{/assets/css/login.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/alert-report.css}">
 
 </head>
 
@@ -27,7 +28,7 @@
             </div>
 
 
-            <form id="login_form" th:action="@{/login}" th:object="${accountDTOLoginRequest}" method="POST">
+            <form id="login_form" th:action="@{/login}" th:object="${usersDTOLoginRequest}" method="POST">
                 <div class="login_input-field ">
                     <input type="text" class="input" placeholder="Email" name="email" th:field="*{email}">
                     <i class='ti-email'></i>
@@ -78,7 +79,7 @@
                     <label><a href="/register">Register</a></label>
                 </div>
                 <div class="login_two">
-                    <label><a href="forgotpass.jsp">Forgot password?</a></label>
+                    <label><a href="/forgot-password">Forgot password?</a></label>
                 </div>
             </div>
         </div>

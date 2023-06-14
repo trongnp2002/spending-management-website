@@ -16,7 +16,7 @@ public class UsersMapper {
 
     public static Users toUsers(UsersDTORegisterRequest accountDTORegister){
         return  Users.builder().first_name(accountDTORegister.getFirstName()).last_name(accountDTORegister.getLastName()).email(accountDTORegister.getEmail())
-        .password(accountDTORegister.getPassword()).phone(accountDTORegister.getPhone()).address(accountDTORegister.getAddress()).is_active(true).role("ROLE_USER").build();
+        .password(accountDTORegister.getPassword()).phone(accountDTORegister.getPhone()).is_active(true).account_non_locked(true).address(accountDTORegister.getAddress()).is_active(true).role("ROLE_USER").build();
     }
 
 }

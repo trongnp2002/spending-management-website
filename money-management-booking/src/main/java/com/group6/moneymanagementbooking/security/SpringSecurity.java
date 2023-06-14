@@ -16,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.group6.moneymanagementbooking.model.exception.custom.CustomAuthenticationFailureHandler;
+import com.group6.moneymanagementbooking.repository.UsersRepository;
+import com.group6.moneymanagementbooking.service.impl.UsersServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -24,13 +26,18 @@ public class SpringSecurity {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    @Autowired
+    private UsersRepository usersRepository;
+
+    @Autowired 
+    private UsersServiceImpl usersServiceImpl;
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Bean
     public CustomAuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler(userDetailsService, passwordEncoder());
+        return new CustomAuthenticationFailureHandler(userDetailsService, passwordEncoder(),usersServiceImpl, usersRepository);
     }
 
     @Bean

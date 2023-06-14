@@ -60,13 +60,23 @@ submitButton.addEventListener("click", submitBtnClick);
 // Generate a captcha when the page loads
 generateCaptcha();
 
-function report(error, disabled) {
-  if (error !== null || disabled !== null) {
-    if(error !== null){
-      $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!!</p>");
+function report(error, turn) {
+  if (error !== null) {
+    if (error == "login-fail") {
+      if(turn !== null){
+        if (turn > 0) {
+          $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!! </br> Your account has been locked due to "+turn+" failed attempts</p>");
+  
+        }else{
+          $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Your account has been locked after 24 hours</p>");
+        }
+      }
+     
     }
-    if(disabled !== null){
+    else if (error == "disabled") {
       $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Your account has been disabled!!!</p>");
+    }else{
+      $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!!</p>");
     }
     $('.alert').addClass("show");
     $('.alert').removeClass("hide");

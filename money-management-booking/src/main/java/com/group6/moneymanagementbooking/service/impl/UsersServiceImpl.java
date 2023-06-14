@@ -1,18 +1,17 @@
 package com.group6.moneymanagementbooking.service.impl;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.group6.moneymanagementbooking.dto.mapper.UsersMapper;
+import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;
+import com.group6.moneymanagementbooking.dto.request.UsersDTOLoginRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
@@ -21,18 +20,13 @@ import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.StringUtils;
 
 import lombok.RequiredArgsConstructor;
-
 @Service
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
-   private final UsersRepository accountRepository;
+    private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
-
- 
-
     @Override
     public String registerAccount(Model model, UsersDTORegisterRequest accountDTORegister) throws Exception {
-
         String report = "<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: ";
         int report_length = report.length();
         report += registerCheckCondition(accountDTORegister);
@@ -44,15 +38,40 @@ public class UsersServiceImpl implements UsersService {
         }
         Users account = UsersMapper.toUsers(accountDTORegister);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account = accountRepository.save(account);
+        account = usersRepository.save(account);
+        UsersDTOLoginRequest usersDTOLoginRequest = UsersDTOLoginRequest.builder().email(accountDTORegister.getEmail()).build();
+        model.addAttribute("usersDTOLoginRequest", usersDTOLoginRequest);
         return "redirect:/login";
+    }
+
+    @Override
+    public String forgotPassword(Model model, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest) {
+        String email = usersDTOForgotPasswordRequest.getEmail();
+        Optional<Users> usersOptional = usersRepository.findByEmail(email);
+        if (usersOptional.isPresent()) {
+            Users users = usersOptional.get();
+            if (usersDTOForgotPasswordRequest.getPassword().equals(usersDTOForgotPasswordRequest.getRepeatPassword())) {
+                users.setPassword(passwordEncoder.encode(usersDTOForgotPasswordRequest.getPassword()));
+                usersRepository.save(users);
+            }else{
+                String report ="<p style='padding-left:20px; height: 100%; line-height:100%; font-size:12px;' > Warning: Password and re-password are not the same </p>";
+                model.addAttribute("report", report);
+                return "forgot-password";
+            }
+        }else{
+            String report ="<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Your account not exits </p>";
+                model.addAttribute("report", report);
+                return "forgot-password";
+        }
+        UsersDTOLoginRequest usersDTOLoginRequest = UsersDTOLoginRequest.builder().email(email).build();
+        model.addAttribute("usersDTOLoginRequest", usersDTOLoginRequest);
+        return "login";
     }
 
     @Override
     public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
             throws IOException, CustomBadRequestException {
         String userEmail = request.getParameter("userEmail");
-
         try (PrintWriter out = response.getWriter()) {
             if (StringUtils.patternMatchesEmail(userEmail,
                     "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}(.[a-z]{2,3})+$|^$")) {
@@ -64,9 +83,7 @@ public class UsersServiceImpl implements UsersService {
             } else {
                 out.println("<h5 style='color:red;'>Your email is invalid!!!</h5>");
             }
-
         }
-
     }
 
     @Override
@@ -86,12 +103,12 @@ public class UsersServiceImpl implements UsersService {
                     }
                 }
             }
-
         }
     }
 
+
     private boolean checkPhoneDuplicate(String phone) {
-        Optional<Users> accouOptional = accountRepository.findByPhone(phone);
+        Optional<Users> accouOptional = usersRepository.findByPhone(phone);
         if (accouOptional.isPresent()) {
             return true;
         }
@@ -99,7 +116,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     private boolean checkEmailDuplicate(String email) {
-        Optional<Users> accouOptional = accountRepository.findByEmail(email);
+        Optional<Users> accouOptional = usersRepository.findByEmail(email);
         if (!accouOptional.isPresent()) {
 
             return false;
@@ -123,6 +140,5 @@ public class UsersServiceImpl implements UsersService {
         }
         return report;
     }
-
 
 }

@@ -38,6 +38,7 @@ public class SpringSecurity {
    http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.mvcMatchers("/register").permitAll()
+                        .mvcMatchers("/forgot-password").permitAll()
                         .mvcMatchers("/users/**").hasRole("USER")
                         .mvcMatchers("/admins/**").hasRole("ADMIN")
                 ).formLogin(

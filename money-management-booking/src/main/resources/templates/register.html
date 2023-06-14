@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Multi Step Form | CodingNepal</title>
     <link rel="stylesheet" th:href="@{/assets/css/register.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/alert-report.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
 
@@ -60,7 +61,7 @@
          
         </div>
         <div class="register_form-outer">
-            <form th:action="@{/register}" th:object="${accountDTORegister}" method="POST">
+            <form th:action="@{/register}" th:object="${usersDTORegister}" method="POST">
                 <div class="register_page register_slide-page">
                     <div class="register_title">
                         Email Address:

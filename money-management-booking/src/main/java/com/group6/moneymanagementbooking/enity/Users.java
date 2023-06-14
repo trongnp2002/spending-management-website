@@ -1,5 +1,7 @@
 package com.group6.moneymanagementbooking.enity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @Table(name = "users")
-public class Users  {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,4 +57,10 @@ public class Users  {
     private double monthly_earning;
 
     private String currency;
+
+    private int failed_attempt;
+
+    private boolean account_non_locked;
+
+    private Date lockTime;
 }

@@ -10,27 +10,31 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.group6.moneymanagementbooking.model.exception.custom.CustomAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public CustomAuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler(userDetailsService, passwordEncoder());
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-   
    http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.mvcMatchers("/register").permitAll()
@@ -41,6 +45,8 @@ public class SpringSecurity {
                                 .loginPage("/login")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
+                                .failureUrl("/login?error=true")
+                                .failureHandler(authenticationFailureHandler())
                                 .defaultSuccessUrl("/", false)
                                 .successHandler((request, response, authentication) -> {
                                     Collection<? extends GrantedAuthority> authorities =  authentication.getAuthorities();

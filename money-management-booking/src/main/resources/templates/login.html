@@ -11,7 +11,7 @@
 
 </head>
 
-<body th:onload="report([[${param.error}]])">
+<body th:onload="report([[${param.error}]],[[${param.disabled}]])">
     <div class="alert alert_hide">
         <span class="fas fa-exclamation-circle"></span>
         <span class="alert_msg" id="report" style="padding-left: 20px;"></span>

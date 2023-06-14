@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
-import com.group6.moneymanagementbooking.service.EditProfileService;
+// import com.group6.moneymanagementbooking.service.EditProfileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/editprofile")
 @CrossOrigin
 public class EditProfileController {
-    private final EditProfileService editProfileService;
+    // private final EditProfileService editProfileService;
 
     @GetMapping("")
     public String editProfile(Model model) throws CustomBadRequestException {

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
+import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/users")
 
 public class UserController {
+    private final UsersRepository usersRepository;
     @GetMapping("/home")
     public String goHome(HttpServletRequest request, HttpServletResponse response) throws CustomBadRequestException {
         return "home";

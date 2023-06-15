@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class CheckConditionController {
         private final UsersService userService;
 
-        @GetMapping("/email")
+    @GetMapping("/email")
     @ResponseStatus(value = HttpStatus.OK)
     public void checkEmail(HttpServletRequest request, HttpServletResponse response) throws Exception{
         userService.checkEmailCondition(request, response);

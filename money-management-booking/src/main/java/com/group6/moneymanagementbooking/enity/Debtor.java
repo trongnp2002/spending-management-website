@@ -41,5 +41,5 @@ public class Debtor {
     private String email;
     private LocalDateTime date_create;
     private LocalDateTime date_update;
-    private String total;
+    private Double total;
 }

@@ -13,7 +13,7 @@
     <!-- Moment.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="js/resizableColumns.min.js"></script>
-    <link rel="stylesheet" href="css/admin.css" />
+    <!-- <link rel="stylesheet" href="css/admin.css" /> -->
 
     <!-- Bootstrap DateTimePicker -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -42,6 +42,11 @@
         .negativeTotal {
             background-color: red;
         }
+
+        .red-row {
+            color: rgb(245, 36, 36);
+        }
+        
     </style>
     <title>Debtors List</title>
 </head>
@@ -55,23 +60,33 @@
                         <div class="card-header">
                             <div class="float-left">
                                 <h3 class="mb-0">Debtors list </h3>
-                                <p class="small text-muted m-0" th:text="'Total record: ' + ${record}"></p>
 
+                                <p class="small text-muted m-0" th:text="'Total record: ' + ${record}"></p>
+                            </div>
+
+                            <div class="float-right">
+                                <a type="button" th:href="@{/Debtor/ListAll}" title="List All"
+                                    class="mr-1 btn btn-primary" style="border-radius: 20px;">List All</a>
+                            </div>
+
+                            <div class="float-right">
+                                <a type="button" th:href="@{/Debtor/ListOwner}" title="List Owner"
+                                    class="mr-1 btn btn-primary" style="border-radius: 20px;">List Owner</a>
                             </div>
                             <div class="float-right">
-                                <a type="button" href="" title="List Owner" class="mr-1 btn btn-primary"
-                                    style="border-radius: 20px;">List Owner</a>
-                            </div>
-                            <div class="float-right">
-                                <a type="button" href="" title="List Owner" class="mr-1 btn btn-primary"
+                                <a type="button" th:href="@{/Debtor/ListDebtor}" class="mr-1 btn btn-primary"
                                     style="border-radius: 20px;">List Debtor</a>
                             </div>
                             <div class="float-right">
-                                <a type="button" th:href="@{/AddDebtor}" title="List Owner" class="mr-1 btn btn-primary"
-                                    style="border-radius: 20px;">Add new Debtor</a>
+                                <a type="button" th:href="@{/Debtor/Add}" title="List Debtor"
+                                    class="mr-1 btn btn-primary" style="border-radius: 20px;">Add new Debtor</a>
+                            </div>
+
+                            <div class="float-right">
+                                <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
                             </div>
                         </div>
-                        <form th:action="@{/Search-Debtor}" method="post">
+                        <form th:action="@{/Debtor/Search}" method="post">
                             <div class="input-group">
                                 <div class="form-outline">
                                     <input type="search" name="nameDebtor" th:value="${nameDebtor}"
@@ -110,7 +125,8 @@
 
                                     </thead>
                                     <tbody>
-                                        <tr th:each="item : ${list_debtor}">
+                                        <tr th:each="item : ${list_debtor}"
+                                            th:class="${item.total < 0} ? 'red-row' : ''">
                                             <td th:text="${item.id}"></td>
                                             <td th:text="${item.name}"></td>
                                             <td th:text="${item.address}"></td>
@@ -122,16 +138,18 @@
 
                                             <td>
                                                 <div style="margin: auto; text-align:center">
-                                                    <a th:href="@{'/view-detail-debt/' + ${item.id}}" class="btn btn-primary">
+                                                    <a th:href="@{'/Debtor/Detail/view-detail/' + ${item.id}}"
+                                                        class="btn btn-primary"><i class="fas fa-info-circle"></i>
                                                         Details
                                                     </a>
 
-                                                    <a th:href="@{'/edit-Debtor/' + ${item.id}}" title="Edit"
+                                                    <a th:href="@{'/Debtor/edit/' + ${item.id}}" title="Edit"
                                                         class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                         Edit
                                                     </a>
 
-                                                    <a th:href="@{'/delete-Debtor/' + ${item.id}}" class="btn btn-danger">
+                                                    <a th:href="@{'/Debtor/delete/' + ${item.id}}"
+                                                        class="btn btn-danger"><i class="fa fa-exclamation-circle"></i>
                                                         Delete
                                                     </a>
 

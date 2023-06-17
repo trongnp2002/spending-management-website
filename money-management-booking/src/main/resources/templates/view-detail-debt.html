@@ -38,11 +38,13 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="shortcut icon" href="./img/ODB_ Online_Debt_Book.png" type="image/x-icon">
 
+
     <style>
         .negativeTotal {
             background-color: red;
         }
     </style>
+
     <title>Debtors List</title>
 </head>
 
@@ -59,11 +61,11 @@
 
                             </div>
                             <div class="float-right">
-                                <a type="button" th:href="@{/ListDebtor}" title="List Debt" class="mr-1 btn btn-primary"
-                                    style="border-radius: 20px;">Back to List of Debtor</a>
+                                <a type="button" th:href="@{/Debtor/ListAll}" title="List Debt"
+                                    class="mr-1 btn btn-primary" style="border-radius: 20px;">Back to List of Debtor</a>
                             </div>
                             <div class="float-right">
-                                <a type="button" th:href="@{'/add-detail-debt/' + ${id}}" title="List Debt"
+                                <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${id}}" title="List Debt"
                                     class="mr-1 btn btn-primary" style="border-radius: 20px;">Add new Debt</a>
                             </div>
                         </div>
@@ -97,19 +99,12 @@
                                             <td th:text="${item.date_create}"></td>
                                             <td>
                                                 <div style="margin: auto; text-align:center">
-                                                    <a th:href="@{'/delete-detail-debt/' + ${item.id}}"
-                                                        class="btn btn-primary">
+                                                    <a th:href="@{'/Debtor/Detail/Delete/' + ${item.id}}"
+                                                        class="btn btn-danger"><i class="fa fa-exclamation-circle"></i>
                                                         Delete
                                                     </a>
-                                                    <button type="button" class="btn btn-success"
-                                                        th:href="@{'/add-detail-debt/' + ${item.deptorId}}"
-                                                        name="AddNewDebtPlus">
-                                                        <i class="fa fa-plus"></i></button>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        data-target="#new_debt" name="AddNewDebtMinus">
-                                                        <i class="fa fa-minus"></i></button>
 
-                                                    <a th:href="@{'/edit-detail-debt/' + ${item.id}}" 
+                                                    <a th:href="@{'/Debtor/Detail/Edit/' + ${item.id}}"
                                                         class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                         Edit
                                                     </a>
@@ -128,7 +123,7 @@
         </div>
     </div>
 
-
+    <script th:src="@{/assets/javascrip/main.js}"></script>
 </body>
 
 </html>

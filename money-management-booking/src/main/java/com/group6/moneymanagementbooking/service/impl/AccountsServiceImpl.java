@@ -30,6 +30,13 @@ public class AccountsServiceImpl implements AccountsService {
         return accountsRepository.findAll();
     }
 
+    @Override
+    public void updateActiveById(boolean action, int id) {
+        accountsRepository.updateActiveById(action, id);
+    }
+
+
+
     
 
 }

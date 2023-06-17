@@ -8,12 +8,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.service.AccountsService;
 
 import lombok.RequiredArgsConstructor;
+
+
 
 @Controller
 @RequiredArgsConstructor
@@ -37,4 +40,10 @@ public class AccountController {
         return "listaccount";
     }
 
+    @GetMapping("/list-account/{id}/{action}")
+    public String updateActive(@PathVariable("id") int id,@PathVariable("action") Boolean action, Model model){
+    accountsService.updateActiveById(action, id);
+    model.addAttribute("listaccount", accountsService.findAll());
+    return "listaccount";
+    }
 }

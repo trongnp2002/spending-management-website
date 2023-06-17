@@ -11,4 +11,6 @@ public interface AccountsService {
     
     public List<Accounts> findAll();
 
+    public void updateActiveById(boolean action, int id);
+
 }

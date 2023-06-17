@@ -1,5 +1,7 @@
 package com.group6.moneymanagementbooking.enity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,47 +23,23 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-@Table(name = "users")
-public class Users {
-
+@Table(name = "debtor")
+public class Debtor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String first_name;
+    private int user_id;
 
-    private String last_name;
-    @Column(unique = true)
-
-    private String email;
+    private String name;
+    private String address;
 
     @Column(unique = true)
     private String phone;
 
-    private String address;
-
-    private String password;
-
-    private String token;
-    private String avatar;
-
-    private String role;
-    @Column(name = "is_active")
-    private boolean is_active;
-
-    private double annually_spending;
-
-    private double monthly_spending;
-
-    private double monthly_saving;
-
-    private double monthly_earning;
-
-    private String currency;
-
-    private int failed_attempt;
-
-    private boolean account_non_locked;
-
-    private Date lockTime;
+    @Column(unique = true)
+    private String email;
+    private LocalDateTime date_create;
+    private LocalDateTime date_update;
+    private String total;
 }

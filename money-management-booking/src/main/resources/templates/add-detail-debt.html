@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Add Detail Debt</title>
+  <style>
+    .form-control-inline{ display: inline-block;}
+
+  </style>
+</head>
+<body>
+    <div class="container mt-3">
+        <h1 class="text-center" th:text="${title} + ' Debt'"></h1>
+        <form th:action="@{/add-detail-debt}" th:object="${debt_detail}" method="post">
+
+            <div class="mb-3 mt-3">
+                
+                <input type="hidden" class="form-control" th:field="*{id}" th:value="${debt_detail.id}">
+            </div>
+
+            <div class="mb-3 mt-3">
+                <input type="hidden" class="form-control" th:field="*{deptorId}" th:value="${debt_detail.deptorId}">
+            </div>
+    
+            <div class="mb-3">
+                <label for="nem" class="form-label">Account(*)</label>
+                <input type="text" class="form-control" th:field="*{account_id}" placeholder="Note" th:value="${debt_detail.account_id}">
+            </div>
+
+            <div class="mb-3">
+                <label for="nem" class="form-label">Note(*)</label>
+                <input type="text" class="form-control" th:field="*{note}" placeholder="Note" th:value="${debt_detail.note}">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Classify(*)</label>
+                <input type="radio" class="form-control-inline" th:field="*{classify}"  name="classify" th:value="1">Thêm Nợ
+                <span th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" />
+                <input type="radio" class="form-control-inline" th:field="*{classify}" name="classify" th:value="0">Trả Nợ
+                <div class="col-md-9" id="classifyModeDetail">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Amount(*)</label>
+                <input type="text" class="form-control" th:field="*{money_debt}" placeholder="Enter amount monney" th:value="${debt_detail.money_debt}">
+            </div>
+            <!-- <div class="mb-3">
+                <label for="address" class="form-label">Start Date:</label>
+                <input type="datetime-local" class="form-control" th:field="*{date_create}" placeholder="Enter Date">
+            </div> -->
+            
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </div>
+</body>
+<script th:src="@{/assets/javascrip/detail.js}"></script>
+</html>

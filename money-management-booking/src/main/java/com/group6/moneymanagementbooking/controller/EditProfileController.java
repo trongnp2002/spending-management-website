@@ -1,6 +1,9 @@
 package com.group6.moneymanagementbooking.controller;
 
 import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -10,29 +13,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.group6.moneymanagementbooking.dto.request.UserDTOEditProfileRequest;
+import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 // import com.group6.moneymanagementbooking.service.EditProfileService;
+import com.group6.moneymanagementbooking.service.EditProfileService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/editprofile")
+
 @CrossOrigin
 public class EditProfileController {
-    // private final EditProfileService editProfileService;
+    private final EditProfileService editProfileService;
 
-    @GetMapping("")
-    public String editProfile(Model model) throws CustomBadRequestException {
-      //  AccountDTOLoginRequest accountDTOLoginRequest =  AccountDTOLoginRequest.builder().build();
-     //   model.addAttribute("accountDTOLoginRequest", accountDTOLoginRequest);
+    @GetMapping("/editprofile")
+    public String editProfile(Model model, HttpServletRequest request) {
+        String email ="hung@gmail.com";
+         UserDTOEditProfileRequest userDTOEditProfile = editProfileService.getUserByEmail(email);
+         model.addAttribute("userDTOEditProfile", userDTOEditProfile);
         return "editprofile";
     }
 
+     @PostMapping("/editprofile")
+    public void registerPost(@ModelAttribute("userDTOEditProfile") UserDTOEditProfileRequest userDTOEditProfile) throws Exception{
+         editProfileService.updateInfo(userDTOEditProfile);
+    }
 
     @GetMapping("/displayImage/{photo}")
     public ResponseEntity<Resource> displayImage(@PathVariable("photo") String photo) throws IOException {

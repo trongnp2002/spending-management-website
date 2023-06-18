@@ -64,9 +64,11 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             AuthenticationException exception) throws IOException, ServletException {
         if (passwordEncoder.matches(password, users.getPassword())) {
             if (users.isAccount_non_locked()) {
+                usersServiceImpl.updateLoginAttemptIfsuccess(users);
                 super.onAuthenticationFailure(request, response, exception);
             } else {
                 if (usersServiceImpl.unlock(users)) {
+                    usersServiceImpl.updateLoginAttemptIfsuccess(users);
                     super.onAuthenticationFailure(request, response, exception);
                 } else {
                     response.sendRedirect("/login?error=login-fail&turn=0");

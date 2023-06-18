@@ -32,8 +32,11 @@
 
             <div class="mb-3">
                 <label for="nem" class="form-label">Account(*)</label>
-                <input type="text" class="form-control" th:field="*{account_id}" placeholder="Note"
-                    th:value="${debt_detail.account_id}">
+                <!-- <input type="text" class="form-control" th:field="*{account_id}" placeholder="Note"
+                    th:value="${debt_detail.account_id}"> -->
+                <select style="width: 180px; border-radius: 10px; border-color: brown;" th:field="*{account_id}">
+                    <option th:each="item : ${listAccount}" th:value="${item.id}" th:text="${item.name}"></option>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -62,7 +65,10 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Save</button>
+
         </form>
+        <i style="color: red; font-size: 25px;" th:text="${errorMessage}"></i>
+
     </div>
 </body>
 <script th:src="@{/assets/javascrip/detail.js}"></script>

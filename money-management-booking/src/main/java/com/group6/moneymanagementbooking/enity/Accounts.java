@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Setter
 @Getter
@@ -21,9 +22,10 @@ public class Accounts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int user_id;
+    @Column(name = "user_id")
+    private int userId;
     private String name;
     private double balance;
-    @Column(name="is_active")
+    @Column(name = "is_active")
     private boolean active;
 }

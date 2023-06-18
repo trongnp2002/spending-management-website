@@ -1,11 +1,9 @@
 package com.group6.moneymanagementbooking.service.impl;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
@@ -21,7 +19,7 @@ public class AccountsServiceImpl implements AccountsService {
 
     @Override
     public Accounts addAccounts(Accounts accounts) {
-        accounts.setUser_id(1);
+        accounts.setUserId(1);
         return accountsRepository.save(accounts);
     }
 
@@ -35,8 +33,14 @@ public class AccountsServiceImpl implements AccountsService {
         accountsRepository.updateActiveById(action, id);
     }
 
+    @Override
+    public List<Accounts> findAllByUserId(int userId) {
+        return accountsRepository.findAllByUserId(userId);
+    }
 
-
-    
+    @Override
+    public Accounts findById(int id) {
+        return (accountsRepository.findById(id)).get();
+    }
 
 }

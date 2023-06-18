@@ -1,4 +1,5 @@
 package com.group6.moneymanagementbooking.repository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,17 +12,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
-
-
+import com.group6.moneymanagementbooking.enity.Debt_detail;
 
 @Repository
-public interface AccountsRepository extends JpaRepository<Accounts,Integer> {
+public interface AccountsRepository extends JpaRepository<Accounts, Integer> {
 
     public List<Accounts> findAll();
 
     public Optional<Accounts> findByName(String name);
-@Modifying
-@Transactional
-@Query("UPDATE Accounts Set is_Active = ?1 where id = ?2")
-    public void updateActiveById(Boolean active,int id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Accounts Set is_Active = ?1 where id = ?2")
+    public void updateActiveById(Boolean active, int id);
+
+    @Query("SELECT a FROM Accounts a WHERE a.userId = :userId")
+    List<Accounts> findAllByUserId(@Param("userId") int userId);
 }

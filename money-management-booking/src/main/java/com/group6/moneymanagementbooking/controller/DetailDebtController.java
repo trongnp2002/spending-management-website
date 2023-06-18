@@ -14,8 +14,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Debt_detail;
 import com.group6.moneymanagementbooking.enity.Debtor;
+import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.service.DebtorService;
 import com.group6.moneymanagementbooking.service.DetailDebtService;
+import com.group6.moneymanagementbooking.service.UsersService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class DetailDebtController {
     private final DetailDebtService detailDebtService;
     private final DebtorService debtorService;
+    private final UsersService usersService;
 
     @GetMapping("/view-detail/{id}")
     public String listDetailDebt(Model model, @PathVariable("id") int id) {
@@ -72,5 +76,10 @@ public class DetailDebtController {
         model.addAttribute("debt_detail", deb);
         model.addAttribute("title", "Edit");
         return "add-detail-debt";
+    }
+
+    private int getIdUser() {
+        Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());
+        return users.getId();
     }
 }

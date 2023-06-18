@@ -29,7 +29,8 @@ public class Debtor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int user_id;
+    @Column(name = "user_id")
+    private int userId;
 
     private String name;
     private String address;

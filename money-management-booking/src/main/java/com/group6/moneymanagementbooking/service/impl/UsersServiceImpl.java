@@ -186,4 +186,9 @@ public class UsersServiceImpl implements UsersService {
         return report;
     }
 
+    @Override
+    public Users getUserByEmail(String email) {
+        return (usersRepository.findByEmail(email)).get();
+    }
+
 }

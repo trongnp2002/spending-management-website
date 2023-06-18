@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.group6.moneymanagementbooking.enity.Debtor;
+import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.service.DebtorService;
+import com.group6.moneymanagementbooking.service.UsersService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,18 +31,19 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/Debtor")
 public class DebtorController {
     private final DebtorService debtorService;
+    private final UsersService usersService;
 
     @GetMapping("/ListAll")
     public String listDebtor(Model model) {
-        model.addAttribute("list_debtor", debtorService.findAll());
-        model.addAttribute("record", debtorService.findAll().size());
+        model.addAttribute("list_debtor", debtorService.findAll(getIdUser()));
+        model.addAttribute("record", debtorService.findAll(getIdUser()).size());
         return "view-debtor";
     }
 
     @GetMapping("/ListDebtor")
     public String AllDebtor(Model model) {
         List<Debtor> listdeb = new ArrayList<>();
-        for (var deb : debtorService.findAll()) {
+        for (var deb : debtorService.findAll(getIdUser())) {
             if (deb.getTotal() > 0) {
                 listdeb.add(deb);
             }
@@ -52,7 +56,7 @@ public class DebtorController {
     @GetMapping("/ListOwner")
     public String AllOwner(Model model) {
         List<Debtor> listdeb = new ArrayList<>();
-        for (var deb : debtorService.findAll()) {
+        for (var deb : debtorService.findAll(getIdUser())) {
             if (deb.getTotal() < 0) {
                 listdeb.add(deb);
             }
@@ -65,6 +69,7 @@ public class DebtorController {
     @GetMapping("/Add")
     public String registerGet(Model model, HttpServletRequest request) {
         Debtor debtor = new Debtor();
+        debtor.setUserId(getIdUser());
         model.addAttribute("debtor", debtor);
         model.addAttribute("title", "Add");
         return "add-debtor";
@@ -99,13 +104,18 @@ public class DebtorController {
     public String deleteDebtor(Model model, @PathVariable("id") int id) {
         Debtor debtor = (debtorService.getDebtor(id)).get();
         if (debtor.getTotal() != 0) {
-            model.addAttribute("list_debtor", debtorService.findAll());
-            model.addAttribute("record", debtorService.findAll().size());
+            model.addAttribute("list_debtor", debtorService.findAll(getIdUser()));
+            model.addAttribute("record", debtorService.findAll(getIdUser()).size());
             model.addAttribute("mess", "Cannot be delete because the debt has not been completed!");
             return "view-debtor";
         }
         debtorService.deleteDebtorById(id);
         return "redirect:/Debtor/ListAll";
+    }
+
+    private int getIdUser() {
+        Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());
+        return users.getId();
     }
 
 }

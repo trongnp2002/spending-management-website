@@ -44,6 +44,7 @@ public class Users {
     private String password;
 
     private String token;
+    private String avatar;
 
     private String role;
     @Column(name = "is_active")

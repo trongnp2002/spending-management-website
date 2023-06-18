@@ -1,6 +1,9 @@
 package com.group6.moneymanagementbooking.dto.mapper;
 
 
+import java.util.Optional;
+
+import com.group6.moneymanagementbooking.dto.request.UserDTOEditProfileRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.dto.response.UsersDTOResponse;
 import com.group6.moneymanagementbooking.dto.response.UsersForAdminDTOResponse;
@@ -24,6 +27,16 @@ public class UsersMapper {
         return UsersForAdminDTOResponse.builder().id(users.getId()).name(users.getFirstName()+" "+users.getLastName())
         .email(users.getEmail()).phone(users.getPhone()).address(users.getAddress()).failedAttempt(users.getFailed_attempt())
         .accountNonLocked(users.isAccount_non_locked()).lockTime(users.getLockTime()).active(users.is_active()).build();
+    }
+
+    public static Users toUsers(UserDTOEditProfileRequest userDTOedit){
+        return  Users.builder().firstName(userDTOedit.getFirst_name()).lastName(userDTOedit.getLast_name()).email(userDTOedit.getEmail())
+        .phone(userDTOedit.getPhone()).address(userDTOedit.getAddress()).avatar(userDTOedit.getAvatar()).build();
+    }
+
+    public static UserDTOEditProfileRequest toUserDTOEditProfileRequest(Users optional){
+        return  UserDTOEditProfileRequest.builder().first_name(optional.getFirstName()).last_name(optional.getLastName()).email(optional.getEmail())
+        .phone(optional.getPhone()).address(optional.getAddress()).avatar(optional.getAvatar()).build();
     }
 
 }

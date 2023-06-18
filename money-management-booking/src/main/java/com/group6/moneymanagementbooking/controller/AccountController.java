@@ -43,7 +43,6 @@ public class AccountController {
     @GetMapping("/list-account/{id}/{action}")
     public String updateActive(@PathVariable("id") int id,@PathVariable("action") Boolean action, Model model){
     accountsService.updateActiveById(action, id);
-    model.addAttribute("listaccount", accountsService.findAll());
-    return "listaccount";
+    return "redirect:/list-account";
     }
 }

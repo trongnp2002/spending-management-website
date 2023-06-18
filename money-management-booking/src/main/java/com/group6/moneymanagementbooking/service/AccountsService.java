@@ -13,4 +13,6 @@ public interface AccountsService {
 
     public void updateActiveById(boolean action, int id);
 
+    public void addBalance(double balance,int id);
+
 }

@@ -35,8 +35,11 @@ public class AccountsServiceImpl implements AccountsService {
         accountsRepository.updateActiveById(action, id);
     }
 
+    @Override
+    public void addBalance(double balance,int id) {
+        accountsRepository.addBalanceById(balance+accountsRepository.findBalanceById(id),id);
+    }
 
 
-    
-
+   
 }

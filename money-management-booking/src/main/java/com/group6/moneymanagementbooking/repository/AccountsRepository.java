@@ -20,8 +20,15 @@ public interface AccountsRepository extends JpaRepository<Accounts,Integer> {
     public List<Accounts> findAll();
 
     public Optional<Accounts> findByName(String name);
-@Modifying
-@Transactional
-@Query("UPDATE Accounts Set is_Active = ?1 where id = ?2")
+    @Modifying
+    @Transactional
+    @Query("UPDATE Accounts Set is_Active = ?1 where id = ?2")
     public void updateActiveById(Boolean active,int id);
+    @Modifying
+    @Transactional
+    @Query("UPDATE Accounts SET balance = ?1 WHERE id = ?2")
+    public void addBalanceById(double balance,int id);
+
+    @Query("select balance from Accounts where id = ?1")
+    public double findBalanceById(int id);
 }

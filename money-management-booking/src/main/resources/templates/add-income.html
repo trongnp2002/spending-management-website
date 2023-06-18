@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <h1>create a new income.</h1>
+    <form th:action="@{/add-income}" th:object="${income}" method="post">
+        <p>title
+            <input th:type="text" th:field="*{title}">
+        </p>
+        <p>amount
+            <input th:type="text" th:field="*{amount}">
+        </p>
+        <p>
+            <select th:field="*{accountId}" th:each="item : ${listaccount}">
+                <option th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+        </p>
+        <p>
+            <select th:field="*{categoryId}" th:each="item : ${listcategory}">
+                <option th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+        </p>
+        <p>
+            <input type="date" th:field="*{incomeDate}">
+        </p>
+        <p>
+            <button type="submit">Add</button>
+        </p>
+    </form>
+</body>
+</html>

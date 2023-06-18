@@ -12,4 +12,6 @@ public interface CategoryService {
     public Optional<Category> getCategory(int id);
 
     public void deleteCategoryById(int id);
+
+    public List<Category> findIncomeInCategory();
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -112,7 +113,6 @@ public class UsersServiceImpl implements UsersService {
         }
     }
 
-    
     public void increaseFailedAttempt(Users users) {
         int fa = users.getFailed_attempt() + 1;
         users.setFailed_attempt(fa);
@@ -148,6 +148,9 @@ public class UsersServiceImpl implements UsersService {
         }
     }
 
+    public void updateLoginAttemptIfsuccess(Users user) {
+        user.setFailed_attempt(0);
+    }
 
     public boolean checkPhoneDuplicate(String phone) {
         Optional<Users> accouOptional = usersRepository.findByPhone(phone);

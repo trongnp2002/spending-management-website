@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+      <table th:each="item : ${listcategory}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.income_or_expense ? 'Income' : 'Expenses' }"></td>     
+        <td><a th:href="@{/detail-category/{id}(id=${item.id})}">Edit</a></td>
+        <td><a th:href="@{/delete-category/{id}(id=${item.id})}">Delete</a></td>
+    </table>
+</body> 
+</html>

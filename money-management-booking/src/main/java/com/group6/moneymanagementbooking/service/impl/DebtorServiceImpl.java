@@ -19,8 +19,8 @@ public class DebtorServiceImpl implements DebtorService {
   private final DebtorRepository debtorRepository;
 
   @Override
-  public List<Debtor> findAll() {
-    return debtorRepository.findAll();
+  public List<Debtor> findAll(int id) {
+    return debtorRepository.findAllByUserid(id);
   }
 
   @Override

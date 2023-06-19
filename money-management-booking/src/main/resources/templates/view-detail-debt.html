@@ -65,8 +65,17 @@
                                     class="mr-1 btn btn-primary" style="border-radius: 20px;">Back to List of Debtor</a>
                             </div>
                             <div class="float-right">
-                                <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${id}}" title="List Debt"
+                                <th:block th:if="${listAcc > 0}">
+                                    <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${id}}" 
                                     class="mr-1 btn btn-primary" style="border-radius: 20px;">Add new Debt</a>
+                                </th:block>
+                                <th:block th:if="${listAcc == 0}">
+                                    <i style="color: red; margin-right: 350px; font-size: 20px;">You need to create an account before creating a debt!</i>
+                                </th:block>
+
+
+                                <!-- <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${id}}" 
+                                    class="mr-1 btn btn-primary" style="border-radius: 20px;" th:attr="onclick=${listAcc > 0 ? null : 'return false;'}">Add new Debt</a> -->
                             </div>
                         </div>
 

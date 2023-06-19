@@ -7,15 +7,14 @@ import com.group6.moneymanagementbooking.enity.Debtor;
 
 public interface DebtorService {
 
-
-    public List<Debtor> findAll();
+    public List<Debtor> findAll(int id);
 
     public void Save(Debtor debtor);
 
     public List<Debtor> SearchByName(String name);
 
-    public Optional<Debtor>  getDebtor(int id);
+    public Optional<Debtor> getDebtor(int id);
 
     public void deleteDebtorById(int id);
-    
+
 }

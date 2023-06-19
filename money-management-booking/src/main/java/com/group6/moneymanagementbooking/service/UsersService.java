@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 
 import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
+import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 
 public interface UsersService {
@@ -23,5 +24,6 @@ public interface UsersService {
 
       public String forgotPassword(Model model, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest);
 
+      public Users getUserByEmail(String email);
 
 }

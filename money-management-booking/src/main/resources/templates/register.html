@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Multi Step Form | CodingNepal</title>
+    <link rel="stylesheet" th:href="@{/assets/css/register.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/alert-report.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="/spending-management-website-trong-admin/money-management-booking/src/main/resources/static/assets/css/register.css">
+
+
+</head>
+
+<body th:onload="report([[${report}]])">
+    <div class="alert alert_hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="alert_msg" id="report" style="padding-left: 20px;"></span>
+        <div class="alert_close-btn">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+    <div class="register_container">
+        <header>Signup Form</header>
+        <div class="register_progress-bar">
+            <div class="register_step">
+                <p>
+                    Email
+                </p>
+                <div class="register_bullet">
+                    <span>1</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+            <div class="register_step">
+                <p>
+                    Name
+                </p>
+                <div class="register_bullet">
+                    <span>2</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+            <div class="register_step">
+                <p>
+                    Contact
+                </p>
+                <div class="register_bullet">
+                    <span>3</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+            <div class="register_step">
+                <p>
+                    Submit
+                </p>
+                <div class="register_bullet">
+                    <span>4</span>
+                </div>
+                <div class="register_check fas fa-check"></div>
+            </div>
+
+        </div>
+        <div class="register_form-outer">
+            <form th:action="@{/register}" th:object="${usersDTORegister}" method="POST">
+                <div class="register_page register_slide-page">
+                    <div class="register_title">
+                        Email Address:
+                    </div>
+                    <p id="emailMess" style="line-height: 24px; height: 24px; margin-top: 20px;"></p>
+                    <div class="register_field" style="margin-top: 20px;">
+
+                        <div class="register_label">
+                            Email
+                        </div>
+                        <input type="email" id="userEmailInput" name="email" th:field="*{email}"
+                            onkeyup="checkEmail(this)">
+                    </div>
+                    <div class="register_field ">
+                        <div class="register_label">
+                            OTP
+                        </div>
+                        <div class="register_OTP">
+                            <div class="register_inputOTP">
+                                <input type="text" id="userOTPInput">
+                            </div>
+                            <div class="register_sendOTP_button">
+                                <button type="button" onclick="sendOTP()">
+                                    <p>Send OTP</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="register_field" style="margin-bottom: 20px;">
+                        <button type="button" class="firstNext register_next">Next</button>
+                    </div>
+                    <div>
+                        <a th:href="@{/login}" style="font-size: 12px;">Already have an account??</a>
+
+                    </div>
+
+                </div>
+                <div class="register_page">
+                    <div class="register_title">
+                        Basic Info:
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            First Name
+                        </div>
+                        <input type="text" name="firstName" th:field="*{firstName}" required>
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Last Name
+                        </div>
+                        <input type="text" name="lastName" th:field="*{lastName}">
+                    </div>
+                    <div class="register_field register_btns">
+                        <button type="button" class="prev-1 register_prev">Previous</button>
+                        <button type="button" class="next-1 register_next">Next</button>
+                    </div>
+                </div>
+                <div class="register_page">
+                    <div class="register_title">
+                        Contact Infor:
+                    </div>
+                    <p id="phoneMess" style="line-height: 24px; height: 24px; margin-top: 20px;"></p>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Phone
+                        </div>
+                        <input type="text" name="phone" th:field="*{phone}" onkeyup="checkPhone(this)" required>
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Address
+                        </div>
+                        <input type="text" name="address" th:field="*{address}">
+                    </div>
+                    <div class="register_field register_btns">
+                        <button type="button" class="prev-2 register_prev">Previous</button>
+                        <button type="button" class="next-2 register_next">Next</button>
+                    </div>
+                </div>
+                <div class="register_page">
+                    <div class="register_title">
+                        Login Details:
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Password
+                        </div>
+                        <input type="password" name="password" id="password" th:field="*{password}" required>
+                    </div>
+                    <div class="register_field">
+                        <div class="register_label">
+                            Re-password
+                        </div>
+                        <input type="password" name="repeatPassword" id="repeatPassword" th:field="*{repeatPassword}"
+                            required>
+                    </div>
+                    <p id="message"></p>
+                    <div class="register_field register_btns">
+                        <button type="button" class="prev-3 register_prev">Previous</button>
+                        <button type="submit" class="register_submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline="javascript"></script>
+
+    <script th:src="@{/assets/javascrip/register.js}">
+    </script>
+
+
+</body>
+
+</html>

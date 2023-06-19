@@ -1,0 +1,163 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.box {
+    border: 2px solid black;
+    border-radius: 30px;
+    padding: 20px;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-weight: bolder;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 20px;
+    padding: 20px;
+}
+
+tr th {
+    text-align: center;
+}
+
+
+.admin-center-text {
+    text-align: center;
+}
+
+.red-row{
+    color: orangered;
+}
+
+.positive-status,
+.negative-status,
+.disabled-status,
+.enabled-status,
+#btnSearch ,
+#sltSearch,
+.btnSort{
+    color: #fff;
+    width: auto;
+    text-align: center;
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid #fff;
+
+}
+
+.positive-status {
+    background-color: green;
+}
+
+.negative-status {
+    background-color: orangered;
+}
+
+.disabled-status {
+    padding: 8px 20px;
+
+    width: auto;
+    color: orangered;
+}
+
+.disabled-status:hover {
+    background-color: blueviolet;
+    color: #fff;
+}
+
+.enabled-status:hover {
+    background-color: blueviolet;
+    color: #fff;
+}
+
+.enabled-status {
+    padding: 8px 20px;
+
+    width: auto;
+    border: 1px solid #fff;
+    color: green;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+#pagination {
+    display: flex;
+    align-items: center;
+}
+
+#pagination button,
+#pagination input {
+    margin: 5px;
+    padding: 5px;
+}
+
+#pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.box {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: scroll;
+    flex-wrap: wrap;
+}
+h1{
+    width: 100%;
+}
+
+.data-contact{
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 12px;
+
+}
+
+#txtSearch{
+    padding: 6px 8px;
+    
+    border: 1px solid black;
+    border-radius: 12px;
+}
+#btnSearch,
+.btnSort{
+    color: black;
+    border: 1px solid saddlebrown;
+    padding: 6px 20px;
+}
+ #sltSearch{
+    padding: 6px 20px;
+
+    color: black;
+    border: 1px solid saddlebrown;
+ }
+ #sltSearch option{
+    text-align: start;
+    width: 100%;
+ 
+ }
+.table {
+    margin-left: 8px;
+
+    font-size: 12px;
+    width: 90%;
+
+}

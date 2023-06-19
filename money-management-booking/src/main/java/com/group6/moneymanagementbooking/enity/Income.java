@@ -1,20 +1,23 @@
 package com.group6.moneymanagementbooking.enity;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Setter
@@ -28,10 +31,18 @@ public class Income {
     private int id;
     private String title;
     private double amount;
-    @Column(name="account_id")
-    private int accountId;
-    @Column(name="category_id")
-    private int categoryId;
     @Column(name ="income_date")
     private Date incomeDate;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Accounts accounts;
 }

@@ -1,10 +1,10 @@
 package com.group6.moneymanagementbooking.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.group6.moneymanagementbooking.enity.Income;
 import com.group6.moneymanagementbooking.repository.IncomeRepository;
 import com.group6.moneymanagementbooking.service.IncomeService;
@@ -24,8 +24,18 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public List<Income> findAll() {
-        return incomeRepository.findAll();
+     return incomeRepository.findAll();
     }
 
+    @Override
+    public Optional<Income> getIncome(int id) {
+        return incomeRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        incomeRepository.deleteById(id);
+    }
+    }
     
-}
+

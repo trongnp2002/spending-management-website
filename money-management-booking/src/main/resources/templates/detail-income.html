@@ -10,8 +10,9 @@
 
 
 <body>
-    <h1>create a new income.</h1>
-    <form th:action="@{/add-income}" th:object="${income}" method="post">
+    <h1>Update Income.</h1>
+    <form th:action="@{/detail-income}" th:object="${income}" method="post">
+        <p>Id <input type="text" readonly th:field="*{id}"></p>
         <p>title
             <input th:type="text" th:field="*{title}">
         </p>

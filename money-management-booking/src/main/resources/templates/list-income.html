@@ -12,21 +12,13 @@
 <body>
     <table th:each="itemincome : ${listincome}">
         <td th:text="${itemincome.title}"></td>
-
-    <a th:each="itemaccount : ${listaccount}">
-        <a th:if="${itemincome.accountId}==${itemaccount.id}">
-            <td th:text="${itemaccount.name}"></td>
-        </a>
-    </a>
-
-    <a th:each="itemcategory : ${listcategory}">
-        <a th:if="${itemincome.categoryId}==${itemcategory.id}">
-            <td th:text="${itemcategory.name}"></td>
-        </a>
-    </a>
-    
+        <td th:text="${itemincome.accounts != null ? itemincome.accounts.name : ''}"></td>
+        <td th:text="${itemincome.category != null ? itemincome.category.name : ''}"></td>
         <td th:text="${itemincome.incomeDate}"></td>
-        <td th:text="${itemincome.amount}"></td> 
+        <td th:text="${itemincome.amount}"></td>
+        <td><a th:href="@{/detail-income/{id}(id=${itemincome.id})}">Edit</a></td>
+        <td><a th:href="@{/delete-income/{id}(id=${itemincome.id})}">Delete</a></td>
     </table>
-</body> 
+</body>
+
 </html>

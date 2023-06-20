@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <table th:each="itemexpense : ${listexpenses}">
+        <td th:text="${itemexpense.title}"></td>
+        <td th:text="${itemexpense.accounts != null ? itemexpense.accounts.name : ''}"></td>
+        <td th:text="${itemexpense.category != null ? itemexpense.category.name : ''}"></td>
+        <td th:text="${itemexpense.expenseDate}"></td>
+        <td th:text="${itemexpense.amount}"></td>
+        <td><a th:href="@{/detail-expense/{id}(id=${itemexpense.id})}">Edit</a></td>
+        <td><a th:href="@{/delete-expense/{id}(id=${itemexpense.id})}">Delete</a></td>
+    </table>
+</body>
+
+</html>

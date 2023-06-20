@@ -42,4 +42,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findIncomeInCategory() {
         return categoryRepository.findIncomeInCategory();
     }
+
+    @Override
+    public List<Category> findExpenseInCategory() {
+       return categoryRepository.findExpenseInCategory();
+    }
 }

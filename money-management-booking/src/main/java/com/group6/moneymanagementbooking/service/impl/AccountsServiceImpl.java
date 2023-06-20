@@ -40,6 +40,11 @@ public class AccountsServiceImpl implements AccountsService {
         accountsRepository.addBalanceById(balance+accountsRepository.findBalanceById(id),id);
     }
 
+    @Override
+    public void expenseBalance(double balance, int id) {
+        accountsRepository.expenseBalanceById(accountsRepository.findBalanceById(id)-balance,id);
+    }
+
 
    
 }

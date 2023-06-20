@@ -1,14 +1,14 @@
 package com.group6.moneymanagementbooking.enity;
 
-import java.util.Collection;
+import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -17,29 +17,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "accounts")
-public class Accounts {
+@Table(name="expenses")
+public class Expenses {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int user_id;
-    private String name;
-    private double balance;
-    @Column(name="is_active")
-    private boolean active;
+    private String title;
+    private double amount;
+    @Column(name ="expense_date")
+    private Date expenseDate;
 
-    @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Expenses> expenses;
+    private Category category;
 
-    @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude 
-    @ToString.Exclude 
-    private Collection<Income> income;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Accounts accounts;
 }

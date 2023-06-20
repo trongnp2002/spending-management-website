@@ -34,9 +34,13 @@ public class Category {
     private boolean income_or_expense;
     private double budget;
 
-      @OneToMany(mappedBy = "category", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL) 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude 
+    private Collection<Expenses> expenses;
+
+      @OneToMany(mappedBy = "category", cascade = CascadeType.ALL) 
+    @EqualsAndHashCode.Exclude 
+    @ToString.Exclude
     private Collection<Income> income;
 }

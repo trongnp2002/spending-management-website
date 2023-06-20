@@ -53,7 +53,10 @@ public class IncomeController {
 
     @PostMapping("/detail-income")
     public String detail(@ModelAttribute Income income){
+        double updateMoney = income.getAmount();
+        double currentMoney = incomeService.getIncome(income.getId()).get().getAmount();
         incomeService.addIncome(income);
+        accountsService.addBalance(updateMoney-currentMoney,income.getAccounts().getId());
         return "redirect:/list-income";
     }
 

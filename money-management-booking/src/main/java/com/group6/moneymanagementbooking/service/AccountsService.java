@@ -15,4 +15,6 @@ public interface AccountsService {
 
     public void addBalance(double balance,int id);
 
+    public void expenseBalance(double balance,int id);
+
 }

@@ -14,4 +14,6 @@ public interface CategoryService {
     public void deleteCategoryById(int id);
 
     public List<Category> findIncomeInCategory();
+
+    public List<Category> findExpenseInCategory();
 }

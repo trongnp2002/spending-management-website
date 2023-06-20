@@ -27,6 +27,10 @@ public interface AccountsRepository extends JpaRepository<Accounts,Integer> {
     @Transactional
     @Query("UPDATE Accounts SET balance = ?1 WHERE id = ?2")
     public void addBalanceById(double balance,int id);
+    @Modifying
+    @Transactional
+    @Query("UPDATE Accounts SET balance = ?1 WHERE id = ?2")
+    public void expenseBalanceById(double balance,int id);
 
     @Query("select balance from Accounts where id = ?1")
     public double findBalanceById(int id);

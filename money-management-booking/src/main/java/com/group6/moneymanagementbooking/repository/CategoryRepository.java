@@ -14,4 +14,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
  @Query("select c from Category c where c.income_or_expense = 1")
  public List<Category> findIncomeInCategory();
 
+ @Query("select c from Category c where c.income_or_expense = 0")
+ public List<Category> findExpenseInCategory();
+
 }

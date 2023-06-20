@@ -29,8 +29,8 @@ public class DebtorServiceImpl implements DebtorService {
   }
 
   @Override
-  public List<Debtor> SearchByName(String name) {
-    return debtorRepository.findAllByNameContaining(name);
+  public List<Debtor> SearchByName(String name, int userid) {
+    return debtorRepository.findAllByNameContainingAnduserid(userid, name);
   }
 
   @Override

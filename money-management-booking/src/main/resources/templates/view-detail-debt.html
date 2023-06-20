@@ -66,11 +66,12 @@
                             </div>
                             <div class="float-right">
                                 <th:block th:if="${listAcc > 0}">
-                                    <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${id}}" 
-                                    class="mr-1 btn btn-primary" style="border-radius: 20px;">Add new Debt</a>
+                                    <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${id}}"
+                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Add new Debt</a>
                                 </th:block>
                                 <th:block th:if="${listAcc == 0}">
-                                    <i style="color: red; margin-right: 350px; font-size: 20px;">You need to create an account before creating a debt!</i>
+                                    <i style="color: red; margin-right: 350px; font-size: 20px;">You need to create an
+                                        account before creating a debt!</i>
                                 </th:block>
 
 
@@ -132,7 +133,6 @@
         </div>
     </div>
 
-    <script th:src="@{/assets/javascrip/main.js}"></script>
 </body>
 
 </html>

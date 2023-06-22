@@ -1,13 +1,11 @@
 package com.group6.moneymanagementbooking.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.group6.moneymanagementbooking.enity.Debt_detail;
-import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.repository.DetailDebtRepository;
 import com.group6.moneymanagementbooking.service.DetailDebtService;
 

@@ -1,18 +1,32 @@
 package com.group6.moneymanagementbooking.service;
 
-import java.util.List;
-
 import org.springframework.ui.Model;
 
-import com.group6.moneymanagementbooking.enity.Users;
 
 public interface AdminService {
-    
-      public List<Users> getPageGroupOfUsers(int page);
+
+      public String getPageGroupOfUsers(Model model, int page);
 
       public String changeActiveStatus(int id, String page);
 
-            public String changeActiveStatus(int id, String page, String search, String value);
+      public String changeActiveStatus(int id, String page, String searchBy, String value);
 
-    public String searchUsers(Model model,String search, String value, int page);
+      public String searchUsers(Model model, String searchBy, String value, int page);
+
+    public String getListOfLockedUser(Model model, Boolean islock, int page);
+
+    public String getListOfUnActiveUser(Model model, Boolean isActive, int page);
+
+    public String searchListUsersActive(Model model, String searchBy, String value, int page, Boolean isactive);
+
+    public String searchListUsersNonLock(Model model, String searchBy, String value, int page, Boolean isLock);
+
+    public String changeActiveStatusActivePage(Model model, int id, int page, String searchBy, String value, Boolean isActive);
+
+    public String changeActiveStatusActivePage(Model model, int id, int page, Boolean isActive);
+
+    public String changeActiveStatusNonLocked(Model model, int id, int page, String searchBy, String value, Boolean isActive);
+
+    public String changeActiveStatusNonLocked(Model model, int id, int page, Boolean isActive);
+
 }

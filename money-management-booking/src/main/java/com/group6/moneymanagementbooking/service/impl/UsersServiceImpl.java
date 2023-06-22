@@ -16,7 +16,6 @@ import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordReque
 import com.group6.moneymanagementbooking.dto.request.UsersDTOLoginRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.Users;
-import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.StringUtils;
@@ -77,7 +76,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, CustomBadRequestException {
+            throws IOException {
         String userEmail = request.getParameter("userEmail");
         try (PrintWriter out = response.getWriter()) {
             if (StringUtils.patternMatchesEmail(userEmail,
@@ -120,7 +119,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     public void lock(Users users) {
-        users.setAccount_non_locked(false);
+        users.setNonLocked(false);
         users.setLockTime(new Date());
         usersRepository.save(users);
     }
@@ -129,7 +128,7 @@ public class UsersServiceImpl implements UsersService {
         long lockTimeInMillis = users.getLockTime().getTime();
         long currentTimeInMillis = System.currentTimeMillis();
         if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
-            users.setAccount_non_locked(true);
+            users.setNonLocked(true);
             users.setLockTime(null);
             users.setFailed_attempt(0);
             return true;
@@ -148,9 +147,6 @@ public class UsersServiceImpl implements UsersService {
         }
     }
 
-    public void updateLoginAttemptIfsuccess(Users user) {
-        user.setFailed_attempt(0);
-    }
 
     public boolean checkPhoneDuplicate(String phone) {
         Optional<Users> accouOptional = usersRepository.findByPhone(phone);

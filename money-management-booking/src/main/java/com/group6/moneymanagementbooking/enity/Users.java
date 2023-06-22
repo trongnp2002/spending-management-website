@@ -48,7 +48,7 @@ public class Users {
 
     private String role;
     @Column(name = "is_active")
-    private boolean is_active;
+    private boolean active;
 
     private double annually_spending;
 
@@ -62,7 +62,8 @@ public class Users {
 
     private int failed_attempt;
 
-    private boolean account_non_locked;
+    @Column(name = "account_non_locked")
+    private boolean nonLocked;
 
     private Date lockTime;
 }

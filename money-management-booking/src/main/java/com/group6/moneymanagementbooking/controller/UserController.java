@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -21,21 +20,21 @@ import lombok.RequiredArgsConstructor;
 
 public class UserController {
     @GetMapping("/home")
-    public String goHome(HttpServletRequest request, HttpServletResponse response) throws CustomBadRequestException {
+    public String goHome(HttpServletRequest request, HttpServletResponse response)   {
         return "home";
     }
      @PostMapping("/home")
-    public String goHome2(HttpServletRequest request, HttpServletResponse response) throws CustomBadRequestException {
+    public String goHome2(HttpServletRequest request, HttpServletResponse response)   {
         return "home";
     }
 
         @GetMapping("/dashboard")
-    public String goDashboard(HttpServletRequest request, HttpServletResponse response) throws CustomBadRequestException {
+    public String goDashboard(HttpServletRequest request, HttpServletResponse response)   {
         System.out.println(SecurityUtils.getCurrentUsername());
         return "dashboard";
     }
      @PostMapping("/dashboard")
-    public String goDashboard2(HttpServletRequest request, HttpServletResponse response) throws CustomBadRequestException {
+    public String goDashboard2(HttpServletRequest request, HttpServletResponse response)  {
         return "dashboard";
     }
     

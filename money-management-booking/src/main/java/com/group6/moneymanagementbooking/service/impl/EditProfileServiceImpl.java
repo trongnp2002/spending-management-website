@@ -3,7 +3,6 @@ package com.group6.moneymanagementbooking.service.impl;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.group6.moneymanagementbooking.dto.mapper.UsersMapper;
 import com.group6.moneymanagementbooking.dto.request.UserDTOEditProfileRequest;

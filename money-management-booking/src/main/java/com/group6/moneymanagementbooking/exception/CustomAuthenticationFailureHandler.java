@@ -1,4 +1,4 @@
-package com.group6.moneymanagementbooking.model.exception.custom;
+package com.group6.moneymanagementbooking.exception;
 
 import java.io.IOException;
 
@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import com.group6.moneymanagementbooking.enity.Users;
-import com.group6.moneymanagementbooking.model.MyUserDetails;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.security.CustomUserDetailsService;
+import com.group6.moneymanagementbooking.security.MyUserDetails;
 import com.group6.moneymanagementbooking.service.impl.UsersServiceImpl;
 
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -63,19 +63,17 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     private void loginLimitAttem(String password, Users users, HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
         if (passwordEncoder.matches(password, users.getPassword())) {
-            if (users.isAccount_non_locked()) {
-                usersServiceImpl.updateLoginAttemptIfsuccess(users);
+            if (users.isNonLocked()) {
                 super.onAuthenticationFailure(request, response, exception);
             } else {
                 if (usersServiceImpl.unlock(users)) {
-                    usersServiceImpl.updateLoginAttemptIfsuccess(users);
                     super.onAuthenticationFailure(request, response, exception);
                 } else {
                     response.sendRedirect("/login?error=login-fail&turn=0");
                 }
             }
         } else {
-            if (users.isAccount_non_locked()) {
+            if (users.isNonLocked()) {
                 usersServiceImpl.checkUnLockUser(users, response);
             } else {
                 if (usersServiceImpl.unlock(users)) {

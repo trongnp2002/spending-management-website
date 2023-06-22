@@ -12,7 +12,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
-import com.group6.moneymanagementbooking.enity.Debt_detail;
 
 @Repository
 public interface AccountsRepository extends JpaRepository<Accounts, Integer> {

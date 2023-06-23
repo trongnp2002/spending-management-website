@@ -33,6 +33,8 @@ public class ExpensesServiceImpl implements ExpensesService {
                 throw new Exception("Amount can't not empty");
             if (amountExpense < 0)
                 throw new Exception("Amount must be > 0");
+            if (balanceAccount-amountExpense<0)
+                System.out.println("Warning Balance <0");
             accountsRepository.addBalanceById(balanceAccount - amountExpense, expenses.getAccounts().getId());
             return expensesRepository.save(expenses);
         } catch (Exception e) {
@@ -53,6 +55,8 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     @Override
     public void deleteById(int id) {
+        Optional<Expenses> expenses = expensesRepository.findById(id);
+        accountsService.addBalance(expenses.get().getAmount(), expenses.get().getAccounts().getId());
         expensesRepository.deleteById(id);
     }
 
@@ -61,8 +65,11 @@ public class ExpensesServiceImpl implements ExpensesService {
         try {
             double updateMoney = expenses.getAmount();
             double currentMoney = getExpense(expenses.getId()).get().getAmount();
+            double balanceAccount = accountsRepository.findById(expenses.getAccounts().getId()).get().getBalance();
             if (expenses.getAmount() < 0)
                 throw new Exception("Amount must be > 0");
+            if (balanceAccount-updateMoney<0)
+                System.out.println("Warning Balance <0");
             accountsService.expenseBalance(updateMoney-currentMoney,expenses.getAccounts().getId());
             return expensesRepository.save(expenses);
         } catch (Exception e) {

@@ -47,8 +47,7 @@ public class CategoryController {
     @PostMapping("/detail-category")
     public String detail(@ModelAttribute Category category) {
         categoryService.addCategory(category);
-        return Optional.ofNullable(categoryService.addCategory(category)).map(t -> "redirect:/list-category")
-                .orElse("failed");
+        return Optional.ofNullable(categoryService.addCategory(category)).map(t -> "redirect:/list-category").orElse("failed");
     }
 
     @GetMapping("/delete-category/{id}")

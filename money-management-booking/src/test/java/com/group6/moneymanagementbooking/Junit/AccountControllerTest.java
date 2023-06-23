@@ -13,6 +13,8 @@ import com.group6.moneymanagementbooking.service.AccountsService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.util.Optional;
+
 class AccountControllerTest {
     @Mock
     private AccountsService accountsService;
@@ -38,6 +40,7 @@ void testAddAccount() {
     assertEquals("success", result);
     verify(accountsService, times(1)).addAccounts(accounts);
 }
+
     @Test
     void testUpdateActive() {
         int id = 1;
@@ -47,5 +50,14 @@ void testAddAccount() {
 
         assertEquals("redirect:/list-account", result);
         verify(accountsService, times(1)).updateActiveById(action, id);
+    }
+
+    @Test
+    void testReadAccount() {
+        int id = 1;
+        Accounts account = new Accounts();
+        when(accountsService.findById(id)).thenReturn(Optional.of(account));
+        String result = accountController.index(model);
+        assertEquals("listaccount", result);
     }
 }

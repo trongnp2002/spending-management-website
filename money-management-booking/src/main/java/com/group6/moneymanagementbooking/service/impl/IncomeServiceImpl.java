@@ -46,6 +46,8 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public void deleteById(int id) {
+        Optional<Income> income = incomeRepository.findById(id);
+        accountsService.expenseBalance(income.get().getAmount(), income.get().getAccounts().getId());
         incomeRepository.deleteById(id);
     }
 

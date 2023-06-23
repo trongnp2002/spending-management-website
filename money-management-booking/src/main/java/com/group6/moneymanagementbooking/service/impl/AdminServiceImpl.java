@@ -1,8 +1,11 @@
 package com.group6.moneymanagementbooking.service.impl;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,6 @@ import com.group6.moneymanagementbooking.dto.response.UsersForAdminDTOResponse;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.AdminService;
-import com.group6.moneymanagementbooking.util.WebUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,75 +24,71 @@ import lombok.RequiredArgsConstructor;
 public class AdminServiceImpl implements AdminService {
     private final UsersRepository usersRepository;
     private final int PAGE_SIZE = 10;
-    private final String HOME = "admin-home";
-
+// getting
+    //1. get group of users original
     @Override
-    public String getPageGroupOfUsers(Model model, int page) {
+    public List<UsersForAdminDTOResponse> getPageGroupOfUsers(Model model, int page) {
         int totalPage = getMaxPage();
         if (page > totalPage)
             page = totalPage;
         if (totalPage == 0)
             page = 1;
+        model.addAttribute("data2", totalPage);
         List<Users> list = usersRepository.findAll(PageRequest.of(page - 1, PAGE_SIZE)).toList();
-        return WebUtils.dispartcher(HOME, model, toUsersForAdminDTOResponses(list), page,
-                totalPage, false, false, false, false);
+        return UsersMapper.toUsersForAdminDTOResponses(list);
     }
 
+    //2. get group of locked/nonlock users
     @Override
-    public String changeActiveStatus(int id, String page) {
-        updateStatus(id);
-        return "redirect:/admins/home/" + page;
+    public List<UsersForAdminDTOResponse>  getListOfLockedUser(Model model, Boolean islock, int page) {
+        int totalPage = getSearchMaxPage("locked", islock.toString());
+        if (page >= totalPage)
+            page = totalPage;
+        if (totalPage == 0)
+            page = 1;
+        List<Users> listOfLockedUser = usersRepository.findByNonLocked(islock, PageRequest.of((page - 1), PAGE_SIZE))
+                .toList();
+        model.addAttribute("data2", totalPage);
+        return UsersMapper.toUsersForAdminDTOResponses(listOfLockedUser);
+        // return WebUtils.adminDispartcher(HOME, model, toUsersForAdminDTOResponses(listOfLockedUser), page,
+        //         !isLockPage, isLockPage, !isLockPage, !islock);
     }
 
+    //3. get group of active/inactive users
     @Override
-    public String changeActiveStatus(int id, String page, String searchBy, String value) {
-        updateStatus(id);
-        return "redirect:/admins/search/" + page + "/?select=" + searchBy + "&value=" + value;
-    }
+    public List<UsersForAdminDTOResponse> getListOfUnActiveUser(Model model, Boolean isActive, int page) {
+        int totalPage = getSearchMaxPage("active", isActive.toString());
+        if (page >= totalPage) {
+            page = totalPage;
+        }
+        if (totalPage == 0)
+            page = 1;
+        List<Users> listOfActiveUser = usersRepository.findByActive(isActive, PageRequest.of((page - 1), PAGE_SIZE))
+                .toList();
+        model.addAttribute("data2", totalPage);
+        return UsersMapper.toUsersForAdminDTOResponses(listOfActiveUser);
 
+    }
+// updating
     @Override
-    public String changeActiveStatusActivePage(Model model, int id, int page, String searchBy, String value,
-            Boolean isActive) {
+    public void changeActiveStatus(HttpServletResponse response, int id) throws IOException {
+        String data = "";
         updateStatus(id);
-        return searchListUsersActive(model, searchBy, value, page, isActive);
-    }
-
-    @Override
-    public String changeActiveStatusActivePage(Model model, int id, int page, Boolean isActive) {
-        updateStatus(id);
-        return getListOfUnActiveUser(model, isActive, page);
-    }
-
-    @Override
-    public String changeActiveStatusNonLocked(Model model, int id, int page, String searchBy, String value,
-            Boolean isActive) {
-        updateStatus(id);
-        return searchListUsersNonLock(model, searchBy, value, page, isActive);
-    }
-
-    @Override
-    public String changeActiveStatusNonLocked(Model model, int id, int page, Boolean isActive) {
-        updateStatus(id);
-        return getListOfLockedUser(model, isActive, page);
-    }
-
-    private void updateStatus(int id) {
-        Optional<Users> userOptional = usersRepository.findById(id);
-        if (userOptional.isPresent()) {
-            Users user = userOptional.get();
-            user.setActive(!user.isActive());
-            usersRepository.save(user);
+        Optional<Users> usersOptional = usersRepository.findById(id);
+        if (usersOptional.isPresent()) {
+            Users users = usersOptional.get();
+            data = tableCellHtmlLayout(users);
+        }
+        response.setContentType("text/html");
+        try (PrintWriter out = response.getWriter()) {
+            out.println(data);
         }
     }
 
-    public int getMaxPage() {
-        long totalRecords = usersRepository.count();
-        int maxPage = (int) Math.ceil((double) totalRecords / PAGE_SIZE);
-        return maxPage;
-    }
-
+// searching
+    //1. search origin
     @Override
-    public String searchUsers(Model model, String searchBy, String value, int page) {
+    public List<UsersForAdminDTOResponse> searchUsers(Model model, String searchBy, String value, int page) {
         List<Users> groupOfUsers = null;
         int totalPage = getSearchMaxPage(searchBy, value);
         if (page > totalPage)
@@ -113,44 +111,15 @@ public class AdminServiceImpl implements AdminService {
         }
         model.addAttribute("txtSearch", value);
         model.addAttribute("select", searchBy);
-        return WebUtils.dispartcher(HOME, model, toUsersForAdminDTOResponses(groupOfUsers), page + 1, totalPage, false,
-                false, false, false);
+        model.addAttribute("data2", totalPage);
+        return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers);
     }
-
+    //2. search user lock/nonlock
     @Override
-    public String getListOfLockedUser(Model model, Boolean islock, int page) {
-        int totalPage = getSearchMaxPage("locked", islock.toString());
-        if (page >= totalPage)
-            page = totalPage;
-        if (totalPage == 0)
-            page = 1;
-        List<Users> listOfLockedUser = usersRepository.findByNonLocked(islock, PageRequest.of((page - 1), PAGE_SIZE))
-                .toList();
-        boolean isLockPage = true;
-        return WebUtils.dispartcher(HOME, model, toUsersForAdminDTOResponses(listOfLockedUser), page, totalPage,
-                !isLockPage, isLockPage, !isLockPage, !islock);
-    }
-
-    @Override
-    public String getListOfUnActiveUser(Model model, Boolean isActive, int page) {
-        int totalPage = getSearchMaxPage("active", isActive.toString());
-        boolean isActivePage = true;
-        if (page >= totalPage) {
-            page = totalPage;
-        }
-        if (totalPage == 0)
-            page = 1;
-        List<Users> listOfLockedUser = usersRepository.findByActive(isActive, PageRequest.of((page - 1), PAGE_SIZE))
-                .toList();
-        return WebUtils.dispartcher(HOME, model, toUsersForAdminDTOResponses(listOfLockedUser), page, totalPage,
-                isActivePage, !isActivePage, !isActive, !isActivePage);
-    }
-
-    @Override
-    public String searchListUsersNonLock(Model model, String searchBy, String value, int page, Boolean isLock) {
+    public List<UsersForAdminDTOResponse> searchListUsersNonLock(Model model, String searchBy, String value, int page,
+            Boolean nonLock) {
         List<Users> groupOfUsers = null;
-        boolean isLockedPage = true;
-        isLock = !isLock;
+        boolean isLock = !nonLock;
         int totalPage = getSearchMaxPageLocked(searchBy, value, isLock);
         if (page > totalPage)
             page = totalPage;
@@ -173,17 +142,17 @@ public class AdminServiceImpl implements AdminService {
                         .findByPhoneContainingAndNonLocked(value, isLock, PageRequest.of(page, PAGE_SIZE)).toList();
                 break;
         }
-        isLock = !isLock;
         model.addAttribute("txtSearch", value);
         model.addAttribute("select", searchBy);
-        return WebUtils.dispartcher(HOME, model, toUsersForAdminDTOResponses(groupOfUsers), page + 1, totalPage,
-                !isLockedPage, isLockedPage, !isLockedPage, isLock);
+        model.addAttribute("data2", totalPage);
+        return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers);
     }
 
+    //3. search user active/inactive
     @Override
-    public String searchListUsersActive(Model model, String searchBy, String value, int page, Boolean isActive) {
+    public List<UsersForAdminDTOResponse> searchListUsersActive(Model model, String searchBy, String value, int page,
+            Boolean isActive) {
         List<Users> groupOfUsers = null;
-        boolean isActivePage = true;
         isActive = !isActive;
         int totalPage = getSearchMaxPageActive(searchBy, value, isActive);
         if (page > totalPage)
@@ -205,55 +174,75 @@ public class AdminServiceImpl implements AdminService {
                         value, isActive, PageRequest.of(page, PAGE_SIZE)).toList();
                 break;
         }
-        isActive = !isActive;
         model.addAttribute("txtSearch", value);
         model.addAttribute("select", searchBy);
-        return WebUtils.dispartcher(HOME, model, toUsersForAdminDTOResponses(groupOfUsers), page + 1, totalPage,
-                isActivePage, !isActivePage, isActive, !isActivePage);
+        model.addAttribute("data2", totalPage);
+        return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers);
+
     }
 
-    private int getSearchMaxPageActive(String searchBy, String value, boolean isActive) {
-        List<Users> list = null;
-        switch (searchBy) {
-            case "name":
-                list = usersRepository
-                        .findByFirstNameContainingOrLastNameContainingAndActive(value, value, isActive);
-                break;
-            case "email":
-                list = usersRepository.findByEmailContainingAndActive(value, isActive);
-                break;
-            case "phone":
-                list = usersRepository.findByPhoneContainingAndActive(value, isActive);
-                break;
+// for update status
+    // update
+    private void updateStatus(int id) {
+        Optional<Users> userOptional = usersRepository.findById(id);
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            user.setActive(!user.isActive());
+            usersRepository.save(user);
         }
-        int totalRecords = 0;
-        if (list != null) {
-            totalRecords = list.size();
-        }
-        return (int) Math.ceil((double) totalRecords / 10);
     }
 
-    private int getSearchMaxPageLocked(String searchBy, String value, boolean isLock) {
-        List<Users> list = null;
-        switch (searchBy) {
-            case "name":
-                list = usersRepository
-                        .findByFirstNameContainingOrLastNameContainingAndNonLocked(value, value, isLock);
-                break;
-            case "email":
-                list = usersRepository.findByEmailContainingAndNonLocked(value, isLock);
-                break;
-            case "phone":
-                list = usersRepository.findByPhoneContainingAndNonLocked(value, isLock);
-                break;
+    // html layout
+    private String tableCellHtmlLayout(Users users) {
+        String data = "<tr id = 'user" + users.getId() + "'";
+        if (users.isActive()) {
+            data += "class='red-row'";
         }
-        int totalRecords = 0;
-        if (list != null) {
-            totalRecords = list.size();
+        data += "> \n";
+        data = data + "<td>" + users.getId() + "</td> \n"
+                + "<td>" + users.getFirstName() + " " + users.getLastName() + "</td> \n"
+                + "<td>" + users.getEmail() + "</td>"
+                + "<td class='admin-center-text'>" + users.getPhone() + "</td> \n"
+                + "<td class='admin-center-text'>" + users.getFailed_attempt() + "</td> \n"
+                + "<td class='status'> \n";
+        if (users.isNonLocked()) {
+            data = data + "<p class='positive-status'>Non-lock</p> \n";
+        } else {
+            data = data + "  <p class='negative-status'>Lock</p> \n";
         }
-        return (int) Math.ceil((double) totalRecords / 10);
+        data = data + "  </td> \n";
+        if (users.getLockTime() != null) {
+            data = data + "<td>" + users.getLockTime() + "</td> \n";
+        } else {
+            data = data + "<td></td> \n";
+        }
+        data = data + "<td class='status'> \n";
+        if (users.isActive()) {
+            data = data + " <p class='positive-status'>Active</p> \n";
+        } else {
+            data = data + "<p class='negative-status'>De-active</p>";
+        }
+        data = data + "</td>\n" + "<td style='justify-content: center; text-align: center;' "
+                + "class='status' onclick='changeStatus(" + users.getId() + "," + users.isActive() + ")'> \n";
+        if (users.isActive()) {
+            data = data + "<button class='disabled-status'> Disable </button> \n";
+        } else {
+            data = data + "<button class='enabled-status'> Enable </button> \n";
+        }
+        data = data + "</td></tr>";
+        return data;
     }
 
+// get total page
+    // 1. Origin total page
+    private int getMaxPage() {
+        long totalRecords = usersRepository.count();
+        int maxPage = (int) Math.ceil((double) totalRecords / PAGE_SIZE);
+        return maxPage;
+    }
+
+    // 2. Total Page when searching/or all of group active/inactive or
+    // locked/nonlock user
     private int getSearchMaxPage(String searchBy, String value) {
         List<Users> list = null;
         switch (searchBy) {
@@ -282,14 +271,47 @@ public class AdminServiceImpl implements AdminService {
         return (int) Math.ceil((double) totalRecords / 10);
     }
 
-    private List<UsersForAdminDTOResponse> toUsersForAdminDTOResponses(List<Users> users) {
-        List<UsersForAdminDTOResponse> list = new ArrayList<UsersForAdminDTOResponse>();
-        for (Users user : users) {
-            if (user.getRole().equals("ROLE_USER")) {
-                list.add(UsersMapper.toUsersForAdminDTOResponse(user));
-            }
+    // 3. Total page when searching in group of active/inactive users
+    private int getSearchMaxPageActive(String searchBy, String value, boolean isActive) {
+        List<Users> list = null;
+        switch (searchBy) {
+            case "name":
+                list = usersRepository
+                        .findByFirstNameContainingOrLastNameContainingAndActive(value, value, isActive);
+                break;
+            case "email":
+                list = usersRepository.findByEmailContainingAndActive(value, isActive);
+                break;
+            case "phone":
+                list = usersRepository.findByPhoneContainingAndActive(value, isActive);
+                break;
         }
-        return list;
+        int totalRecords = 0;
+        if (list != null) {
+            totalRecords = list.size();
+        }
+        return (int) Math.ceil((double) totalRecords / 10);
     }
 
+    // 4. Total page Total page when searching in group of locked/nonlock users
+    private int getSearchMaxPageLocked(String searchBy, String value, boolean isLock) {
+        List<Users> list = null;
+        switch (searchBy) {
+            case "name":
+                list = usersRepository
+                        .findByFirstNameContainingOrLastNameContainingAndNonLocked(value, value, isLock);
+                break;
+            case "email":
+                list = usersRepository.findByEmailContainingAndNonLocked(value, isLock);
+                break;
+            case "phone":
+                list = usersRepository.findByPhoneContainingAndNonLocked(value, isLock);
+                break;
+        }
+        int totalRecords = 0;
+        if (list != null) {
+            totalRecords = list.size();
+        }
+        return (int) Math.ceil((double) totalRecords / 10);
+    }
 }

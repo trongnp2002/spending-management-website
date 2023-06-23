@@ -13,33 +13,26 @@ var active = document.getElementById("status").value;
 var selection = document.getElementById("sltSearch").value;
 var searchValue = document.getElementById("txtSearch").value;
 function changeStatus(userId, currentStatus, page) {
-    let url = "/admins/change-status/page" + page + "/" + userId;;
-    if (isLockedUserPage == "false" && isStatusUserPage == "false") {
-        if (selection != "select") {
-            url = url + "/?select=" + selection + "&value=" + searchValue;
-        }
-    } else if (isLockedUserPage == "true") {
-        let isLockedList = (locked == "true");
-        if (selection === "select") {
-            url = url + "/?nonlocked=" + !isLockedList;
-        } else {
-            url = url + "/?select=" + selection + "&value=" + searchValue + "&nonlocked=" + isLockedList;
-        }
-    } else if (isStatusUserPage == "true") {
-        let isActiveList = (active == "true");
-        if (selection === "select") {
-            url = url + "/?isactive=" + !isActiveList;
-        } else {
-            url = url + "/?select=" + selection + "&value=" + searchValue + "&isactive=" + isActiveList;
-        }
-    }
+
     if (currentStatus === true) {
         if (confirm("are you sure to disable user: " + userId)) {
-            window.location = url;
+            // window.location = url;
+            changeStatus1(userId)
         }
     } else {
-        window.location = url;
+        // window.location = url;
+        changeStatus1(userId)
     }
+}
+function changeStatus1(userId){
+        $.ajax({
+          url:    "/admins/change-status/" + userId,
+          type: "GET",
+          success: function (data) {
+            document.getElementById("user"+userId).innerHTML = data;
+          },
+    
+        });
 }
 function goToPage() {
     let goToPageInput = document.getElementById("goToPageInput");

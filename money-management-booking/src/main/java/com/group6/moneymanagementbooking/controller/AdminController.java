@@ -1,5 +1,10 @@
 package com.group6.moneymanagementbooking.controller;
 
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.group6.moneymanagementbooking.dto.mapper.UsersMapper;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
+import com.group6.moneymanagementbooking.dto.response.UsersForAdminDTOResponse;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.AdminService;
+import com.group6.moneymanagementbooking.util.WebUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,16 +30,21 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
     private final AdminService usersService;
     private final UsersRepository adminService;
+    private final String HOME = "admin-home";
 
     @GetMapping("/home")
     public String adminHomePage(Model model) {
-        return usersService.getPageGroupOfUsers(model, 1);
+        List<UsersForAdminDTOResponse> groupOfUsers = usersService.getPageGroupOfUsers(model, 1);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1,
+                false, false, false, false);
     }
 
     @GetMapping("/home/{page}")
     public String adminHomePage(@PathVariable("page") String pagging, Model model) {
         int page = Integer.parseInt(pagging.substring(4, pagging.length()));
-        return usersService.getPageGroupOfUsers(model, page);
+        List<UsersForAdminDTOResponse> groupOfUsers = usersService.getPageGroupOfUsers(model, page);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, page,
+                false, false, false, false);
     }
 
     @GetMapping("/search")
@@ -42,14 +54,21 @@ public class AdminController {
         if (searchBy.equals("select")) {
             return "redirect:/admins/home";
         }
+        List<UsersForAdminDTOResponse> groupOfUsers = null;
+        boolean isLockedPage = true;
         if (nonlocked != null) {
-            return usersService.searchListUsersNonLock(model, searchBy, value, 1, nonlocked);
+            groupOfUsers = usersService.searchListUsersNonLock(model, searchBy, value, 1, nonlocked);
+            return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1,
+                    isLockedPage, nonlocked);
         }
         if (isActive != null) {
-            return usersService.searchListUsersActive(model, searchBy, value, 1, isActive);
+            groupOfUsers = usersService.searchListUsersActive(model, searchBy, value, 1, isActive);
+            return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1,
+                    !isLockedPage, isActive);
         }
-
-        return usersService.searchUsers(model, searchBy, value, 1);
+        groupOfUsers = usersService.searchUsers(model, searchBy, value, 1);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1,
+                false, false, false, false);
     }
 
     @GetMapping("/search/{page}")
@@ -57,69 +76,63 @@ public class AdminController {
             @RequestParam("select") String searchBy, @RequestParam("value") String value,
             @RequestParam(value = "nonlocked", required = false) Boolean nonlocked,
             @RequestParam(value = "isactive", required = false) Boolean isActive) {
-
         int page = Integer.parseInt(pagging.substring(4, pagging.length()));
-
+        List<UsersForAdminDTOResponse> groupOfUsers = null;
+        boolean isLockedPage = true;
         if (nonlocked != null) {
-            return usersService.searchListUsersNonLock(model, searchBy, value, page, nonlocked);
+            groupOfUsers = usersService.searchListUsersNonLock(model, searchBy, value, 1, nonlocked);
+            return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1,
+                    isLockedPage, nonlocked);
         }
         if (isActive != null) {
-            return usersService.searchListUsersActive(model, searchBy, value, page, isActive);
+            groupOfUsers = usersService.searchListUsersActive(model, searchBy, value, page, isActive);
+            return WebUtils.adminDispartcher(HOME, model, groupOfUsers, page,
+                    !isLockedPage, isActive);
         }
-        return usersService.searchUsers(model, searchBy, value, page);
+        groupOfUsers = usersService.searchUsers(model, searchBy, value, page);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, page,
+                false, false, false, false);
     }
 
-    @GetMapping("/change-status/{page}/{id}")
-    public String changeUserActiveStatus(Model model,@PathVariable("id") int id, @PathVariable("page") String page,
+    @GetMapping("/change-status/{id}")
+    public void changeUserActiveStatus(HttpServletResponse response, Model model, @PathVariable("id") String userId,
             @RequestParam(value = "select", required = false) String searchBy,
-            @RequestParam(value = "value", required = false) String value,
-            @RequestParam(value = "nonlocked", required = false) Boolean nonlocked,
-            @RequestParam(value = "isactive", required = false) Boolean isActive) {
-        int pagging = Integer.parseInt(page.substring(4, page.length()));
+            @RequestParam(value = "value", required = false) String value) throws IOException {
+        int id = Integer.parseInt(userId);
+        usersService.changeActiveStatus(response, id);
 
-        if (nonlocked != null) {
-            if (searchBy != null && value != null) {
-                return usersService.changeActiveStatusNonLocked(model, id, pagging, searchBy, value, nonlocked);
-            } else {
-                return usersService.changeActiveStatusNonLocked(model, id, pagging, nonlocked);
-            }
-        }
-        if (isActive != null) {
-            if (searchBy != null && value != null) {
-                return usersService.changeActiveStatusActivePage(model, id, pagging, searchBy, value, isActive);
-            } else {
-                return usersService.changeActiveStatusActivePage(model, id, pagging, isActive);
-            }
-        }
-        if (searchBy != null && value != null) {
-            return usersService.changeActiveStatus(id, page, searchBy, value);
-        }
-        return usersService.changeActiveStatus(id, page);
     }
 
     @GetMapping("/list-locked")
-    public String getUsersLock(@RequestParam("nonlocked") Boolean isLock, Model model) {
-
-        return usersService.getListOfLockedUser(model, isLock, 1);
+    public String getUsersLock(@RequestParam("nonlocked") Boolean isLocked, Model model) {
+        boolean isLockedPage = true;
+        List<UsersForAdminDTOResponse> groupOfUsers = usersService.getListOfLockedUser(model, isLocked, 1);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1, isLockedPage, !isLocked);
     }
 
     @GetMapping("/list-status")
     public String getListStatus(@RequestParam("isactive") Boolean isActive, Model model) {
-        return usersService.getListOfUnActiveUser(model, isActive, 1);
+        boolean isLockedPage = false;
+        List<UsersForAdminDTOResponse> groupOfUsers = usersService.getListOfUnActiveUser(model, isActive, 1);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1, isLockedPage, !isActive);
     }
 
     @GetMapping("/list-locked/{page}")
-    public String getUsersLockByPage(@RequestParam("nonlocked") Boolean islocked, Model model,
+    public String getUsersLockByPage(@RequestParam("nonlocked") Boolean isLocked, Model model,
             @PathVariable("page") String pagging) {
         int page = Integer.parseInt(pagging.substring(4, pagging.length()));
-        return usersService.getListOfLockedUser(model, islocked, page);
+        boolean isLockedPage = true;
+        List<UsersForAdminDTOResponse> groupOfUsers = usersService.getListOfLockedUser(model, isLocked, page);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, page, isLockedPage, !isLocked);
     }
 
     @GetMapping("/list-status/{page}")
-    public String getUsersActiveByPage(@RequestParam("isactive") Boolean isactive, Model model,
+    public String getUsersActiveByPage(@RequestParam("isactive") Boolean isActive, Model model,
             @PathVariable("page") String pagging) {
         int page = Integer.parseInt(pagging.substring(4, pagging.length()));
-        return usersService.getListOfUnActiveUser(model, isactive, page);
+        boolean isLockedPage = false;
+        List<UsersForAdminDTOResponse> groupOfUsers = usersService.getListOfUnActiveUser(model, isActive, page);
+        return WebUtils.adminDispartcher(HOME, model, groupOfUsers, page, isLockedPage, !isActive);
     }
 
     @GetMapping("/addfast")

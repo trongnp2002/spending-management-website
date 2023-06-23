@@ -141,7 +141,6 @@ public class UsersServiceImpl implements UsersService {
         if (users.getFailed_attempt() < (MAX_FAILED_ATTEMPTS - 1)) {
             increaseFailedAttempt(users);
             response.sendRedirect("/login?error=login-fail&turn=" + (MAX_FAILED_ATTEMPTS - users.getFailed_attempt()));
-
         } else {
             lock(users);
             response.sendRedirect("/login?error=login-fail&turn=0");

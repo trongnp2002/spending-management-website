@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 // import com.group6.moneymanagementbooking.service.EditProfileService;
 
@@ -28,16 +27,16 @@ public class EditProfileController {
 
     @GetMapping("")
     public String editProfile(Model model) throws CustomBadRequestException {
-      //  AccountDTOLoginRequest accountDTOLoginRequest =  AccountDTOLoginRequest.builder().build();
-     //   model.addAttribute("accountDTOLoginRequest", accountDTOLoginRequest);
+        // AccountDTOLoginRequest accountDTOLoginRequest =
+        // AccountDTOLoginRequest.builder().build();
+        // model.addAttribute("accountDTOLoginRequest", accountDTOLoginRequest);
         return "editprofile";
     }
-
 
     @GetMapping("/displayImage/{photo}")
     public ResponseEntity<Resource> displayImage(@PathVariable("photo") String photo) throws IOException {
         Resource resource = new ClassPathResource("static/image/" + photo);
-        
+
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(resource);

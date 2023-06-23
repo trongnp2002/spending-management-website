@@ -2,7 +2,6 @@ package com.group6.moneymanagementbooking.enity;
 
 import java.sql.Date;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,14 +23,14 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="income")
+@Table(name = "income")
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
     private double amount;
-    @Column(name ="income_date")
+    @Column(name = "income_date")
     private Date incomeDate;
 
     @ManyToOne

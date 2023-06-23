@@ -1,5 +1,7 @@
 package com.group6.moneymanagementbooking.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,48 +24,42 @@ public class ExpensesController {
     private final AccountsService accountsService;
     private final CategoryService categoryService;
 
-
     @GetMapping("/add-expenses")
-    public String addExpense(Model model){
-    model.addAttribute("listaccount", accountsService.findAll());
-    model.addAttribute("listcategory", categoryService.findExpenseInCategory());
-    model.addAttribute("expense", new Expenses());
-    return "add-expenses";
+    public String addExpense(Model model) {
+        model.addAttribute("listaccount", accountsService.findByActive());
+        model.addAttribute("listcategory", categoryService.findExpenseInCategory());
+        model.addAttribute("expense", new Expenses());
+        return "add-expenses";
     }
 
     @PostMapping("/add-expenses")
-    public String addExpense(@ModelAttribute Expenses expense){
-    expensesService.addExpenses(expense);
-    accountsService.expenseBalance(expense.getAmount(),expense.getAccounts().getId());
-    return "redirect:/list-expenses";
+    public String addExpense(@ModelAttribute Expenses expense) {
+        return Optional.ofNullable(expensesService.addExpenses(expense)).map(t -> "redirect:/list-expenses")
+                .orElse("failed");
     }
 
     @GetMapping("/list-expenses")
-    public String index(Model model){
-    model.addAttribute("listexpenses", expensesService.findAll());
-    return "list-expenses";
+    public String index(Model model) {
+        model.addAttribute("listexpenses", expensesService.findAll());
+        return "list-expenses";
     }
 
-    
     @GetMapping("/detail-expense/{id}")
-    public String detail(@PathVariable("id") int id, Model model){
+    public String detail(@PathVariable("id") int id, Model model) {
         model.addAttribute("expense", expensesService.getExpense(id));
-        model.addAttribute("listaccount", accountsService.findAll());
+        model.addAttribute("listaccount", accountsService.findByActive());
         model.addAttribute("listcategory", categoryService.findExpenseInCategory());
         return "detail-expenses";
     }
 
     @PostMapping("/detail-expense")
-    public String detail(@ModelAttribute Expenses expense){
-        double updateMoney = expense.getAmount();
-        double currentMoney = expensesService.getExpense(expense.getId()).get().getAmount();
-        expensesService.addExpenses(expense);
-        accountsService.expenseBalance(updateMoney-currentMoney,expense.getAccounts().getId());
-        return "redirect:/list-expenses";
+    public String detail(@ModelAttribute Expenses expense) {
+        return Optional.ofNullable(expensesService.updateExpenses(expense)).map(t -> "redirect:/list-expenses")
+                .orElse("failed");
     }
 
     @GetMapping("/delete-expense/{id}")
-    public String delete(@PathVariable("id") int id){
+    public String delete(@PathVariable("id") int id) {
         expensesService.deleteById(id);
         return "redirect:/list-expenses";
     }

@@ -1,4 +1,5 @@
 package com.group6.moneymanagementbooking.service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +17,6 @@ public interface CategoryService {
     public List<Category> findIncomeInCategory();
 
     public List<Category> findExpenseInCategory();
+
+    public Optional<Category> findByName(String name);
 }

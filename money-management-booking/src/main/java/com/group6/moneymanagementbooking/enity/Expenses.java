@@ -23,14 +23,14 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="expenses")
+@Table(name = "expenses")
 public class Expenses {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
     private double amount;
-    @Column(name ="expense_date")
+    @Column(name = "expense_date")
     private Date expenseDate;
 
     @ManyToOne

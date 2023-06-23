@@ -19,8 +19,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category addCategory(Category category) {
-        category.setUser_id(1);
+     try{
+        boolean category1 = categoryRepository.findByName(category.getName()).isPresent();
+        if(category1) throw new Exception("Category Name Have Exists");
+        if(category.getName().isEmpty()) throw new Exception("Name Can't Not Null");
+        category.setUser_id(1); 
         return categoryRepository.save(category);
+        }catch(Exception e){
+        System.out.println(e.getMessage());
+        }
+       return null;
     }
 
     @Override
@@ -46,5 +54,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> findExpenseInCategory() {
        return categoryRepository.findExpenseInCategory();
+    }
+
+    @Override
+    public Optional<Category> findByName(String name) {
+        return categoryRepository.findByName(name);
     }
 }

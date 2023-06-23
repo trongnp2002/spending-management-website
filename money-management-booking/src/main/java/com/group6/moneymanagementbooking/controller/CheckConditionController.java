@@ -13,22 +13,24 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.group6.moneymanagementbooking.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/check")
 @CrossOrigin
 public class CheckConditionController {
-        private final UsersService userService;
+    private final UsersService userService;
 
-        @GetMapping("/email")
+    @GetMapping("/email")
     @ResponseStatus(value = HttpStatus.OK)
-    public void checkEmail(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public void checkEmail(HttpServletRequest request, HttpServletResponse response) throws Exception {
         userService.checkEmailCondition(request, response);
 
     }
+
     @GetMapping("/phone")
     @ResponseStatus(value = HttpStatus.OK)
-    public void checkPhone(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public void checkPhone(HttpServletRequest request, HttpServletResponse response) throws Exception {
         userService.checkPhoneCondition(request, response);
 
     }

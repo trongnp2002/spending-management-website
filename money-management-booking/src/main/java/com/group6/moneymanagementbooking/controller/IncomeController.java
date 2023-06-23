@@ -1,5 +1,7 @@
 package com.group6.moneymanagementbooking.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,7 @@ public class IncomeController {
 
     @GetMapping("/add-income")
     public String addIncome(Model model){
-    model.addAttribute("listaccount", accountsService.findAll());
+    model.addAttribute("listaccount", accountsService.findByActive());
     model.addAttribute("listcategory", categoryService.findIncomeInCategory());
     model.addAttribute("income", new Income());
     return "add-income";
@@ -32,9 +34,7 @@ public class IncomeController {
 
     @PostMapping("/add-income")
     public String addIncome(@ModelAttribute Income income){
-        incomeService.addIncome(income);
-        accountsService.addBalance(income.getAmount(),income.getAccounts().getId());
-        return "redirect:/list-income";
+        return Optional.ofNullable(incomeService.addIncome(income)).map(t ->"redirect:/list-income").orElse("failed");
     }
 
     @GetMapping("/list-income")
@@ -46,18 +46,14 @@ public class IncomeController {
     @GetMapping("/detail-income/{id}")
     public String detail(@PathVariable("id") int id, Model model){
         model.addAttribute("income", incomeService.getIncome(id));
-        model.addAttribute("listaccount", accountsService.findAll());
+        model.addAttribute("listaccount", accountsService.findByActive());
         model.addAttribute("listcategory", categoryService.findIncomeInCategory());
         return "detail-income";
     }
 
     @PostMapping("/detail-income")
-    public String detail(@ModelAttribute Income income){
-        double updateMoney = income.getAmount();
-        double currentMoney = incomeService.getIncome(income.getId()).get().getAmount();
-        incomeService.addIncome(income);
-        accountsService.addBalance(updateMoney-currentMoney,income.getAccounts().getId());
-        return "redirect:/list-income";
+    public String detail(@ModelAttribute Income income){ 
+        return Optional.ofNullable(incomeService.updateIncome(income)).map(t -> "redirect:/list-income").orElse("failed");
     }
 
     @GetMapping("/delete-income/{id}")

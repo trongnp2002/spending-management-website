@@ -9,7 +9,7 @@ public interface DebtorService {
 
     public List<Debtor> findAll(int id);
 
-    public void Save(Debtor debtor);
+    public Debtor Save(Debtor debtor);
 
     public List<Debtor> SearchByName(String name, int userid);
 

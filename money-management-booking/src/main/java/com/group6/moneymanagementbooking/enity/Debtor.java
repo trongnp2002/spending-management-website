@@ -19,7 +19,7 @@ import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor(staticName = "build")
+
 @Setter
 @Getter
 @Builder
@@ -43,4 +43,17 @@ public class Debtor {
     private LocalDateTime date_create;
     private LocalDateTime date_update;
     private Double total;
+
+    public Debtor(int id, int userId, String name, String address, String phone, String email,
+            LocalDateTime date_create, LocalDateTime date_update, Double total) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.date_create = date_create;
+        this.date_update = date_update;
+        this.total = total;
+    }
 }

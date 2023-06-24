@@ -77,7 +77,7 @@ public class DebtorController {
     }
 
     @PostMapping("/Add")
-    public String addNew(Model model, @ModelAttribute("debtor") Debtor debtor) throws Exception {
+    public String addNew(@ModelAttribute("debtor") Debtor debtor) throws Exception {
         debtor.setTotal(0.0);
         debtor.setDate_create(LocalDateTime.now());
         debtor.setDate_update(LocalDateTime.now());

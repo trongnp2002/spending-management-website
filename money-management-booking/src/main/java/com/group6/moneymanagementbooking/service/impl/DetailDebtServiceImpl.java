@@ -13,26 +13,25 @@ import com.group6.moneymanagementbooking.service.DetailDebtService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @RequiredArgsConstructor
 public class DetailDebtServiceImpl implements DetailDebtService {
-     private final DetailDebtRepository detailDebtRepository;
-    
-    @Override
-    public List<Debt_detail> findAll() {
-       return detailDebtRepository.findAll();
-    }
+   private final DetailDebtRepository detailDebtRepository;
 
    @Override
-   public List<Debt_detail> findAllById(int ids) {
-      
-     return detailDebtRepository.findAllByDeptorId(ids);
+   public List<Debt_detail> findAll() {
+      return detailDebtRepository.findAll();
    }
 
    @Override
-   public void Save(Debt_detail detail_edbt) {
-      detailDebtRepository.save(detail_edbt);
+   public List<Debt_detail> findAllById(int ids) {
+
+      return detailDebtRepository.findAllByDeptorId(ids);
+   }
+
+   @Override
+   public Debt_detail Save(Debt_detail detail_edbt) {
+      return detailDebtRepository.save(detail_edbt);
    }
 
    @Override
@@ -46,8 +45,4 @@ public class DetailDebtServiceImpl implements DetailDebtService {
       return debt.get();
    }
 
-
-
-  
-    
 }

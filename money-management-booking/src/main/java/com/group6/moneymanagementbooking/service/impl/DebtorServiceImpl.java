@@ -24,8 +24,8 @@ public class DebtorServiceImpl implements DebtorService {
   }
 
   @Override
-  public void Save(Debtor debtor) {
-    debtorRepository.save(debtor);
+  public Debtor Save(Debtor debtor) {
+    return debtorRepository.save(debtor);
   }
 
   @Override

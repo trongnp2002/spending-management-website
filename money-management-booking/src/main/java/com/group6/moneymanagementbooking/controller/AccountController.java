@@ -41,4 +41,21 @@ public class AccountController {
         accountsService.updateActiveById(action, id);
         return "redirect:/list-account";
     }
+
+        @GetMapping("/detail-account/{id}")
+    public String detail(@PathVariable("id") int id, Model model){
+        model.addAttribute("account", accountsService.findById(id));
+        return "detail-account";
+    }
+
+    @PostMapping("/detail-account")
+    public String detail(@ModelAttribute Accounts account){ 
+        return Optional.ofNullable(accountsService.updateAccount(account)).map(t -> "redirect:/list-account").orElse("failed");
+    }
+
+    @GetMapping("/delete-account/{id}")
+    public String delete(@PathVariable("id") int id){
+        accountsService.deleteById(id);
+        return "redirect:/list-account";
+    }
 }

@@ -59,4 +59,13 @@ public class AccountsServiceImpl implements AccountsService {
     public List<Accounts> findByActive() {
         return accountsRepository.findByActive(true);
     }
+    @Override
+    public Accounts updateAccount(Accounts accounts) {
+        accounts.setUser_id(1);
+        return accountsRepository.save(accounts);
+    }
+    @Override
+    public void deleteById(int id) {
+        accountsRepository.deleteById(id);
+    }
 }

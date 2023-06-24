@@ -24,6 +24,8 @@
           <a th:href="@{/list-account/{id}/{action}(id=${item.id},action=1)}">Active</a>
           <a th:href="@{/list-account/{id}/{action}(id=${item.id},action=0)}">Inactive</a>
         </td>
+        <td><a th:href="@{/detail-account/{id}(id=${item.id})}">Edit</a></td>
+        <td><a th:href="@{/delete-account/{id}(id=${item.id})}">Delete</a></td>
     </table>
 </body> 
 </html>

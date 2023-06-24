@@ -16,4 +16,9 @@ public interface ExpensesService {
 
     public Expenses updateExpenses(Expenses expenses);
 
+    public List<Expenses> getExpensesByMonth(int month, int year);
+
+    public double totalExpenseInMonth();
+
+    public List<Object[]> getMonthlyExpenseAmounts();
 }

@@ -19,4 +19,8 @@ public interface AccountsService {
     public Optional<Accounts> findById(int id);
 
     public List<Accounts> findByActive();
+
+    public Accounts updateAccount(Accounts accounts);
+
+    public void deleteById(int id);
 }

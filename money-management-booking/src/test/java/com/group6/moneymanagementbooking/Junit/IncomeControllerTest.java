@@ -69,4 +69,15 @@ public class IncomeControllerTest {
         verify(incomeService, times(1)).getIncome(id);
     }
 
+        @Test
+    void testUpdateIncome() {
+        Income income = new Income();
+        when(incomeService.updateIncome(income)).thenReturn((income));
+
+        String result = incomeController.detail(income);
+
+        assertEquals("redirect:/list-income", result);
+        verify(incomeService, times(1)).updateIncome(income);
+    }
+
 }

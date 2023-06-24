@@ -1,5 +1,4 @@
 package com.group6.moneymanagementbooking.controller;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +62,11 @@ public class ExpensesController {
         expensesService.deleteById(id);
         return "redirect:/list-expenses";
     }
+
+    // @GetMapping("/expenses-month")
+    // public String totalExpensesInMonth(Model model){
+    //    model.addAttribute("total", expensesService.totalExpenseInMonth());
+    //    return "total-expense-month";
+    // }
+
 }

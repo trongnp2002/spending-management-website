@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <h1>Update Account.</h1>
+    <form th:action="@{/detail-account}" th:object="${account}" method="post">
+        <p>Id <input type="text" readonly th:field="*{id}"></p>
+        <p>name
+            <input th:type="text" th:field="*{name}">
+        </p>
+        <p>balance
+            <input th:type="text" th:field="*{balance}">
+        </p>
+        <p>Status
+            <select th:field="*{active}">
+                <option th:value="TRUE" th:text="active"></option>
+                <option th:value="FALSE" th:text="inactive"></option>
+            </select>
+        </p>
+        <p>
+            <button type="submit">Add</button>
+        </p>
+    </form>
+</body>
+
+</html>

@@ -60,4 +60,14 @@ void testAddAccount() {
         String result = accountController.index(model);
         assertEquals("listaccount", result);
     }
+
+    @Test
+void testDeleteAccount() {
+    int id = 1;
+
+    String result = accountController.delete(id);
+
+    assertEquals("redirect:/list-account", result);
+    verify(accountsService, times(1)).deleteById(id);
+}
 }

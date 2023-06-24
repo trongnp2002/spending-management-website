@@ -15,16 +15,16 @@ public interface AdminService {
 
   public void changeActiveStatus(HttpServletResponse response,int id) throws IOException;
  
- 
+
   public List<UsersForAdminDTOResponse> searchUsers(Model model, String searchBy, String value, int page);
 
-  public List<UsersForAdminDTOResponse>  getListOfLockedUser(Model model, Boolean islock, int page);
+  public List<UsersForAdminDTOResponse>  getGroupOfLockedUser(Model model, Boolean islock, int page);
 
-  public List<UsersForAdminDTOResponse>  getListOfUnActiveUser(Model model, Boolean isActive, int page);
+  public List<UsersForAdminDTOResponse>  getGroupOfActiveUsers(Model model, Boolean isActive, int page);
 
-  public List<UsersForAdminDTOResponse> searchListUsersActive(Model model, String searchBy, String value, int page, Boolean isactive);
+  public List<UsersForAdminDTOResponse> searchInGroupOfActiveUsers(Model model, String searchBy, String value, int page, Boolean isactive);
 
-  public List<UsersForAdminDTOResponse> searchListUsersNonLock(Model model, String searchBy, String value, int page, Boolean nonLock);
+  public List<UsersForAdminDTOResponse> searchInGroupOfLockedUsers(Model model, String searchBy, String value, int page, Boolean nonLock);
 
 
 

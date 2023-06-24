@@ -13,7 +13,7 @@ import com.group6.moneymanagementbooking.enity.Users;
 
 public interface UsersService {
 
-      public String registerAccount(Model model, UsersDTORegisterRequest accountDTORegister)
+      public String userRegister(Model model, UsersDTORegisterRequest accountDTORegister)
                   throws Exception;
 
       public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)

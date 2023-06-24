@@ -24,9 +24,6 @@ public class LoginController {
     private final UsersService userService;
     
 
-   
-
-
     @GetMapping("/login")
     public String goToLoginPage (Model model) {
         UsersDTOLoginRequest accountDTOLoginRequest =  UsersDTOLoginRequest.builder().build();
@@ -45,7 +42,7 @@ public class LoginController {
 
     @PostMapping("/register")
     public String registerPost(Model model, @ModelAttribute("usersDTORegister") UsersDTORegisterRequest accountDTORegister) throws Exception{
-        return userService.registerAccount(model, accountDTORegister);
+        return userService.userRegister(model, accountDTORegister);
     }
 
 

@@ -30,8 +30,9 @@ public class UsersServiceImpl implements UsersService {
     private final int MAX_FAILED_ATTEMPTS = 3;
     private final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000;
 
+    //register
     @Override
-    public String registerAccount(Model model, UsersDTORegisterRequest accountDTORegister) throws Exception {
+    public String userRegister(Model model, UsersDTORegisterRequest accountDTORegister) throws Exception {
         String report = "<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: ";
         int report_length = report.length();
         report += registerCheckCondition(accountDTORegister);
@@ -50,6 +51,7 @@ public class UsersServiceImpl implements UsersService {
         return "redirect:/login";
     }
 
+    //forgot_password
     @Override
     public String forgotPassword(Model model, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest) {
         String email = usersDTOForgotPasswordRequest.getEmail();
@@ -74,6 +76,14 @@ public class UsersServiceImpl implements UsersService {
         return "login";
     }
 
+    //get user by email
+    @Override
+    public Users getUserByEmail(String email) {
+        return (usersRepository.findByEmail(email)).get();
+    }
+
+//check_condition
+    //1. check email condition
     @Override
     public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -91,7 +101,7 @@ public class UsersServiceImpl implements UsersService {
             }
         }
     }
-
+    //2. check phone condition
     @Override
     public void checkPhoneCondition(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userPhone = request.getParameter("userPhone");
@@ -111,7 +121,7 @@ public class UsersServiceImpl implements UsersService {
             }
         }
     }
-
+// function for security
     public void increaseFailedAttempt(Users users) {
         int fa = users.getFailed_attempt() + 1;
         users.setFailed_attempt(fa);
@@ -147,8 +157,8 @@ public class UsersServiceImpl implements UsersService {
         }
     }
 
-
-    public boolean checkPhoneDuplicate(String phone) {
+//support function
+    private boolean checkPhoneDuplicate(String phone) {
         Optional<Users> accouOptional = usersRepository.findByPhone(phone);
         if (accouOptional.isPresent()) {
             return true;
@@ -182,9 +192,6 @@ public class UsersServiceImpl implements UsersService {
         return report;
     }
 
-    @Override
-    public Users getUserByEmail(String email) {
-        return (usersRepository.findByEmail(email)).get();
-    }
+   
 
 }

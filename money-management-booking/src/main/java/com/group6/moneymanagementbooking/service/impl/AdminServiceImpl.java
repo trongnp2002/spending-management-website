@@ -40,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
 
     //2. get group of locked/nonlock users
     @Override
-    public List<UsersForAdminDTOResponse>  getListOfLockedUser(Model model, Boolean islock, int page) {
+    public List<UsersForAdminDTOResponse>  getGroupOfLockedUser(Model model, Boolean islock, int page) {
         int totalPage = getSearchMaxPage("locked", islock.toString());
         if (page >= totalPage)
             page = totalPage;
@@ -50,13 +50,11 @@ public class AdminServiceImpl implements AdminService {
                 .toList();
         model.addAttribute("data2", totalPage);
         return UsersMapper.toUsersForAdminDTOResponses(listOfLockedUser);
-        // return WebUtils.adminDispartcher(HOME, model, toUsersForAdminDTOResponses(listOfLockedUser), page,
-        //         !isLockPage, isLockPage, !isLockPage, !islock);
     }
 
     //3. get group of active/inactive users
     @Override
-    public List<UsersForAdminDTOResponse> getListOfUnActiveUser(Model model, Boolean isActive, int page) {
+    public List<UsersForAdminDTOResponse> getGroupOfActiveUsers(Model model, Boolean isActive, int page) {
         int totalPage = getSearchMaxPage("active", isActive.toString());
         if (page >= totalPage) {
             page = totalPage;
@@ -116,7 +114,7 @@ public class AdminServiceImpl implements AdminService {
     }
     //2. search user lock/nonlock
     @Override
-    public List<UsersForAdminDTOResponse> searchListUsersNonLock(Model model, String searchBy, String value, int page,
+    public List<UsersForAdminDTOResponse> searchInGroupOfLockedUsers(Model model, String searchBy, String value, int page,
             Boolean nonLock) {
         List<Users> groupOfUsers = null;
         boolean isLock = !nonLock;
@@ -150,7 +148,7 @@ public class AdminServiceImpl implements AdminService {
 
     //3. search user active/inactive
     @Override
-    public List<UsersForAdminDTOResponse> searchListUsersActive(Model model, String searchBy, String value, int page,
+    public List<UsersForAdminDTOResponse> searchInGroupOfActiveUsers(Model model, String searchBy, String value, int page,
             Boolean isActive) {
         List<Users> groupOfUsers = null;
         isActive = !isActive;

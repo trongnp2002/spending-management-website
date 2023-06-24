@@ -8,6 +8,33 @@ const submitButton = document.querySelector(".captcha_button");
 // Variable to store generated captcha
 let captchaText = null;
 
+captchaTextBox.oncopy = function(event) {
+  event.preventDefault();
+};
+
+captchaTextBox.oncut = function(event) {
+  event.preventDefault();
+};
+
+captchaTextBox.onpaste = function(event) {
+  event.preventDefault();
+};
+
+captchaTextBox.onselect = function(event) {
+  event.preventDefault();
+};
+var isReadonly = true;
+
+captchaTextBox.addEventListener("input", function() {
+  if (isReadonly) {
+    captchaTextBox.setAttribute("readonly", "readonly");
+  }
+});
+
+captchaTextBox.addEventListener("focus", function() {
+  isReadonly = false;
+});
+
 // Function to generate captcha
 const generateCaptcha = () => {
   const randomString = Math.random().toString(36).substring(2, 7);
@@ -15,7 +42,6 @@ const generateCaptcha = () => {
   const changeString = randomStringArray.map((char) => (Math.random() > 0.5 ? char.toUpperCase() : char));
   captchaText = changeString.join("   ");
   captchaTextBox.value = captchaText;
-  console.log(captchaText);
 };
 
 const refreshBtnClick = () => {

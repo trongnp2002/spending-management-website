@@ -1,6 +1,5 @@
 package com.group6.moneymanagementbooking.service.impl;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +40,11 @@ public class DebtorServiceImpl implements DebtorService {
   @Override
   public void deleteDebtorById(int id) {
     debtorRepository.deleteById(id);
+  }
+
+  @Override
+  public Debtor getDebtorById(int id) {
+    return (debtorRepository.findById(id)).get();
   }
 
 }

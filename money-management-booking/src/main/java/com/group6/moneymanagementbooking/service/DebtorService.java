@@ -17,4 +17,6 @@ public interface DebtorService {
 
     public void deleteDebtorById(int id);
 
+    public Debtor getDebtorById(int id);
+
 }

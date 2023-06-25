@@ -1,10 +1,8 @@
 package com.group6.moneymanagementbooking.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.group6.moneymanagementbooking.enity.Debt_detail;
-import com.group6.moneymanagementbooking.enity.Debtor;
 
 public interface DetailDebtService {
 

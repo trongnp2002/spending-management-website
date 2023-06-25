@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTOLoginRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
-import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 import com.group6.moneymanagementbooking.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,11 +24,8 @@ public class LoginController {
     private final UsersService userService;
     
 
-   
-
-
     @GetMapping("/login")
-    public String goToLoginPage (Model model) throws CustomBadRequestException {
+    public String goToLoginPage (Model model) {
         UsersDTOLoginRequest accountDTOLoginRequest =  UsersDTOLoginRequest.builder().build();
         model.addAttribute("usersDTOLoginRequest", accountDTOLoginRequest);
         model.addAttribute("report", "");
@@ -46,7 +42,7 @@ public class LoginController {
 
     @PostMapping("/register")
     public String registerPost(Model model, @ModelAttribute("usersDTORegister") UsersDTORegisterRequest accountDTORegister) throws Exception{
-        return userService.registerAccount(model, accountDTORegister);
+        return userService.userRegister(model, accountDTORegister);
     }
 
 

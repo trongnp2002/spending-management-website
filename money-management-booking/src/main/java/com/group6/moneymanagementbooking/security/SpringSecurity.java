@@ -15,7 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.group6.moneymanagementbooking.model.exception.custom.CustomAuthenticationFailureHandler;
+import com.group6.moneymanagementbooking.enity.Users;
+import com.group6.moneymanagementbooking.exception.CustomAuthenticationFailureHandler;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.impl.UsersServiceImpl;
 
@@ -57,7 +58,12 @@ public class SpringSecurity {
                                 .failureHandler(authenticationFailureHandler())
                                 .defaultSuccessUrl("/", false)
                                 .successHandler((request, response, authentication) -> {
-                                    Collection<? extends GrantedAuthority> authorities =  authentication.getAuthorities();
+                                        String email = request.getParameter("email");
+                                        Users users = usersRepository.findByEmail(email).get();
+                                        users.setFailed_attempt(0);
+                                        users.setNonLocked(true);
+                                        usersRepository.save(users);
+                                        Collection<? extends GrantedAuthority> authorities =  authentication.getAuthorities();
                                         for (GrantedAuthority grantedAuthority : authorities) {
                                                 if(grantedAuthority.getAuthority().equals("ROLE_ADMIN")){
                                                         response.sendRedirect("/admins/home");
@@ -73,6 +79,8 @@ public class SpringSecurity {
                                 .permitAll()
                 ).rememberMe().key("Axncmvi2002")
                 .tokenValiditySeconds(60*60*24);
+                
+                
         return http.build();
     }
 

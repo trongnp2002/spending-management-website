@@ -16,7 +16,6 @@ import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordReque
 import com.group6.moneymanagementbooking.dto.request.UsersDTOLoginRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.Users;
-import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.StringUtils;
@@ -31,8 +30,9 @@ public class UsersServiceImpl implements UsersService {
     private final int MAX_FAILED_ATTEMPTS = 3;
     private final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000;
 
+    //register
     @Override
-    public String registerAccount(Model model, UsersDTORegisterRequest accountDTORegister) throws Exception {
+    public String userRegister(Model model, UsersDTORegisterRequest accountDTORegister) throws Exception {
         String report = "<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: ";
         int report_length = report.length();
         report += registerCheckCondition(accountDTORegister);
@@ -51,6 +51,7 @@ public class UsersServiceImpl implements UsersService {
         return "redirect:/login";
     }
 
+    //forgot_password
     @Override
     public String forgotPassword(Model model, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest) {
         String email = usersDTOForgotPasswordRequest.getEmail();
@@ -75,9 +76,17 @@ public class UsersServiceImpl implements UsersService {
         return "login";
     }
 
+    //get user by email
+    @Override
+    public Users getUserByEmail(String email) {
+        return (usersRepository.findByEmail(email)).get();
+    }
+
+//check_condition
+    //1. check email condition
     @Override
     public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, CustomBadRequestException {
+            throws IOException {
         String userEmail = request.getParameter("userEmail");
         try (PrintWriter out = response.getWriter()) {
             if (StringUtils.patternMatchesEmail(userEmail,
@@ -92,7 +101,7 @@ public class UsersServiceImpl implements UsersService {
             }
         }
     }
-
+    //2. check phone condition
     @Override
     public void checkPhoneCondition(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userPhone = request.getParameter("userPhone");
@@ -112,7 +121,7 @@ public class UsersServiceImpl implements UsersService {
             }
         }
     }
-
+// function for security
     public void increaseFailedAttempt(Users users) {
         int fa = users.getFailed_attempt() + 1;
         users.setFailed_attempt(fa);
@@ -120,7 +129,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     public void lock(Users users) {
-        users.setAccount_non_locked(false);
+        users.setNonLocked(false);
         users.setLockTime(new Date());
         usersRepository.save(users);
     }
@@ -129,7 +138,7 @@ public class UsersServiceImpl implements UsersService {
         long lockTimeInMillis = users.getLockTime().getTime();
         long currentTimeInMillis = System.currentTimeMillis();
         if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
-            users.setAccount_non_locked(true);
+            users.setNonLocked(true);
             users.setLockTime(null);
             users.setFailed_attempt(0);
             return true;
@@ -148,11 +157,8 @@ public class UsersServiceImpl implements UsersService {
         }
     }
 
-    public void updateLoginAttemptIfsuccess(Users user) {
-        user.setFailed_attempt(0);
-    }
-
-    public boolean checkPhoneDuplicate(String phone) {
+//support function
+    private boolean checkPhoneDuplicate(String phone) {
         Optional<Users> accouOptional = usersRepository.findByPhone(phone);
         if (accouOptional.isPresent()) {
             return true;
@@ -186,9 +192,6 @@ public class UsersServiceImpl implements UsersService {
         return report;
     }
 
-    @Override
-    public Users getUserByEmail(String email) {
-        return (usersRepository.findByEmail(email)).get();
-    }
+   
 
 }

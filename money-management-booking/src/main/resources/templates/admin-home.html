@@ -24,9 +24,9 @@
 
 </head>
 
-<body th:onload="scroll([[${data3}]])">
+<body>
     <div class="box">
-        <button ><a th:href="@{/logout}">Logout</a></button>
+        <button><a th:href="@{/logout}">Logout</a></button>
 
         <table class="table table-hover" id="usersTable">
 
@@ -36,61 +36,73 @@
                     <label for="sltSearch">Search by</label>
                     <select name="sltSearch" id="sltSearch">
                         <option value="select" th:selected="${select == 'select'}">Select</option>
-                        <option value="name" th:selected="${select == 'name'}">Name</option>
-                        <option value="email" th:selected="${select == 'email'}">Email</option>
-                        <option value="phone" th:selected="${select == 'phone'}">Phone</option>
+                        <option value="name" th:selected="${select == 'name'}">Name </option>
+                        <option value="email" th:selected="${select == 'email'}">Email </option>
+                        <option value="phone" th:selected="${select == 'phone'}">Phone </option>
                     </select>
                     <input type="text" name="txtSearch" id="txtSearch" th:value="${txtSearch}" placeholder="search">
-
                     <button id="btnSearch">Search</button>
-                </div>
-        
-            </div>
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Failed attempt</th>
-                    <th scope="col">Lock</th>
-                    <th scope="col">Lock time</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Change Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="user : ${data}" th:id="'user' + ${user.id}" th:if()
-                th:class="${!user.active} ? 'red-row' : ''">
-                    <td th:text="${user.id}"></td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td class="admin-center-text" th:text="${user.phone}"></td>
-                    <td class="admin-center-text" th:text="${user.failedAttempt}"></td>
-                    <td th:switch="${user.accountNonLocked}" class="status">
-                        <p th:case="true" class="positive-status">Non-lock</p>
-                        <p th:case="false" class="negative-status">Lock</p>
-                    </td>
-                    <td th:text="${user.lockTime}"></td>
-                    <td th:switch="${user.active}" class="status">
-                        <p th:case="true" class="positive-status">Active</p>
-                        <p th:case="false" class="negative-status">De-active</p>
-                    </td>
-                    <td style="justify-content: center; text-align: center;" th:switch="${user.active}" class="status"
-                        th:onclick="changeStatus([[${user.id}]], [[${user.active}]], [[${data1}]])">
-                        <button th:case="true" class="disabled-status">Disable</button>
-                        <button th:case="false" class="enabled-status">Enable</button>
-                    </td>
+                    <button id="btnReload">Re-load</button>
 
-                    <!-- 
-                            <c:if test="${o.isActive}">
-                                <td><a href="changeActive?uEmail=${o.email}&status=0" onclick="showmess()" class="btn btn-warning">De Active</a></td>
-                            </c:if>
-                            <c:if test="${!o.isActive}">
-                                <td><a href="changeActive?uEmail=${o.email}&status=1" onclick="showmess()" class="btn btn-success">Active</a></td>
-                            </c:if> -->
-                </tr>
-            </tbody>
+                </div>
+
+                <div class="listBy">
+                    List by:
+                    <input type="text" style="display: none;" th:value="${data3}" id="isStatusPage">
+                    <input type="text" style="display: none;" th:value="${data4}" id="isLockPage">
+                    <input type="text" style="display: none;" th:value="${data5}" id="status">
+                    <input type="text" style="display: none;" th:value="${data6}" id="lock">
+
+                    <button id="btnActiveList" th:text="${data5} ? 'Active':'De-Active' "
+                        th:class="${data5} ? 'positive-status' : 'negative-status' "></button>
+                    <button id="btnLockedList" th:text="${data6} ?   'None-lock':'Lock' "
+                        th:class="${data6} ? 'positive-status' : 'negative-status' "></button>
+
+                </div>
+            </div>
+            <div >
+                <thead >
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Failed attempt</th>
+                        <th scope="col">Lock</th>
+                        <th scope="col">Lock time</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Change Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${data}" th:id="'user' + ${user.id}" th:if()
+                        th:class="${!user.active} ? 'red-row' : ''">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td class="admin-center-text" th:text="${user.phone}"></td>
+                        <td class="admin-center-text" th:text="${user.failedAttempt}"></td>
+                        <td th:switch="${user.accountNonLocked}" class="status">
+                            <p th:case="true" class="positive-status">Non-lock</p>
+                            <p th:case="false" class="negative-status">Lock</p>
+                        </td>
+                        <td th:text="${user.lockTime}"></td>
+                        <td th:switch="${user.active}" class="status">
+                            <p th:case="true" class="positive-status">Active</p>
+                            <p th:case="false" class="negative-status">De-active</p>
+                        </td>
+                        <td style="justify-content: center; text-align: center;" th:switch="${user.active}"
+                            class="status" th:onclick="changeStatus([[${user.id}]], [[${user.active}]])">
+                            <button th:case="true" class="disabled-status">Disable</button>
+                            <button th:case="false" class="enabled-status">Enable</button>
+                        </td>
+
+
+                    </tr>
+                </tbody>
+            </div>
+
+
         </table>
     </div>
     <div id="pagination">

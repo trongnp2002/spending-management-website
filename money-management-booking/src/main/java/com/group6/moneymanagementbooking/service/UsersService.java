@@ -10,15 +10,14 @@ import org.springframework.ui.Model;
 import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.Users;
-import com.group6.moneymanagementbooking.model.exception.custom.CustomBadRequestException;
 
 public interface UsersService {
 
-      public String registerAccount(Model model, UsersDTORegisterRequest accountDTORegister)
-                  throws CustomBadRequestException, Exception;
+      public String userRegister(Model model, UsersDTORegisterRequest accountDTORegister)
+                  throws Exception;
 
       public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
-                  throws IOException, CustomBadRequestException;
+                  throws IOException;
 
       public void checkPhoneCondition(HttpServletRequest request, HttpServletResponse response) throws IOException;
 

@@ -44,6 +44,7 @@ tr th {
 .enabled-status,
 #btnSearch ,
 #sltSearch,
+#btnReload,
 .btnSort{
     color: #fff;
     width: auto;
@@ -99,6 +100,7 @@ tr th {
 #pagination {
     display: flex;
     align-items: center;
+    min-width: 20%;
 }
 
 #pagination button,
@@ -127,37 +129,40 @@ h1{
 .data-contact{
     width: 100%;
     padding: 0 20px;
+    padding-right: 80px;
     margin-bottom: 12px;
-
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 
 #txtSearch{
     padding: 6px 8px;
-    
     border: 1px solid black;
     border-radius: 12px;
 }
+
 #btnSearch,
+#btnReload,
 .btnSort{
     color: black;
     border: 1px solid saddlebrown;
     padding: 6px 20px;
 }
+
  #sltSearch{
     padding: 6px 20px;
-
     color: black;
     border: 1px solid saddlebrown;
  }
  #sltSearch option{
     text-align: start;
     width: 100%;
- 
  }
+
 .table {
     margin-left: 8px;
-
     font-size: 12px;
     width: 90%;
-
 }
+

@@ -11,6 +11,8 @@ public interface DebtorService {
 
     public Debtor Save(Debtor debtor);
 
+    public Debtor Update(Debtor debtor);
+
     public List<Debtor> SearchByName(String name, int userid);
 
     public Optional<Debtor> getDebtor(int id);

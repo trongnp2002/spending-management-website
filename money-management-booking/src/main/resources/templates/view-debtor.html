@@ -161,12 +161,12 @@
 
                                     <div class="pagination">
                                         <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
-                                            th:href="@{/Debtor/ListAll(page=${page.number - 1})}"
+                                            th:href="@{${link}(page=${page.number - 1})}"
                                             class="btn btn-dangers">Previous</a>
                                         <span>Page <span th:text="${page.number + 1}"></span> / <span
                                                 th:text="${page.totalPages}"></span></span>
                                         <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
-                                            th:href="@{/Debtor/ListAll(page=${page.number + 1})}"
+                                            th:href="@{${link}(page=${page.number + 1})}"
                                             class="btn btn-dangers">Next</a>
                                     </div>
 

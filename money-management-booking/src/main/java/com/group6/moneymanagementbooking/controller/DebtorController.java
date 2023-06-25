@@ -38,17 +38,19 @@ public class DebtorController {
 
     @GetMapping("/ListAll")
     public String listDebtor(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model) {
+            Model model, HttpServletRequest request) {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Debtor> items = debtorService.findAll(getIdUser());
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
+        String currentRequestMapping = request.getRequestURI();
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
     @GetMapping("/ListDebtor")
     public String AllDebtor(Model model, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize) {
+            @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
         List<Debtor> listdeb = new ArrayList<>();
         for (var deb : debtorService.findAll(getIdUser())) {
             if (deb.getTotal() > 0) {
@@ -57,13 +59,15 @@ public class DebtorController {
         }
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
+        String currentRequestMapping = request.getRequestURI();
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
     @GetMapping("/ListOwner")
     public String AllOwner(Model model, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize) {
+            @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
         List<Debtor> listdeb = new ArrayList<>();
         for (var deb : debtorService.findAll(getIdUser())) {
             if (deb.getTotal() < 0) {
@@ -72,7 +76,9 @@ public class DebtorController {
         }
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
+        String currentRequestMapping = request.getRequestURI();
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
@@ -88,22 +94,22 @@ public class DebtorController {
 
     @PostMapping("/Add")
     public String addNew(@ModelAttribute("debtor") Debtor debtor) throws Exception {
-        debtor.setTotal(0.0);
-        debtor.setDate_create(LocalDateTime.now());
-        debtor.setDate_update(LocalDateTime.now());
         debtorService.Save(debtor);
         return "redirect:/Debtor/ListAll";
     }
 
     @PostMapping("/Search")
     public String searchDebtor(Model model, @RequestParam("nameDebtor") String name,
-            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize)
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
+            HttpServletRequest request)
             throws Exception {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Debtor> items = debtorService.SearchByName(name, getIdUser());
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
+        String currentRequestMapping = request.getRequestURI();
         model.addAttribute("nameDebtor", name);
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
@@ -118,11 +124,7 @@ public class DebtorController {
 
     @PostMapping("/update")
     public String updateDebtor(Model model, @ModelAttribute("debtor") Debtor debtor) throws Exception {
-        Optional<Debtor> debtors = debtorService.getDebtor(debtor.getId());
-        debtor.setDate_create(debtors.get().getDate_create());
-        debtor.setTotal(debtors.get().getTotal());
-        debtor.setDate_update(LocalDateTime.now());
-        debtorService.Save(debtor);
+        debtorService.Update(debtor);
         return "redirect:/Debtor/ListAll";
     }
 

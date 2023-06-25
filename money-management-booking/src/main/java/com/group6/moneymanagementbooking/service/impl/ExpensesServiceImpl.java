@@ -1,15 +1,17 @@
 package com.group6.moneymanagementbooking.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.enity.Expenses;
-import com.group6.moneymanagementbooking.model.MonthlyExpenseAmounts;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
+import com.group6.moneymanagementbooking.repository.CategoryRepository;
 import com.group6.moneymanagementbooking.repository.ExpensesRepository;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.ExpensesService;
@@ -43,6 +45,7 @@ public class ExpensesServiceImpl implements ExpensesService {
             e.getMessage();
             return null;
         }
+        
     }
 
     @Override
@@ -103,4 +106,20 @@ public class ExpensesServiceImpl implements ExpensesService {
     public List<Object[]> getMonthlyExpenseAmounts() {
         return expensesRepository.getMonthlyExpenseAmounts();
     }
+    @Override
+    public int getCountByTitle(String name) {
+        return expensesRepository.countByTitle(name);
+    }
+
+    @Override
+    public double calculateTotalExpenses(Category category) {
+    double totalExpenses = 0;
+    if (category.getExpenses() != null) {
+        for (Expenses expense : category.getExpenses()) {
+            totalExpenses += expense.getAmount();
+        }
+    }
+    return totalExpenses;
+}
+
 }

@@ -19,4 +19,7 @@ public interface CategoryService {
     public List<Category> findExpenseInCategory();
 
     public Optional<Category> findByName(String name);
+
+    public void updateCategory(double budget, String name);
+
 }

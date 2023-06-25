@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.repository.CategoryRepository;
+
 import com.group6.moneymanagementbooking.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -60,4 +61,11 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<Category> findByName(String name) {
         return categoryRepository.findByName(name);
     }
+
+    @Override
+    public void updateCategory(double budget, String name) {
+        categoryRepository.updateCategory(budget, name);
+    }
+
+    
 }

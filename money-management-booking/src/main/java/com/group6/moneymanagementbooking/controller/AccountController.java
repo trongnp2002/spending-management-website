@@ -22,7 +22,7 @@ public class AccountController {
     @GetMapping("/add-account")
     public String addAccount(Model model) {
         model.addAttribute("accounts", new Accounts());
-        return "addaccount";
+        return "add-account";
     }
 
     @PostMapping("/add-account")
@@ -33,7 +33,7 @@ public class AccountController {
     @GetMapping("/list-account")
     public String index(Model model) {
         model.addAttribute("listaccount", accountsService.findAll());
-        return "listaccount";
+        return "list-account";
     }
 
     @GetMapping("/list-account/{id}/{action}")

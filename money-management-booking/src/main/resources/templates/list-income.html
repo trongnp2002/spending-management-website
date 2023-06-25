@@ -8,17 +8,42 @@
     <title>Document</title>
 
 </head>
+<style>
+    .list-group {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        padding: 1rem;
+        border: 1px solid #ccc;
+    }
+
+    .fw-bold {
+        font-weight: bold;
+    }
+</style>
 
 <body>
-    <table th:each="itemincome : ${listincome}">
-        <td th:text="${itemincome.title}"></td>
-        <td th:text="${itemincome.accounts != null ? itemincome.accounts.name : ''}"></td>
-        <td th:text="${itemincome.category != null ? itemincome.category.name : ''}"></td>
-        <td th:text="${itemincome.incomeDate}"></td>
-        <td th:text="${itemincome.amount}"></td>
-        <td><a th:href="@{/detail-income/{id}(id=${itemincome.id})}">Edit</a></td>
-        <td><a th:href="@{/delete-income/{id}(id=${itemincome.id})}">Delete</a></td>
-    </table>
+    <ol class="list-group list-group-accounts" >
+        <h3>Income Records</h3>
+        <li class="list-group-item d-flex justify-content-between align-items-start" th:each="itemincome : ${listincome}">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold" th:text="${itemincome.title}"></div>
+            <div class="fw-bold" th:text="${itemincome.category != null ? itemincome.category.name : ''}"></div>
+            <div class="fw-bold" th:text="${itemincome.accounts != null ? itemincome.accounts.name : ''}"></div>
+          </div>
+          <span><div class="fw-bold" th:text="${itemincome.incomeDate}"></div>DateTime</span>
+          <span><div class="fw-bold" th:text="${itemincome.amount}"></div>Amount</span>
+          <span>
+            <div class="fw-bold"><a th:href="@{/detail-income/{id}(id=${itemincome.id})}">Edit</a>
+                <a th:href="@{/delete-income/{id}(id=${itemincome.id})}">Delete</a></div>Action
+          </span>
+        </li>
+      </ol>
 </body>
-
 </html>

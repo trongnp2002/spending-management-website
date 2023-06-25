@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+      function submit(){
+        document.getElementById("myForm").submit();
+      }
+    </script>
+    <style>
+      .list-group {
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
+      }
+
+      .list-group-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: start;
+          padding: 1rem;
+          border: 1px solid #ccc;
+      }
+
+      .fw-bold {
+          font-weight: bold;
+      }
+  </style>
+
+</head>
+
+<body>
+
+  <ol class="list-group list-group-accounts" >
+    <h3>Accounts</h3>
+    <li class="list-group-item d-flex justify-content-between align-items-start" th:each="item : ${listaccount}">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold" th:text="${item.name}"></div>
+        <div class="fw-bold" th:text="${item.balance}"></div>
+        Balance
+      </div>
+      <span><div class="fw-bold" th:text="${item.active}? 'Active' :'Inactive' "></div></span>
+      <span>
+        <div class="fw-bold"><a th:href="@{/list-account/{id}/{action}(id=${item.id},action=1)}">Active</a>
+        <a th:href="@{/list-account/{id}/{action}(id=${item.id},action=0)}">Inactive</a></div>Action
+      </span>
+    </li>
+  </ol>
+
+      <!-- <table th:each="item : ${listaccount}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.balance}"></td>
+        <td th:text="${item.active}? 'Active' :'Inactive' "></td>
+        <td>
+          <a th:href="@{/list-account/{id}/{action}(id=${item.id},action=1)}">Active</a>
+          <a th:href="@{/list-account/{id}/{action}(id=${item.id},action=0)}">Inactive</a>
+        </td>
+        <td><a th:href="@{/detail-account/{id}(id=${item.id})}">Edit</a></td>
+        <td><a th:href="@{/delete-account/{id}(id=${item.id})}">Delete</a></td>
+    </table> -->
+</body> 
+</html>

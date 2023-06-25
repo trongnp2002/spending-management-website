@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table th:each="itemcategory : ${listbudget}">
+        <td th:text="${itemcategory.name}"></td>
+        <td th:text="${itemcategory.budget}"></td>
+        <td><a th:href="@{/add-budget/{name}(name=${itemcategory.name})}">Add Budget</a></td>
+    </table>
+</body>
+</html>

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.group6.moneymanagementbooking.enity.Category;
-import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;

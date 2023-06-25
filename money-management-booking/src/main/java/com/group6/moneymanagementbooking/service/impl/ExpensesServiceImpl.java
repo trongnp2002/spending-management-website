@@ -1,7 +1,6 @@
 package com.group6.moneymanagementbooking.service.impl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
-import com.group6.moneymanagementbooking.repository.CategoryRepository;
 import com.group6.moneymanagementbooking.repository.ExpensesRepository;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.ExpensesService;

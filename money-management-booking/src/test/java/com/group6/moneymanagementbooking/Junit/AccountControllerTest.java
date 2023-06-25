@@ -56,7 +56,7 @@ void testAddAccount() {
     void testReadAccount() {
         int id = 1;
         Accounts account = new Accounts();
-        when(accountsService.findById(id)).thenReturn(Optional.of(account));
+        when(accountsService.findOptinalById(id)).thenReturn(Optional.of(account));
         String result = accountController.index(model);
         assertEquals("listaccount", result);
     }

@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.group6.moneymanagementbooking.enity.Users;
-import com.group6.moneymanagementbooking.model.MyUserDetails;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 
 

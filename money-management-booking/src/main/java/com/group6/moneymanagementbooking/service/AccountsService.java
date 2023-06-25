@@ -16,11 +16,16 @@ public interface AccountsService {
 
     public void expenseBalance(double balance, int id);
 
-    public Optional<Accounts> findById(int id);
+    public Optional<Accounts> findOptinalById(int id);
 
     public List<Accounts> findByActive();
 
     public Accounts updateAccount(Accounts accounts);
 
     public void deleteById(int id);
+
+    public List<Accounts> findAllByUserId(int id);
+
+    public Accounts findById(int id);
+
 }

@@ -35,6 +35,7 @@ public class CategoryController {
     @GetMapping("/list-category")
     public String index(Model model) {
         model.addAttribute("listcategory", categoryService.findAll());
+        model.addAttribute("record", categoryService.findAll().size());
         return "list-category";
     }
 

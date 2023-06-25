@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <!-- Created By CodingNepal -->
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <title>Multi Step Form | CodingNepal</title>
     <link rel="stylesheet" th:href="@{/assets/css/register.css}">
     <link rel="stylesheet" th:href="@{/assets/css/alert-report.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
 
 </head>
@@ -16,9 +17,9 @@
         <span class="fas fa-exclamation-circle"></span>
         <span class="alert_msg" id="report" style="padding-left: 20px;"></span>
         <div class="alert_close-btn">
-           <span class="fas fa-times"></span>
+            <span class="fas fa-times"></span>
         </div>
-     </div>
+    </div>
     <div class="register_container">
         <header>Signup Form</header>
         <div class="register_progress-bar">
@@ -58,7 +59,7 @@
                 </div>
                 <div class="register_check fas fa-check"></div>
             </div>
-         
+
         </div>
         <div class="register_form-outer">
             <form th:action="@{/register}" th:object="${usersDTORegister}" method="POST">
@@ -68,11 +69,12 @@
                     </div>
                     <p id="emailMess" style="line-height: 24px; height: 24px; margin-top: 20px;"></p>
                     <div class="register_field" style="margin-top: 20px;">
-                        
+
                         <div class="register_label">
                             Email
                         </div>
-                        <input type="email" id="userEmailInput" name="email" th:field="*{email}" onkeyup="checkEmail(this)">
+                        <input type="email" id="userEmailInput" name="email" th:field="*{email}"
+                            onkeyup="checkEmail(this)">
                     </div>
                     <div class="register_field ">
                         <div class="register_label">
@@ -83,12 +85,14 @@
                                 <input type="text" id="userOTPInput">
                             </div>
                             <div class="register_sendOTP_button">
-                                <button type="button" onclick="sendOTP()"><p>Send OTP</p> </button>
+                                <button type="button" onclick="sendOTP()">
+                                    <p>Send OTP</p>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="register_field" style="margin-bottom: 20px;">
-                        <button type="button" class="firstNext register_next" >Next</button>
+                        <button type="button" class="firstNext register_next">Next</button>
                     </div>
                     <div>
                         <a th:href="@{/login}" style="font-size: 12px;">Already have an account??</a>
@@ -110,7 +114,7 @@
                         <div class="register_label">
                             Last Name
                         </div>
-                        <input type="text" name="lastName" th:field="*{lastName}" >
+                        <input type="text" name="lastName" th:field="*{lastName}">
                     </div>
                     <div class="register_field register_btns">
                         <button type="button" class="prev-1 register_prev">Previous</button>
@@ -132,7 +136,7 @@
                         <div class="register_label">
                             Address
                         </div>
-                        <input type="text" name="address" th:field="*{address}" >
+                        <input type="text" name="address" th:field="*{address}">
                     </div>
                     <div class="register_field register_btns">
                         <button type="button" class="prev-2 register_prev">Previous</button>
@@ -153,20 +157,21 @@
                         <div class="register_label">
                             Re-password
                         </div>
-                        <input type="password" name="repeatPassword" id="repeatPassword" th:field="*{repeatPassword}" required>
+                        <input type="password" name="repeatPassword" id="repeatPassword" th:field="*{repeatPassword}"
+                            required>
                     </div>
                     <p id="message"></p>
                     <div class="register_field register_btns">
                         <button type="button" class="prev-3 register_prev">Previous</button>
-                        <button type="submit" class="register_submit" >Submit</button>
+                        <button type="submit" class="register_submit">Submit</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline ="javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline="javascript"></script>
 
-    <script th:src="@{/assets/javascrip/register.js}" >
+    <script th:src="@{/assets/javascrip/register.js}">
     </script>
 
 

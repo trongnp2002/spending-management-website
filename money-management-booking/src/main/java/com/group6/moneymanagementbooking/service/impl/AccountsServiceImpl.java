@@ -1,12 +1,10 @@
 package com.group6.moneymanagementbooking.service.impl;
 
-
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
@@ -27,7 +25,7 @@ public class AccountsServiceImpl implements AccountsService {
         if(checkAccountExits) throw new Exception("Account Name Have Exists");
         if(accounts.getBalance()<0) throw new Exception("Balance Mush Be >=0");
         if(accounts.getName().isEmpty()) throw new Exception("Name Can't Not Null");
-        accounts.setUser_id(1); 
+        accounts.setUserId(1);
         return accountsRepository.save(accounts);
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -52,7 +50,7 @@ public class AccountsServiceImpl implements AccountsService {
         accountsRepository.expenseBalanceById(accountsRepository.findBalanceById(id)-balance,id);
     }
     @Override
-    public Optional<Accounts> findById(int id) {
+    public Optional<Accounts> findOptinalById(int id) {
         return accountsRepository.findById(id);
     }
     @Override
@@ -61,11 +59,22 @@ public class AccountsServiceImpl implements AccountsService {
     }
     @Override
     public Accounts updateAccount(Accounts accounts) {
-        accounts.setUser_id(1);
+        accounts.setUserId(1);
         return accountsRepository.save(accounts);
     }
     @Override
     public void deleteById(int id) {
         accountsRepository.deleteById(id);
     }
+
+    @Override
+    public List<Accounts> findAllByUserId(int userId) {
+        return accountsRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public Accounts findById(int id) {
+        return (accountsRepository.findById(id)).get();
+    }
+
 }

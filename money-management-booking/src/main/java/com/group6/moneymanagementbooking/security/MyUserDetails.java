@@ -1,4 +1,4 @@
-package com.group6.moneymanagementbooking.model;
+package com.group6.moneymanagementbooking.security;
 
 
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return account.isAccount_non_locked();
+        return account.isNonLocked();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return account.is_active();
+        return account.isActive();
     }
 
 }

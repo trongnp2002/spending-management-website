@@ -33,6 +33,7 @@ public class AccountController {
     @GetMapping("/list-account")
     public String index(Model model) {
         model.addAttribute("listaccount", accountsService.findAll());
+        model.addAttribute("record", accountsService.findAll().size());
         return "list-account";
     }
 
@@ -57,5 +58,6 @@ public class AccountController {
     public String delete(@PathVariable("id") int id){
         accountsService.deleteById(id);
         return "redirect:/list-account";
-    }
+   
+}
 }

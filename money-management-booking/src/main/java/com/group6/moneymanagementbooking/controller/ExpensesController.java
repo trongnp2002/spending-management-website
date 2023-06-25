@@ -40,6 +40,7 @@ public class ExpensesController {
     @GetMapping("/list-expenses")
     public String index(Model model) {
         model.addAttribute("listexpenses", expensesService.findAll());
+        model.addAttribute("record", expensesService.findAll().size());
         return "list-expenses";
     }
 

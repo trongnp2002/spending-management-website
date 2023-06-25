@@ -40,6 +40,7 @@ public class IncomeController {
     @GetMapping("/list-income")
     public String index(Model model){
         model.addAttribute("listincome", incomeService.findAll());
+        model.addAttribute("record", incomeService.findAll().size());
         return "list-income";
     }
 

@@ -29,6 +29,8 @@ public class Income {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
+    @Column(name = "user_id")
+    private int userId;
     private double amount;
     @Column(name = "income_date")
     private Date incomeDate;

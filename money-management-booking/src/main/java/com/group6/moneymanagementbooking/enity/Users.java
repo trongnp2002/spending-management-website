@@ -14,7 +14,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "build")
@@ -66,4 +65,5 @@ public class Users {
     private boolean nonLocked;
 
     private Date lockTime;
+
 }

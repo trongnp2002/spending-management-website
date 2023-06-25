@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.group6.moneymanagementbooking.enity.Income;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
 import com.group6.moneymanagementbooking.repository.IncomeRepository;
+import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.IncomeService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,9 +22,11 @@ public class IncomeServiceImpl implements IncomeService {
     private final IncomeRepository incomeRepository;
     private final AccountsRepository accountsRepository;
     private final AccountsService accountsService;
+    private final UsersRepository usersRepository;
     @Override
     public Income addIncome(Income income) {
         try{
+        income.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
         double amountIcome = income.getAmount();
         double balanceAccount = accountsRepository.findById(income.getAccounts().getId()).get().getBalance();
         if (income.getAmount()<0) throw new Exception("Amount must be > 0");
@@ -36,7 +40,7 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public List<Income> findAll() {
-     return incomeRepository.findAll();
+     return incomeRepository.findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
 
     @Override

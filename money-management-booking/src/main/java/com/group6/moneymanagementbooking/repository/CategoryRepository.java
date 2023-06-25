@@ -8,12 +8,14 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import com.group6.moneymanagementbooking.enity.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
+    @Query("select name from Category where name = ?1 and user_id = ?2")
+    public Optional<Category> findByNameAndUser_id(String name, int id);
 
     public Optional<Category> findByName(String name);
 
@@ -26,5 +28,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Transactional
     @Query("UPDATE Category SET budget = ?1 WHERE name = ?2")
     public void updateCategory(double budget, String name);
+    @Query("SELECT c FROM Category c WHERE c.user_id = :user_id")
+    public List<Category> findAllByUserId(@Param("user_id") int userId);
 
 }

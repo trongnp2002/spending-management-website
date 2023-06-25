@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
+import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.AccountsService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountsServiceImpl implements AccountsService {
     @Autowired
     private final AccountsRepository accountsRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     public Accounts addAccounts(Accounts accounts) {
@@ -25,7 +28,7 @@ public class AccountsServiceImpl implements AccountsService {
         if(checkAccountExits) throw new Exception("Account Name Have Exists");
         if(accounts.getBalance()<0) throw new Exception("Balance Mush Be >=0");
         if(accounts.getName().isEmpty()) throw new Exception("Name Can't Not Null");
-        accounts.setUserId(1);
+        accounts.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
         return accountsRepository.save(accounts);
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -34,7 +37,7 @@ public class AccountsServiceImpl implements AccountsService {
     }
     @Override
     public List<Accounts> findAll() {
-        return  accountsRepository.findAll();
+        return accountsRepository.findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
     @Override
     public void updateActiveById(boolean action, int id) {
@@ -59,7 +62,7 @@ public class AccountsServiceImpl implements AccountsService {
     }
     @Override
     public Accounts updateAccount(Accounts accounts) {
-        accounts.setUserId(1);
+        accounts.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
         return accountsRepository.save(accounts);
     }
     @Override
@@ -71,7 +74,7 @@ public class AccountsServiceImpl implements AccountsService {
     public List<Accounts> findAllByUserId(int userId) {
         return accountsRepository.findAllByUserId(userId);
     }
-
+    
     @Override
     public Accounts findById(int id) {
         return (accountsRepository.findById(id)).get();

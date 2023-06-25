@@ -11,8 +11,10 @@ import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
 import com.group6.moneymanagementbooking.repository.ExpensesRepository;
+import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.ExpensesService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,11 +26,13 @@ public class ExpensesServiceImpl implements ExpensesService {
     private final ExpensesRepository expensesRepository;
     private final AccountsRepository accountsRepository;
     private final AccountsService accountsService;
+    private final UsersRepository usersRepository;
 
 
     @Override
     public Expenses addExpenses(Expenses expenses) {
         try {
+            expenses.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
             double amountExpense = expenses.getAmount();
             double balanceAccount = accountsRepository.findById(expenses.getAccounts().getId()).get().getBalance();
             if (amountExpense == 0)
@@ -48,7 +52,7 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     @Override
     public List<Expenses> findAll() {
-        return expensesRepository.findAll();
+        return expensesRepository.findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
 
     @Override

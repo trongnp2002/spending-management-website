@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.repository.CategoryRepository;
-
+import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.CategoryService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,14 +18,15 @@ import lombok.RequiredArgsConstructor;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private final CategoryRepository categoryRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     public Category addCategory(Category category) {
      try{
-        boolean category1 = categoryRepository.findByName(category.getName()).isPresent();
-        if(category1) throw new Exception("Category Name Have Exists");
+        category.setUser_id(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+        boolean category1 = categoryRepository.findByNameAndUser_id(category.getName(),category.getUser_id()).isPresent();
+        if(category1) throw new Exception("Name does exists");
         if(category.getName().isEmpty()) throw new Exception("Name Can't Not Null");
-        category.setUser_id(1); 
         return categoryRepository.save(category);
         }catch(Exception e){
         System.out.println(e.getMessage());
@@ -34,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findAll() {
-        return categoryRepository.findAll();
+        return categoryRepository.findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.group6.moneymanagementbooking.enity.Expenses;
 
+
 @Repository
 public interface ExpensesRepository extends JpaRepository<Expenses, Integer> {
 
@@ -19,5 +20,8 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer> {
     public List<Object[]> getMonthlyExpenseAmounts();
 
     public int countByTitle(String name);
+
+    @Query("SELECT e FROM Expenses e WHERE e.userId = :userId")
+    public List<Expenses> findAllByUserId(@Param("userId") int userId);
 
 }

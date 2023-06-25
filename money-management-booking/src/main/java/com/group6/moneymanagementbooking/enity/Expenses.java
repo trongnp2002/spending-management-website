@@ -29,6 +29,8 @@ public class Expenses {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
+    @Column(name = "user_id")
+    private int userId;
     private double amount;
     @Column(name = "expense_date")
     private Date expenseDate;

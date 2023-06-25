@@ -4,6 +4,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Internal Server Error</title>
@@ -13,32 +14,38 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             background-color: #f7f7f7;
             text-align: center;
         }
+
         .container {
             max-width: 700px;
             margin: 0 auto;
             padding: 50px 20px;
             background-color: #fff;
         }
+
         h1 {
             font-size: 60px;
             color: #2e2e2e;
             margin-bottom: 20px;
         }
+
         p {
             font-size: 18px;
             color: #4d4d4d;
             line-height: 1.5;
             margin-bottom: 30px;
         }
+
         ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             text-align: left;
         }
+
         li {
             margin-bottom: 10px;
         }
+
         a {
             color: #fff;
             background-color: #007bff;
@@ -50,6 +57,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             display: inline-block;
             transition: all 0.3s ease-in-out;
         }
+
         a:hover {
             transform: scale(1.1);
             background-color: #0056b3;
@@ -57,6 +65,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>500 - Internal Server Error</h1>
@@ -66,8 +75,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <li>Check that you have entered the correct URL.</li>
             <li>Contact the website administrator for more information.</li>
         </ul>
-        <a href="/spending-management-website-trong-admin/money-management-booking/src/main/resources/templates/home.html">Go to homepage</a>
+        <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/users/dashboard}">Go to homepage</a>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admins/home}"> Go to homepage</a>
     </div>
 </body>
-</html>
 
+</html>

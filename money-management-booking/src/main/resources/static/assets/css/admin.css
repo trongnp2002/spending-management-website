@@ -4,18 +4,14 @@
     box-sizing: border-box;
 }
 
-body{
+body {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
 }
-.box {
-    border: 2px solid black;
-    border-radius: 30px;
-    padding: 20px;
-    margin: 20px;
-}
+
+
 
 h1 {
     text-align: center;
@@ -34,26 +30,28 @@ tr th {
     text-align: center;
 }
 
-.red-row{
-    color: orangered;
+.red-row {
+    color: green;
 }
-
 .positive-status,
 .negative-status,
 .disabled-status,
 .enabled-status,
-#btnSearch ,
-#sltSearch,
-#btnReload,
-.btnSort{
+#admin_btnSearch,
+#admin_sltSearch,
+#admin_btnReload {
     color: #fff;
-    width: auto;
+    width: 102px;
+    height: 36px;
     text-align: center;
     border-radius: 12px;
-    cursor: pointer;
     padding: 8px;
-    border: 1px solid #fff;
+    border: 0px;
+}
 
+#admin_btnReload {
+    width: 120px;
+    
 }
 
 .positive-status {
@@ -66,7 +64,6 @@ tr th {
 
 .disabled-status {
     padding: 8px 20px;
-
     width: auto;
     color: orangered;
 }
@@ -83,19 +80,11 @@ tr th {
 
 .enabled-status {
     padding: 8px 20px;
-
     width: auto;
     border: 1px solid #fff;
     color: green;
 }
 
-.show {
-    display: block;
-}
-
-.hide {
-    display: none;
-}
 
 #pagination {
     display: flex;
@@ -115,54 +104,250 @@ tr th {
 }
 
 .box {
-    width: 80%;
+    width: 92%;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-x: scroll;
     flex-wrap: wrap;
 }
-h1{
+
+h1 {
     width: 100%;
 }
 
-.data-contact{
+.admin_table-header {
     width: 100%;
-    padding: 0 20px;
-    padding-right: 80px;
+}
+
+.admin_data-contact {
+    width: 100%;
     margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
-    box-sizing: border-box;
 }
 
-#txtSearch{
+#admin_goToPageButton, #admin_goToPageInput,#admin_lastPage,#admin_nextPage
+,#admin_previousPage, #admin_firstPage{
+    color: black;
+    padding: 6px 12px;
+    border: 1px solid black;
+    text-align: left;
+    border-radius: 4px;
+    background-color: burlywood;
+}
+#admin_goToPageInput{
+    width: 80px;
+    background-color: wheat;
+}
+#admin_goToPageButton{
+    width: 52px;
+    text-align: center;
+}
+#admin_lastPage,#admin_nextPage
+,#admin_previousPage, #admin_firstPage
+{
+    width: 40px;
+    height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-align: center;
+}
+ #admin_txtSearch {
     padding: 6px 8px;
     border: 1px solid black;
     border-radius: 12px;
 }
 
-#btnSearch,
-#btnReload,
-.btnSort{
+#admin_btnSearch,
+#admin_btnReload {
     color: black;
     border: 1px solid saddlebrown;
     padding: 6px 20px;
 }
 
- #sltSearch{
+#admin_sltSearch {
     padding: 6px 20px;
     color: black;
     border: 1px solid saddlebrown;
- }
- #sltSearch option{
+}
+
+#admin_sltSearch option {
     text-align: start;
     width: 100%;
- }
-
-.table {
-    margin-left: 8px;
-    font-size: 12px;
-    width: 90%;
 }
 
+.admin_table-content {
+    width: 100%;
+    backdrop-filter: blur(7px);
+}
+
+.admin_table {
+    font-size: 12px;
+    width: 100%;
+    border-collapse: collapse;
+
+
+}
+
+.admin_table td,
+.admin_table th {
+    height: 44px;
+    margin-right: .5rem;
+    padding: 16px 16px;
+    border: 1px solid #ddd; 
+}
+
+.admin_table th {
+    background-color: darkgoldenrod;
+    color: #fff;
+}
+
+.admin_table tbody tr:nth-child(even) {
+    background-color: burlywood;
+}
+.admin_table tbody tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+.status {
+    justify-content: center;
+    text-align: center;
+}
+
+.admin_switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.admin_switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.admin_slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: orangered;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.admin_slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: yellow;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.admin_slider {
+    background-color: #267e18;
+}
+
+input:focus+.admin_slider {
+    box-shadow: 0 0 1px #024a31;
+}
+
+input:checked+.admin_slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Hiệu ứng khi switch được kích hoạt */
+.admin_slider.admin_round {
+    border-radius: 34px;
+}
+
+.admin_slider.admin_round:before {
+    border-radius: 50%;
+}
+h1{
+    font-size: 30px;
+}
+@media (min-width: 75.0625em) {
+     td{
+        width: 50px;
+        max-width: 200px;
+        min-width: 50px;
+    }
+}
+@media(max-width: 75em) {
+    h1{
+        font-size: 24px;
+    }
+    .admin_table thead {
+        display: none;
+    }
+    #lbPageInput{
+        min-width: 40px;
+    }
+    .admin_table,
+    .admin_table tbody,
+    .admin_table tr,
+    .admin_table td {
+        display: block;
+        min-width: 360px;
+        width: 100%;
+    }
+
+    .admin_table tr {
+        margin-bottom: 15px;
+    }
+
+    .admin_table td {
+        text-align: right;
+        padding-left: 40%;
+        position: relative;
+        height: 76px;
+        font-size: 15px;
+    }
+
+
+    .admin_table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+    .admin_data-contact{
+        display: flex;
+        flex-wrap: wrap;
+        float: left;
+        width: 100%;
+        padding: 0;
+    }
+    #admin_txtSearch{
+        width:60%;
+        margin-bottom: 12px;
+    }
+
+    #admin_sltSearch, #admin_btnSearch, #admin_btnReload{
+        padding: 6px;
+        width: 30%;
+        min-width: 82px;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+    #lbSearch{
+        display: none;
+    }
+}

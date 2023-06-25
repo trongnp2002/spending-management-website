@@ -30,7 +30,7 @@ public class UsersMapper {
         return UsersForAdminDTOResponse.builder().id(users.getId())
                 .name(users.getFirstName() + " " + users.getLastName())
                 .email(users.getEmail()).phone(users.getPhone()).address(users.getAddress())
-                .failedAttempt(users.getFailed_attempt())
+                .failedAttempt(users.getFailed_attempt()).role(users.getRole())
                 .accountNonLocked(users.isNonLocked()).lockTime(users.getLockTime()).active(users.isActive()).build();
     }
 
@@ -50,8 +50,11 @@ public class UsersMapper {
     public static List<UsersForAdminDTOResponse> toUsersForAdminDTOResponses(List<Users> users) {
         List<UsersForAdminDTOResponse> list = new ArrayList<UsersForAdminDTOResponse>();
         for (Users user : users) {
-            if (user.getRole().equals("ROLE_USER")) {
-                list.add(UsersMapper.toUsersForAdminDTOResponse(user));
+            list.add(UsersMapper.toUsersForAdminDTOResponse(user));
+        }
+        if (list.size() < 10) {
+            for (int i = list.size() ; i < 10; i++) {
+                list.add(UsersForAdminDTOResponse.builder().build());
             }
         }
         return list;

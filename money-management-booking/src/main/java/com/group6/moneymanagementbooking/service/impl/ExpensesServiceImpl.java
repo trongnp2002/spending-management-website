@@ -70,6 +70,7 @@ public class ExpensesServiceImpl implements ExpensesService {
     @Override
     public Expenses updateExpenses(Expenses expenses) {
         try {
+            expenses.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
             double updateMoney = expenses.getAmount();
             double currentMoney = getExpense(expenses.getId()).get().getAmount();
             double balanceAccount = accountsRepository.findById(expenses.getAccounts().getId()).get().getBalance();

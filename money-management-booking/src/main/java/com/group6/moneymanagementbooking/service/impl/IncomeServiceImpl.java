@@ -58,6 +58,7 @@ public class IncomeServiceImpl implements IncomeService {
     @Override
     public Income updateIncome(Income income) {
         try{
+        income.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
         double updateMoney = income.getAmount();
         double currentMoney = getIncome(income.getId()).get().getAmount();
         if (income.getAmount()<0) throw new Exception("Amount must be >= 0");
@@ -68,6 +69,9 @@ public class IncomeServiceImpl implements IncomeService {
         }
         return null;
     }
-    }   
+
+
+
+}   
     
 

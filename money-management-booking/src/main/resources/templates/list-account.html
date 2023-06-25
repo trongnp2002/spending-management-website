@@ -81,8 +81,7 @@
                                     <tr id="ta" style="background-color: white;color:black;">
                                         <th data-resizable-column-id="name">Name</th>
                                         <th data-resizable-column-id="balance">Balance</th>
-                                        <th data-resizable-column-id="active"
-                                            style="position: relative; width: 128.25px;">Active</th>
+                                        <th data-resizable-column-id="Status">Status</th>
                                         <th data-resizable-column-id="action"
                                             style="position: relative; width: 317.65px;">Action</th>
                                     </tr>
@@ -92,15 +91,13 @@
                                         th:class="${item.balance < 0} ? 'red-row' : ''">
                                         <td th:text="${item.name}"></td>
                                         <td th:text="${item.balance}"></td>
-                                        <td th:text="${item.active}? 'Active' :'Inactive' ">  
-
+                                        <td th:text="${item.active}? 'Active' :'Inactive' "></td>
                                         <td>
                                             <div style="margin: auto; text-align:center">
                                                 <a th:href="@{/detail-account/{id}(id=${item.id})}" title="Edit"
                                                     class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                     Edit
                                                 </a>
-
                                                 <a th:href="@{/delete-account/{id}(id=${item.id})}"
                                                     class="btn btn-danger"><i class="fa fa-exclamation-circle"></i>
                                                     Delete
@@ -118,8 +115,6 @@
         </div>
     </div>
 </div>
-
-
 
       <!-- <table th:each="item : ${listaccount}">
         <td th:text="${item.id}"></td>

@@ -22,4 +22,6 @@ public interface CategoryService {
 
     public void updateCategory(double budget, String name);
 
+    public Category updateCategory(Category category);
+
 }

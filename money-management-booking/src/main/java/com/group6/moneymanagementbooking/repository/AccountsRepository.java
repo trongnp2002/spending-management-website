@@ -20,6 +20,9 @@ public interface AccountsRepository extends JpaRepository<Accounts, Integer> {
 
     public Optional<Accounts> findByName(String name);
 
+    @Query("select a.name from Accounts a where a.name = ?1 and a.userId = ?2")
+    public Optional<Accounts> findByNameAndUser_id(String name, int id);
+
     @Modifying
     @Transactional
     @Query("UPDATE Accounts Set is_Active = ?1 where id = ?2")
@@ -41,7 +44,9 @@ public interface AccountsRepository extends JpaRepository<Accounts, Integer> {
     @Query("select balance from Accounts where id = ?1")
     public double findBalanceById(int id);
 
-    public List<Accounts> findByActive(boolean active);
+    @Query("select a from Accounts a where a.active = ?1 and a.userId = ?2")
+    public List<Accounts> findByActiveAndUserId(boolean active, int id);
+
     @Query("SELECT a FROM Accounts a WHERE a.userId = :userId")
-    List<Accounts> findAllByUserId(@Param("userId") int userId);
+    public List<Accounts> findAllByUserId(@Param("userId") int userId);
 }

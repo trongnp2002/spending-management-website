@@ -19,11 +19,11 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     public Optional<Category> findByName(String name);
 
-    @Query("select c from Category c where c.income_or_expense = 1")
-    public List<Category> findIncomeInCategory();
+    @Query("select c from Category c where c.income_or_expense = 1 and c.user_id= ?1")
+    public List<Category> findIncomeInCategory(int id);
 
-    @Query("select c from Category c where c.income_or_expense = 0")
-    public List<Category> findExpenseInCategory();
+    @Query("select c from Category c where c.income_or_expense = 0 and c.user_id= ?1")
+    public List<Category> findExpenseInCategory(int id);
     @Modifying
     @Transactional
     @Query("UPDATE Category SET budget = ?1 WHERE name = ?2")

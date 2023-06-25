@@ -30,7 +30,6 @@ public class UserController {
 
         @GetMapping("/dashboard")
     public String goDashboard(HttpServletRequest request, HttpServletResponse response)   {
-        System.out.println(SecurityUtils.getCurrentUsername());
         return "dashboard";
     }
      @PostMapping("/dashboard")

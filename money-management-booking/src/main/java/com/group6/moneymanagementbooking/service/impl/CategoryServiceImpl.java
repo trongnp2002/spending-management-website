@@ -51,12 +51,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findIncomeInCategory() {
-        return categoryRepository.findIncomeInCategory();
+        return categoryRepository.findIncomeInCategory(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
 
     @Override
     public List<Category> findExpenseInCategory() {
-       return categoryRepository.findExpenseInCategory();
+       return categoryRepository.findExpenseInCategory(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
 
     @Override
@@ -68,6 +68,14 @@ public class CategoryServiceImpl implements CategoryService {
     public void updateCategory(double budget, String name) {
         categoryRepository.updateCategory(budget, name);
     }
+
+    @Override
+    public Category updateCategory(Category category) {
+        category.setUser_id(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+        return categoryRepository.save(category);
+    }
+
+    
 
     
 }

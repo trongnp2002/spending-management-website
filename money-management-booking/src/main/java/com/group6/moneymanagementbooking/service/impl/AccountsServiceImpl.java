@@ -24,11 +24,11 @@ public class AccountsServiceImpl implements AccountsService {
     @Override
     public Accounts addAccounts(Accounts accounts) {
         try{
-        boolean checkAccountExits = accountsRepository.findByName(accounts.getName()).isPresent();
+        accounts.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());   
+        boolean checkAccountExits = accountsRepository.findByNameAndUser_id(accounts.getName(),accounts.getUserId()).isPresent();
         if(checkAccountExits) throw new Exception("Account Name Have Exists");
         if(accounts.getBalance()<0) throw new Exception("Balance Mush Be >=0");
         if(accounts.getName().isEmpty()) throw new Exception("Name Can't Not Null");
-        accounts.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
         return accountsRepository.save(accounts);
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -58,7 +58,7 @@ public class AccountsServiceImpl implements AccountsService {
     }
     @Override
     public List<Accounts> findByActive() {
-        return accountsRepository.findByActive(true);
+        return accountsRepository.findByActiveAndUserId(true,usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
     @Override
     public Accounts updateAccount(Accounts accounts) {

@@ -24,7 +24,7 @@ public class UsersForAdminDTOResponse {
     private String role;
 
     private boolean active;
-
+    
     private int failedAttempt;
 
     private boolean accountNonLocked;

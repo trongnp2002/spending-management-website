@@ -15,4 +15,9 @@ public interface DebtorRepository extends JpaRepository<Debtor, Integer> {
 
     @Query("SELECT d FROM Debtor d WHERE d.userId = :userId")
     public List<Debtor> findAllByUserid(@Param("userId") int id);
+
+    // @Query("SELECT d FROM Debtor d WHERE d.userId = :userId And d.name LIKE LIKE
+    // '%?1%')
+    @Query("SELECT d FROM Debtor d WHERE d.userId = ?1 AND d.name LIKE %?2%")
+    public List<Debtor> findAllByNameContainingAnduserid(int id, String name);
 }

@@ -13,7 +13,7 @@ public interface DebtorService {
 
     public Debtor Update(Debtor debtor);
 
-    public List<Debtor> SearchByName(String name, String currentReques);
+    public List<Debtor> SearchByName(String name);
 
     public Optional<Debtor> getDebtor(int id);
 

@@ -37,6 +37,8 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="shortcut icon" href="./img/ODB_ Online_Debt_Book.png" type="image/x-icon"> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <title>Debtors List</title>
 </head>
@@ -84,7 +86,7 @@
                                     <input type="search" name="nameDebtor" th:value="${nameDebtor}"
                                         placeholder="Search Debtor By Name" class="form-control"
                                         style="border-radius: 15px;margin-top: 10px;margin-left: 20px">
-
+                                        <input type="hidden" name="currentLink" th:value="${link}">
                                 </div>
                                 <button type="submit" class="btn btn-secondary"
                                     style="border-radius: 15px;margin-top: 10px;margin-left:30px">
@@ -97,26 +99,26 @@
                                 <table class="table table-bordered table-sm" data-resizable-columns-id="demo-table-v2">
                                     <thead>
                                         <tr id="ta" style="background-color: white;color:black;">
-                                            <th data-resizable-column-id="id"
+                                            <th class="resizable-column"
                                                 style="position: relative; width: 64.4375px">ID</th>
-                                            <th data-resizable-column-id="name">Name</th>
-                                            <th data-resizable-column-id="address">Address</th>
-                                            <th data-resizable-column-id="phone"
+                                            <th class="resizable-column">Name</th>
+                                            <th class="resizable-column">Address</th>
+                                            <th class="resizable-column"
                                                 style="position: relative; width: 128.25px;">Phone</th>
-                                            <th data-resizable-column-id="email"
+                                            <th class="resizable-column"
                                                 style="position: relative; width: 175.275px;">Email</th>
-                                            <th data-resizable-column-id="total"
+                                            <th class="resizable-column"
                                                 style="position: relative; width: 109.25px;">Total</th>
-                                            <th data-resizable-column-id="startDate"
+                                            <th class="resizable-column"
                                                 style="position: relative; width: 155.275px;">Start Date</th>
-                                            <th data-resizable-column-id="update"
+                                            <th class="resizable-column"
                                                 style="position: relative; width: 199.325px;">Update</th>
-                                            <th data-resizable-column-id="action"
+                                            <th class="resizable-column"
                                                 style="position: relative; width: 317.65px;">Action</th>
                                         </tr>
 
                                     </thead>
-                                    <tbody>
+                                    <tbody style="font-weight: 499;">
                                         <tr th:each="item : ${page.content}">
 
                                             <td th:text="${item.id}"></td>
@@ -155,10 +157,6 @@
                                 </table>
                                 <div class="card-body">
 
-                                    <!-- <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}" th:href="@{/Debtor/ListAll(page=${page.number - 1})}"  class="btn btn-danger">Previous</a>
-                                    <span>Page <span th:text="${page.number + 1}"></span> / <span th:text="${page.totalPages}"></span></span>
-                                    <a th:classappend="${page.hasNext() ? '' : 'disabled'}" th:href="@{/Debtor/ListAll(page=${page.number + 1})}"  class="btn btn-danger">Next</a> -->
-
                                     <div class="pagination">
                                         <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
                                             th:href="@{${link}(page=${page.number - 1})}"
@@ -194,10 +192,24 @@
         }
     });
 
-
+    $(document).ready(function () {
+        $(".resizable-column").resizable({
+            handles: 'e', // Chỉ cho phép kéo dãn chiều rộng từ phía bên phải
+            minWidth: 50, // Chiều rộng tối thiểu của cột
+            resize: function (event, ui) {
+                // Khi cột được kéo dãn, điều chỉnh chiều rộng của các ô dữ liệu tương ứng
+                var columnIndex = $(this).index();
+                $("table tbody tr").each(function () {
+                    $(this).find("td:eq(" + columnIndex + ")").width(ui.size.width);
+                });
+            }
+        });
+    });
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline="javascript"></script>
 <script script th:src="@{/assets/javascrip/jQuery.resizableColumns.min.js}" type="text/javascript"></script>
-<script th:src="@{/assets/javascrip/admin.js}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script th:src="@{/assets/javascrip/admin.js}"></script> -->
 
 </html>

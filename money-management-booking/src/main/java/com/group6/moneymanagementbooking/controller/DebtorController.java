@@ -54,12 +54,13 @@ public class DebtorController {
     @GetMapping("/ListDebtor")
     public String AllDebtor(Model model, @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
-        List<Debtor> listdeb = new ArrayList<>();
-        for (var deb : debtorService.findAll(getIdUser())) {
-            if (deb.getTotal() > 0) {
-                listdeb.add(deb);
-            }
-        }
+        // List<Debtor> listdeb = new ArrayList<>();
+        // for (var deb : debtorService.findAll(getIdUser())) {
+        // if (deb.getTotal() > 0) {
+        // listdeb.add(deb);
+        // }
+        // }
+        List<Debtor> listdeb = debtorService.getListDebtor();
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
         String currentRequestMapping = request.getRequestURI();
@@ -71,12 +72,13 @@ public class DebtorController {
     @GetMapping("/ListOwner")
     public String AllOwner(Model model, @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
-        List<Debtor> listdeb = new ArrayList<>();
-        for (var deb : debtorService.findAll(getIdUser())) {
-            if (deb.getTotal() < 0) {
-                listdeb.add(deb);
-            }
-        }
+        // List<Debtor> listdeb = new ArrayList<>();
+        // for (var deb : debtorService.findAll(getIdUser())) {
+        // if (deb.getTotal() < 0) {
+        // listdeb.add(deb);
+        // }
+        // }
+        List<Debtor> listdeb = debtorService.getListOwner();
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
         String currentRequestMapping = request.getRequestURI();
@@ -107,7 +109,7 @@ public class DebtorController {
             HttpServletRequest request)
             throws Exception {
         String currentRequestMapping = request.getRequestURI();
-        List<Debtor> items = debtorService.SearchByName(name, currentRequestMapping);
+        List<Debtor> items = debtorService.SearchByName(name);
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("nameDebtor", name);

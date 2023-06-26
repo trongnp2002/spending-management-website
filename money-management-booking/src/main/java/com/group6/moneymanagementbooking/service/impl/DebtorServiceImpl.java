@@ -38,26 +38,28 @@ public class DebtorServiceImpl implements DebtorService {
   }
 
   @Override
-  public List<Debtor> SearchByName(String name, String currentReques) {
-    List<Debtor> searchResults = new ArrayList<>();
+  public List<Debtor> SearchByName(String name) {
+    // List<Debtor> searchResults = new ArrayList<>();
 
-    if (currentReques.equals("/Debtor/ListAll")) {
+    // if (currentReques.equals("/Debtor/ListAll")) {
 
-      searchResults = findAll(getIdUser());
-    } else if (currentReques.equals("/Debtor/ListOwner")) {
+    // searchResults = findAll(getIdUser());
+    // } else if (currentReques.equals("/Debtor/ListOwner")) {
 
-      searchResults = getListOwner();
-    } else if (currentReques.equals("/Debtor/ListDebtor")) {
+    // searchResults = getListOwner();
+    // } else if (currentReques.equals("/Debtor/ListDebtor")) {
 
-      searchResults = getListDebtor();
-    }
-    List<Debtor> newli = new ArrayList<>();
-    for (Debtor item : searchResults) {
-      if (item.getName().contains(name)) {
-        newli.add(item);
-      }
-    }
-    return newli;
+    // searchResults = getListDebtor();
+    // }
+    // List<Debtor> newli = new ArrayList<>();
+    // for (Debtor item : searchResults) {
+    // if (item.getName().toLowerCase().contains(name.toLowerCase().trim())) {
+    // newli.add(item);
+    // } else if (name == " ") {
+    // newli.add(item);
+    // }
+    // }
+    return debtorRepository.findAllByNameContainingAnduserid(getIdUser(), name);
   }
 
   @Override

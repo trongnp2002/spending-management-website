@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.enity.Users;
@@ -38,11 +40,12 @@ public class DebtorController {
 
     @GetMapping("/ListAll")
     public String listDebtor(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model, HttpServletRequest request) {
+            Model model, HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Debtor> items = debtorService.findAll(getIdUser());
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
         String currentRequestMapping = request.getRequestURI();
+        model.addAttribute("mess", errorMessage);
         model.addAttribute("page", itemsPage);
         model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
@@ -103,10 +106,10 @@ public class DebtorController {
             @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
             HttpServletRequest request)
             throws Exception {
-        Pageable pageable = PaginationUtil.getPageable(page, pageSize);
-        List<Debtor> items = debtorService.SearchByName(name, getIdUser());
-        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
         String currentRequestMapping = request.getRequestURI();
+        List<Debtor> items = debtorService.SearchByName(name, currentRequestMapping);
+        Pageable pageable = PaginationUtil.getPageable(page, pageSize);
+        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("nameDebtor", name);
         model.addAttribute("page", itemsPage);
         model.addAttribute("link", currentRequestMapping);
@@ -129,13 +132,14 @@ public class DebtorController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteDebtor(Model model, @PathVariable("id") int id) {
+    public String deleteDebtor(Model model, @PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         Debtor debtor = (debtorService.getDebtor(id)).get();
         if (debtor.getTotal() != 0) {
             model.addAttribute("list_debtor", debtorService.findAll(getIdUser()));
             model.addAttribute("record", debtorService.findAll(getIdUser()).size());
-            model.addAttribute("mess", "Cannot be delete because the debt has not been completed!");
-            return "view-debtor";
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Cannot be delete because the debt has not been completed!");
+            return "redirect:/Debtor/ListAll";
         }
         debtorService.deleteDebtorById(id);
         return "redirect:/Debtor/ListAll";

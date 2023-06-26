@@ -13,12 +13,16 @@ public interface DebtorService {
 
     public Debtor Update(Debtor debtor);
 
-    public List<Debtor> SearchByName(String name, int userid);
+    public List<Debtor> SearchByName(String name, String currentReques);
 
     public Optional<Debtor> getDebtor(int id);
 
     public void deleteDebtorById(int id);
 
     public Debtor getDebtorById(int id);
+
+    public List<Debtor> getListDebtor();
+
+    public List<Debtor> getListOwner();
 
 }

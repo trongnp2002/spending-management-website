@@ -47,12 +47,11 @@ public class DetailDebtController {
             @RequestParam(defaultValue = "5") int pageSize) {
         model.addAttribute("listAcc", accountsService.findAllByUserId(getIdUser()).size());
         model.addAttribute("debtor", debtorService.getDebtorById(id));
-
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Debt_detail> items = detailDebtService.findAllById(id);
         Page<Debt_detail> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("page", itemsPage);
-        return "view-detail-debt";
+        return "view-debt";
     }
 
     @GetMapping("/Add/{id}")
@@ -72,7 +71,7 @@ public class DetailDebtController {
             HttpServletRequest request, RedirectAttributes redirectAttributes)
             throws Exception {
 
-        Accounts acc = accountsService.findById(detail_edbt.getAccount_id());
+        Accounts acc = accountsService.findById(detail_edbt.getAccounts().getId());
         if (!acc.isActive()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Your account is inactive!");
             RedirectView redirectView = new RedirectView();
@@ -110,13 +109,14 @@ public class DetailDebtController {
     // return "add-detail-debt";
     // }
 
-    // @GetMapping("/Detail/{id}")
-    // public String editDebt(Model model, @PathVariable("id") int id) {
-    // Debt_detail deb = detailDebtService.findById(id);
-    // model.addAttribute("debt_detail", deb);
-    // model.addAttribute("title", "Edit");
-    // return "add-detail-debt";
-    // }
+    @GetMapping("/Details/{id}")
+    public String editDebt(Model model, @PathVariable("id") int id) {
+        Debt_detail deb = detailDebtService.findById(id);
+        model.addAttribute("debtor", debtorService.getDebtorById(deb.getDeptorId()));
+        model.addAttribute("debt_detail", deb);
+        model.addAttribute("title", "Edit");
+        return "view-detaildebt";
+    }
 
     private int getIdUser() {
         Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());

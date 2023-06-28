@@ -1,27 +1,27 @@
 
 function DeleteCategory(id){
     if(confirm("Confirm to Delete")){
-        window.location="/delete-category/" +id
+        window.location="/users/delete-category/" +id
     }
 }
 
 
 function confirmDelete(id){
     if(confirm("Confirm to Delete")){
-        window.location="/delete-account/" +id
+        window.location="/users/delete-account/" +id
     }
 }
 
 function confirmDeleteExpense(id){
     if(confirm("Confirm to Delete")){
-        window.location="/delete-expense/" +id
+        window.location="/users/delete-expense/" +id
     }
 }
 
 
 function confirmDeleteIncome(id){
     if(confirm("Confirm to Delete")){
-        window.location="/delete-income/" +id
+        window.location="/users/delete-income/" +id
     }
 }
 
@@ -31,11 +31,11 @@ function changeStatusAccounts(currentStatus, accountId) {
         if (currentStatus === true) {
             if (confirm("are you sure to disable user: " + accountId)) {
                 currentStatus = !currentStatus
-                window.location="/list-account/"+accountId+'/'+currentStatus
+                window.location="/users/list-account/"+accountId+'/'+currentStatus
             }
         } else {
             currentStatus = !currentStatus
-            window.location="/list-account/"+accountId+'/'+currentStatus
+            window.location="/users/list-account/"+accountId+'/'+currentStatus
         }
     }
 }

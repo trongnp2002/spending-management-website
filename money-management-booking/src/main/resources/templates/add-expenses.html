@@ -11,7 +11,7 @@
 
 <body>
     <h1>create a new expenses.</h1>
-    <form th:action="@{/add-expenses}" th:object="${expense}" method="post">
+    <form th:action="@{/users/add-expenses}" th:object="${expense}" method="post">
         <p>title
             <input th:type="text" th:field="*{title}" required>
         </p>

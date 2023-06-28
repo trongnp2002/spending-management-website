@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jni.User;
 import org.springframework.ui.Model;
 
 import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;

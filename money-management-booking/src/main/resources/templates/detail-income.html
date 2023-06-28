@@ -11,7 +11,7 @@
 
 <body>
     <h1>Update Income.</h1>
-    <form th:action="@{/detail-income}" th:object="${income}" method="post">
+    <form th:action="@{/users/detail-income}" th:object="${income}" method="post">
         <p>Id <input type="text" readonly th:field="*{id}"></p>
         <p>title
             <input th:type="text" th:field="*{title}" required>

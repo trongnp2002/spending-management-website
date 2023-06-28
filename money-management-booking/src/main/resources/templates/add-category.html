@@ -11,7 +11,7 @@
 
 <body>
     <h1>create a new Category.</h1>
-    <form th:action="@{/add-category}" th:object="${category}" method="post">
+    <form th:action="@{/users/add-category}" th:object="${category}" method="post">
         <p>Category Name
             <input type="text" th:field="*{name}" required>
         </p>

@@ -10,7 +10,7 @@
 
 <body>
     <h1>create a new account.</h1>
-    <form th:action="@{/add-account}" th:object="${accounts}" method="post">
+    <form th:action="@{/users/add-account}" th:object="${accounts}" method="post">
         <p>Account Name
             <input type="text" th:field="*{name}" required>
         </p>

@@ -40,7 +40,7 @@
                                     <p class="small text-muted m-0" th:text="'Total record: ' + ${record}"></p>
                                 </div>
                                 <div class="float-right">
-                                    <a type="button" th:href="@{/add-account}" title="List Account"
+                                    <a type="button" th:href="@{/users/add-account}" title="List Account"
                                         class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Account</a>
                                 </div>
                                 <div class="float-right">
@@ -78,7 +78,7 @@
                                                 </td>
                                                 <td>
                                                     <div style="margin: auto; text-align:center">
-                                                        <a th:href="@{/detail-account/{id}(id=${item.id})}" title="Edit"
+                                                        <a th:href="@{/users/detail-account/{id}(id=${item.id})}" title="Edit"
                                                             class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                             Edit
                                                         </a>
@@ -94,17 +94,14 @@
                                         </tbody>
                                     </table>
                                     <div class="card-body">
-                                        <!-- <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}" th:href="@{/Debtor/ListAll(page=${page.number - 1})}"  class="btn btn-danger">Previous</a>
-                                    <span>Page <span th:text="${page.number + 1}"></span> / <span th:text="${page.totalPages}"></span></span>
-                                    <a th:classappend="${page.hasNext() ? '' : 'disabled'}" th:href="@{/Debtor/ListAll(page=${page.number + 1})}"  class="btn btn-danger">Next</a> -->
                                         <div class="pagination">
                                             <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
-                                                th:href="@{/list-account(page=${page.number - 1})}"
+                                                th:href="@{/users/list-account(page=${page.number - 1})}"
                                                 class="btn btn-dangers">Previous</a>
                                             <span>Page <span th:text="${page.number + 1}"></span> / <span
                                                     th:text="${page.totalPages}"></span></span>
                                             <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
-                                                th:href="@{/list-account(page=${page.number + 1})}"
+                                                th:href="@{/users/list-account(page=${page.number + 1})}"
                                                 class="btn btn-dangers">Next</a>
                                         </div>
                                     </div>

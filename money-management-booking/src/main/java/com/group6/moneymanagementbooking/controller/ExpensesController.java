@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group6.moneymanagementbooking.enity.Accounts;
+
 import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.CategoryService;
@@ -28,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class ExpensesController {
     @Autowired
     private final ExpensesService expensesService;
@@ -77,7 +77,7 @@ public class ExpensesController {
     @GetMapping("/delete-expense/{id}")
     public String delete(@PathVariable("id") int id) {
         expensesService.deleteById(id);
-        return "redirect:/list-expenses";
+        return "redirect:/users/list-expenses";
     }
 
     @GetMapping("/chart-expenses")

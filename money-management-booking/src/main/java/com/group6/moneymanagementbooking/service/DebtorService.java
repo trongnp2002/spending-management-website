@@ -11,12 +11,20 @@ public interface DebtorService {
 
     public Debtor Save(Debtor debtor);
 
-    public List<Debtor> SearchByName(String name, int userid);
+    public Debtor Update(Debtor debtor);
+
+    public List<Debtor> SearchByName(String name);
 
     public Optional<Debtor> getDebtor(int id);
 
     public void deleteDebtorById(int id);
 
     public Debtor getDebtorById(int id);
+
+    public List<Debtor> getListDebtor();
+
+    public List<Debtor> getListOwner();
+
+    public List<Debtor> FilterDebtor(String filterType, String name, String filterValueStart, String filterValueEnd);
 
 }

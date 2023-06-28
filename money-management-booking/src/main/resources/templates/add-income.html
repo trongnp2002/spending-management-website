@@ -11,7 +11,7 @@
 
 <body>
     <h1>create a new income.</h1>
-    <form th:action="@{/add-income}" th:object="${income}" method="post">
+    <form th:action="@{/users/add-income}" th:object="${income}" method="post">
         <p>title
             <input th:type="text" th:field="*{title}" required>
         </p>

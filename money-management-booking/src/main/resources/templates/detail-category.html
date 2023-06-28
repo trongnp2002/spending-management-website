@@ -11,7 +11,7 @@
 
 <body>
     <h1>Update Category.</h1>
-    <form th:action="@{/detail-category}" th:object="${category}" method="post">
+    <form th:action="@{/users/detail-category}" th:object="${category}" method="post">
         <p>Id <input type="text" readonly th:field="*{id}"></p>
         <p>Category Name
             <input type="text" th:field="*{name}" required>

@@ -11,7 +11,7 @@
 
 <body>
     <h1>Update Account.</h1>
-    <form th:action="@{/detail-account}" th:object="${account}" method="post">
+    <form th:action="@{/users/detail-account}" th:object="${account}" method="post">
         <p>Id <input type="text" readonly th:field="*{id}"></p>
         <p>name
             <input th:type="text" th:field="*{name}" required>

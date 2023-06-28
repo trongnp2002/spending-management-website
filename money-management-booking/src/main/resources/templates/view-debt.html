@@ -38,13 +38,20 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="shortcut icon" href="./img/ODB_ Online_Debt_Book.png" type="image/x-icon"> -->
 
-
     <style>
-        .negativeTotal {
-            background-color: red;
+        .green-row {
+            color: green;
+        }
+        /* CSS cho dòng chẵn */
+        tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+    
+        /* CSS cho dòng lẻ */
+        tr:nth-child(even) {
+            background-color: white;
         }
     </style>
-
     <title>Debtors List</title>
 </head>
 
@@ -83,31 +90,33 @@
                                 <table class="table table-bordered table-sm" data-resizable-columns-id="demo-table-v2">
                                     <thead>
                                         <tr id="ta" style="background-color: white;color:black;">
-                                            <th data-resizable-column-id="id"
-                                                style="position: relative; width: 64.4375px">ID</th>
-                                            <th data-resizable-column-id="note">Note</th>
-                                            <th data-resizable-column-id="classify"
-                                                style="position: relative; width: 128.25px;">Classify
+                                            <th class="resizable-column" style="position: relative; width: 64.4375px">ID
                                             </th>
-                                            <th data-resizable-column-id="money_debt">Money Debt</th>
-                                            <th data-resizable-column-id="start_date"
-                                                style="position: relative; width: 175.275px;">Start
+                                            <th class="resizable-column">Note</th>
+                                            <th class="resizable-column" style="position: relative; width: 128.25px;">
+                                                Classify
+                                            </th>
+                                            <th class="resizable-column">Money
+                                                Debt</th>
+                                            <th class="resizable-column" style="position: relative; width: 175.275px;">
+                                                Start
                                                 Date</th>
-                                            <th data-resizable-column-id="action"
-                                                style="position: relative; width: 317.65px;">Action</th>
+                                            <th class="resizable-column" style="position: relative; width: 317.65px;">
+                                                Action</th>
                                         </tr>
 
                                     </thead>
                                     <tbody>
-                                        <tr th:each="item : ${page.content}">
-                                            <td th:text="${item.id}"></td>
-                                            <td th:text="${item.note}"></td>
-                                            <td th:text="${item.classify ? '+' : '-'}"></td>
-                                            <td th:text="${item.money_debt}"></td>
-                                            <td th:text="${item.date_create}"></td>
+                                        <tr th:each="item : ${page.content}"
+                                            th:classappend="${item.classify ? 'green-row' : 'red-row'}">
+                                            <td style="font-weight: 499;" th:text="${item.id}"></td>
+                                            <td style="font-weight: 499;" th:text="${item.note}"></td>
+                                            <td style="font-weight: 499;" th:text="${item.classify ? '+' : '-'}"></td>
+                                            <td style="font-weight: 499;" th:text="${item.money_debt}"></td>
+                                            <td style="font-weight: 499;" th:text="${item.date_create}"></td>
                                             <td>
                                                 <div style="margin: auto; text-align:center">
-                                                    <a th:href="@{'/Debtor/Detail/Edit/' + ${item.id}}"
+                                                    <a th:href="@{'/Debtor/Detail/Details/' + ${item.id}}"
                                                         class="btn btn-warning"><i class="fas fa-info-circle"></i>
                                                         Detail
                                                     </a>
@@ -153,5 +162,25 @@
         </div>
     </div>
 </body>
+<script>
+
+    $(document).ready(function () {
+        $(".resizable-column").resizable({
+            handles: 'e', // Chỉ cho phép kéo dãn chiều rộng từ phía bên phải
+            minWidth: 50, // Chiều rộng tối thiểu của cột
+            resize: function (event, ui) {
+                // Khi cột được kéo dãn, điều chỉnh chiều rộng của các ô dữ liệu tương ứng
+                var columnIndex = $(this).index();
+                $("table tbody tr").each(function () {
+                    $(this).find("td:eq(" + columnIndex + ")").width(ui.size.width);
+                });
+            }
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script th:src="@{/assets/javascrip/resizable-column.js}"></script> -->
 
 </html>

@@ -1,5 +1,8 @@
 package com.group6.moneymanagementbooking.repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,5 +22,24 @@ public interface DebtorRepository extends JpaRepository<Debtor, Integer> {
     // @Query("SELECT d FROM Debtor d WHERE d.userId = :userId And d.name LIKE LIKE
     // '%?1%')
     @Query("SELECT d FROM Debtor d WHERE d.userId = ?1 AND d.name LIKE %?2%")
+
     public List<Debtor> findAllByNameContainingAnduserid(int id, String name);
+
+    @Query("SELECT d FROM Debtor d WHERE d.userId = ?1  AND d.total BETWEEN ?2 AND ?3")
+    public List<Debtor> findAllByTotal(int idUser, double from, double to);
+
+    @Query("SELECT d FROM Debtor d WHERE d.userId = ?1 AND d.date_create BETWEEN ?2 AND ?3")
+    public List<Debtor> findAllByDate(int idUser, LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd);
+
+    // @Query("SELECT d FROM Debtor d WHERE d.userId = ?1 AND d.name = ?2 AND
+    // d.date_create BETWEEN ?3 AND ?4")
+    // public List<Debtor> findAllByDateAndName(int idUser, String name,
+    // LocalDateTime dateTimeStart,
+    // LocalDateTime dateTimeEnd);
+
+    // @Query("SELECT d FROM Debtor d WHERE d.userId = ?1 AND d.name = ?2 AND
+    // d.total BETWEEN ?3 AND ?4")
+    // public List<Debtor> findAllByTotalAndName(int idUser, String name, Double
+    // from, Double to);
+
 }

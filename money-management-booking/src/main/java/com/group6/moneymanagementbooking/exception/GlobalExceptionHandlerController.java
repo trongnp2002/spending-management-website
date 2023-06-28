@@ -1,7 +1,5 @@
 package com.group6.moneymanagementbooking.exception;
 
-
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -41,20 +39,18 @@ public class GlobalExceptionHandlerController {
         return "errors/400";
     }
 
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({SystemNotFoundException.class})
+    @ExceptionHandler({ SystemNotFoundException.class })
     public String handleNotFoundException(HttpServletRequest req, SystemNotFoundException ex) {
         log.error("NotFoundException: {}", ex.getMessage());
         return "errors/404";
     }
 
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public String handleException(HttpServletRequest req, Exception ex) {
-        log.error("Exception: {}", ex.getMessage());
-        return "errors/500";
-    }
+    // @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    // @ExceptionHandler(Exception.class)
+    // public String handleException(HttpServletRequest req, Exception ex) {
+    // log.error("Exception: {}", ex.getMessage());
+    // return "errors/500";
+    // }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/users")
 public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
@@ -65,7 +67,7 @@ public class CategoryController {
     @GetMapping("/delete-category/{id}")
     public String delete(@PathVariable("id") int id) {
         categoryService.deleteCategoryById(id);
-        return "redirect:/list-category";
+        return "redirect:/users/list-category";
     }
 
     @GetMapping("/chart-category")

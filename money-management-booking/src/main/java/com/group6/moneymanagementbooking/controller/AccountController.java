@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class AccountController {
     @Autowired
     private final AccountsService accountsService;
@@ -59,7 +61,7 @@ public class AccountController {
     @GetMapping("/list-account/{id}/{action}")
     public String updateActive(@PathVariable("id") int id, @PathVariable("action") Boolean action, Model model) {
         accountsService.updateActiveById(action, id);
-        return "redirect:/list-account";
+        return "redirect:/users/list-account";
     }
 
     @GetMapping("/detail-account/{id}")
@@ -77,7 +79,7 @@ public class AccountController {
     @GetMapping("/delete-account/{id}")
     public String delete(@PathVariable("id") int id) {
         accountsService.deleteById(id);
-        return "redirect:/list-account";
+        return "redirect:/users/list-account";
 
     }
 

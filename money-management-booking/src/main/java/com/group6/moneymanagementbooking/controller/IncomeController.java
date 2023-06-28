@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.group6.moneymanagementbooking.enity.Expenses;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class IncomeController {
     @Autowired
     private final IncomeService incomeService;
@@ -73,6 +75,6 @@ public class IncomeController {
     @GetMapping("/delete-income/{id}")
     public String delete(@PathVariable("id") int id) {
         incomeService.deleteById(id);
-        return "redirect:/list-income";
+        return "redirect:/users/list-income";
     }
 }

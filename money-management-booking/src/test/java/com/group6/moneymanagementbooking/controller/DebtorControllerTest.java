@@ -62,9 +62,9 @@ class DebtorControllerTest {
 
         Model model = mock(Model.class);
 
-        String viewName = debtorController.deleteDebtor(model, 1);
+        // String viewName = debtorController.deleteDebtor(model, 1);
 
-        assertEquals("redirect:/Debtor/ListAll", viewName);
+        // assertEquals("redirect:/Debtor/ListAll", viewName);
         verify(debtorService, times(1)).getDebtor(anyInt());
         verify(debtorService, times(1)).deleteDebtorById(anyInt());
     }

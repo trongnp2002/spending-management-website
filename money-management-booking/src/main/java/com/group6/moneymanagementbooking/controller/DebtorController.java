@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.enity.Users;
@@ -38,41 +40,38 @@ public class DebtorController {
 
     @GetMapping("/ListAll")
     public String listDebtor(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model) {
+            Model model, HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
-        List<Debtor> items = debtorService.findAll(getIdUser());
-        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
+        // List<Debtor> items = debtorService.findAll(getIdUser());
+        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, debtorService.findAll(getIdUser()));
+        String currentRequestMapping = request.getRequestURI();
+        model.addAttribute("mess", errorMessage);
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
     @GetMapping("/ListDebtor")
     public String AllDebtor(Model model, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize) {
-        List<Debtor> listdeb = new ArrayList<>();
-        for (var deb : debtorService.findAll(getIdUser())) {
-            if (deb.getTotal() > 0) {
-                listdeb.add(deb);
-            }
-        }
+            @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
+        List<Debtor> listdeb = debtorService.getListDebtor();
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
+        String currentRequestMapping = request.getRequestURI();
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
     @GetMapping("/ListOwner")
     public String AllOwner(Model model, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize) {
-        List<Debtor> listdeb = new ArrayList<>();
-        for (var deb : debtorService.findAll(getIdUser())) {
-            if (deb.getTotal() < 0) {
-                listdeb.add(deb);
-            }
-        }
+            @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
+        List<Debtor> listdeb = debtorService.getListOwner();
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
+        String currentRequestMapping = request.getRequestURI();
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
@@ -88,22 +87,45 @@ public class DebtorController {
 
     @PostMapping("/Add")
     public String addNew(@ModelAttribute("debtor") Debtor debtor) throws Exception {
-        debtor.setTotal(0.0);
-        debtor.setDate_create(LocalDateTime.now());
-        debtor.setDate_update(LocalDateTime.now());
         debtorService.Save(debtor);
         return "redirect:/Debtor/ListAll";
     }
 
-    @PostMapping("/Search")
-    public String searchDebtor(Model model, @RequestParam("nameDebtor") String name,
-            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize)
+    @GetMapping("/Search")
+    public String searchDebtor(Model model, @RequestParam(value = "nameDebtor", required = false) String name,
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
+            HttpServletRequest request)
             throws Exception {
+        String currentRequestMapping = request.getRequestURI();
+        List<Debtor> items = debtorService.SearchByName(name);
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
-        List<Debtor> items = debtorService.SearchByName(name, getIdUser());
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("nameDebtor", name);
         model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
+        return "view-debtor";
+    }
+
+    @GetMapping("/Filter")
+    public String searchDebtor(Model model,
+            @RequestParam(value = "nameDebtor", required = false) String name,
+            @RequestParam(value = "filterType", required = false) String filterType,
+            @RequestParam(value = "filterValueStart", required = false) String filterValueStart,
+            @RequestParam(value = "filterValueEnd", required = false) String filterValueEnd,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int pageSize,
+            HttpServletRequest request) throws Exception {
+
+        String currentRequestMapping = request.getRequestURI();
+        List<Debtor> items = debtorService.FilterDebtor(filterType, name, filterValueStart, filterValueEnd);
+        Pageable pageable = PaginationUtil.getPageable(page, pageSize);
+        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
+        model.addAttribute("nameDebtor", name);
+        model.addAttribute("filterType", filterType);
+        model.addAttribute("filterValueStart", filterValueStart);
+        model.addAttribute("filterValueEnd", filterValueEnd);
+        model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
         return "view-debtor";
     }
 
@@ -118,22 +140,19 @@ public class DebtorController {
 
     @PostMapping("/update")
     public String updateDebtor(Model model, @ModelAttribute("debtor") Debtor debtor) throws Exception {
-        Optional<Debtor> debtors = debtorService.getDebtor(debtor.getId());
-        debtor.setDate_create(debtors.get().getDate_create());
-        debtor.setTotal(debtors.get().getTotal());
-        debtor.setDate_update(LocalDateTime.now());
-        debtorService.Save(debtor);
+        debtorService.Update(debtor);
         return "redirect:/Debtor/ListAll";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteDebtor(Model model, @PathVariable("id") int id) {
+    public String deleteDebtor(Model model, @PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         Debtor debtor = (debtorService.getDebtor(id)).get();
         if (debtor.getTotal() != 0) {
             model.addAttribute("list_debtor", debtorService.findAll(getIdUser()));
             model.addAttribute("record", debtorService.findAll(getIdUser()).size());
-            model.addAttribute("mess", "Cannot be delete because the debt has not been completed!");
-            return "view-debtor";
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Cannot be delete because the debt has not been completed!");
+            return "redirect:/Debtor/ListAll";
         }
         debtorService.deleteDebtorById(id);
         return "redirect:/Debtor/ListAll";

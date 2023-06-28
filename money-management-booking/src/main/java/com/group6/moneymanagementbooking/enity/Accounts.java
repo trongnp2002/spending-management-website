@@ -1,16 +1,22 @@
 package com.group6.moneymanagementbooking.enity;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Setter
@@ -28,4 +34,11 @@ public class Accounts {
     private double balance;
     @Column(name = "is_active")
     private boolean active;
+
+    @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa
+                                                                 // điểm có nhiều người ở)
+    // MapopedBy trỏ tới tên biến Address ở trong Person.
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private Collection<Debt_detail> debtDetail;
 }

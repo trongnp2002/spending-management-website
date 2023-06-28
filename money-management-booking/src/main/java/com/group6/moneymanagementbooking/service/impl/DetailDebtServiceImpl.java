@@ -36,7 +36,7 @@ public class DetailDebtServiceImpl implements DetailDebtService {
 
    @Override
    public Debt_detail Save(Debt_detail detail_edbt) {
-      Accounts acc = accountsService.findById(detail_edbt.getAccount_id());
+      Accounts acc = accountsService.findById(detail_edbt.getAccounts().getId());
       Debtor depDebtor = (debtorService.getDebtor(detail_edbt.getDeptorId())).get();
 
       depDebtor.setTotal(detail_edbt.isClassify() ? (depDebtor.getTotal() + detail_edbt.getMoney_debt())
@@ -53,7 +53,7 @@ public class DetailDebtServiceImpl implements DetailDebtService {
    public void deleteDebtById(int id) {
       Debt_detail debt = (detailDebtRepository.findById(id)).get();
       Debtor debtor = debtorService.getDebtorById(debt.getDeptorId());
-      Accounts accounts = accountsService.findById(debt.getAccount_id());
+      Accounts accounts = accountsService.findById(debt.getAccounts().getId());
       double money_debt = debt.getMoney_debt();
       if (debt.isClassify()) {
          accounts.setBalance(accounts.getBalance() + money_debt);

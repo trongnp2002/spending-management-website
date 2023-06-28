@@ -71,18 +71,34 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Optional<Category> findByName(String name) {
-        return categoryRepository.findByName(name);
+        return categoryRepository.findByName(name,
+                usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
     }
 
     @Override
     public void updateCategory(double budget, String name) {
-        categoryRepository.updateCategory(budget, name);
+        try {
+            if (budget < 0) {
+                throw new Exception("Budget Must Be > 0");
+            }
+            categoryRepository.updateCategory(budget, name);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     @Override
     public Category updateCategory(Category category) {
-        category.setUser_id(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
-        return categoryRepository.save(category);
+        try {
+            if (category.getBudget() < 0) {
+                throw new Exception("Budget Must Be > 0");
+            }
+            category.setUser_id(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+            return categoryRepository.save(category);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return null;
     }
 
     @Override

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.service.CategoryService;
 import com.group6.moneymanagementbooking.util.PaginationUtil;
@@ -37,7 +36,7 @@ public class CategoryController {
 
     @PostMapping("/add-category")
     public String addCategory(@ModelAttribute Category category) {
-        return Optional.ofNullable(categoryService.addCategory(category)).map(t -> "success").orElse("failed");
+        return Optional.ofNullable(categoryService.addCategory(category)).map(t -> "redirect:/users/list-category").orElse("failed");
     }
 
     @GetMapping("/list-category")
@@ -60,7 +59,7 @@ public class CategoryController {
 
     @PostMapping("/detail-category")
     public String detail(@ModelAttribute Category category) {
-        return Optional.ofNullable(categoryService.updateCategory(category)).map(t -> "redirect:/list-category")
+        return Optional.ofNullable(categoryService.updateCategory(category)).map(t -> "redirect:/users/list-category")
                 .orElse("failed");
     }
 

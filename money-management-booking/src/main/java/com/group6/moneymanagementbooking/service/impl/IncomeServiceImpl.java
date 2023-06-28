@@ -50,7 +50,7 @@ public class IncomeServiceImpl implements IncomeService {
         Collections.sort(incomeList, new Comparator<Income>() {
             @Override
             public int compare(Income income1, Income income2) {
-                return income2.getIncomeDate().compareTo(income1.getIncomeDate());
+                return Long.compare(income2.getId(), income1.getId());
             }
         });
         return incomeList;

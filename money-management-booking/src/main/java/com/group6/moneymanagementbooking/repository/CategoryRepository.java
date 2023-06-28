@@ -17,7 +17,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("select name from Category where name = ?1 and user_id = ?2")
     public Optional<Category> findByNameAndUser_id(String name, int id);
 
-    public Optional<Category> findByName(String name);
+    @Query("select c from Category c where c.name = ?1 and c.user_id = ?2")
+    public Optional<Category> findByName(String name, int id);
 
     @Query("select c from Category c where c.income_or_expense = 1 and c.user_id= ?1")
     public List<Category> findIncomeInCategory(int id);

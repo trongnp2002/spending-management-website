@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.enity.Income;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.CategoryService;
@@ -43,7 +42,7 @@ public class IncomeController {
 
     @PostMapping("/add-income")
     public String addIncome(@ModelAttribute Income income) {
-        return Optional.ofNullable(incomeService.addIncome(income)).map(t -> "redirect:/list-income").orElse("failed");
+        return Optional.ofNullable(incomeService.addIncome(income)).map(t -> "redirect:/users/list-income").orElse("failed");
     }
 
     @GetMapping("/list-income")
@@ -68,7 +67,7 @@ public class IncomeController {
 
     @PostMapping("/detail-income")
     public String detail(@ModelAttribute Income income) {
-        return Optional.ofNullable(incomeService.updateIncome(income)).map(t -> "redirect:/list-income")
+        return Optional.ofNullable(incomeService.updateIncome(income)).map(t -> "redirect:/users/list-income")
                 .orElse("failed");
     }
 

@@ -60,7 +60,7 @@ public class ExpensesServiceImpl implements ExpensesService {
         Collections.sort(listExpenses, new Comparator<Expenses>() {
             @Override
             public int compare(Expenses expenses1, Expenses expenses2) {
-                return expenses2.getExpenseDate().compareTo(expenses1.getExpenseDate());
+                  return Long.compare(expenses2.getId(), expenses1.getId());
             }
         });
         return listExpenses;

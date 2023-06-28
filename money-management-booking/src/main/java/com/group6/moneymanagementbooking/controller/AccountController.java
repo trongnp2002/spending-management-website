@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
+import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.service.AccountsService;
+import com.group6.moneymanagementbooking.service.CategoryService;
+import com.group6.moneymanagementbooking.service.ExpensesService;
 import com.group6.moneymanagementbooking.util.PaginationUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountController {
     @Autowired
     private final AccountsService accountsService;
+    private final ExpensesService expensesService;
 
     @GetMapping("/add-account")
     public String addAccount(Model model) {
@@ -40,7 +44,7 @@ public class AccountController {
 
     @PostMapping("/add-account")
     public String addAccount(@ModelAttribute Accounts accounts) {
-        return Optional.ofNullable(accountsService.addAccounts(accounts)).map(t -> "success").orElse("failed");
+        return Optional.ofNullable(accountsService.addAccounts(accounts)).map(t -> "redirect:/users/list-account").orElse("failed");
     }
 
     @GetMapping("/list-account")
@@ -53,6 +57,15 @@ public class AccountController {
         Page<Accounts> itemsPage = PaginationUtil.paginate(pageable, items);
         List<Accounts> listAccounts = accountsService.findAll();
         Map<String, Integer> accountsTransaction = accountsService.getTransactionCount(listAccounts);
+        double totalIncome = accountsService.getTotalIncome();
+        double totalExpenses = accountsService.getTotalExpenses();
+        double totalBalance = accountsService.getTotalBalance();
+        List<Expenses> expenses = expensesService.findAll();
+        Map<String, Double> monthlyExpenses = expensesService.calculateMonthlyExpenses(expenses);
+        model.addAttribute("data", monthlyExpenses);
+        model.addAttribute("totalIncome", totalIncome);
+        model.addAttribute("totalExpenses", totalExpenses);
+        model.addAttribute("totalBalance", totalBalance);
         model.addAttribute("accountsTransaction", accountsTransaction);
         model.addAttribute("page", itemsPage);
         return "list-account";
@@ -72,7 +85,7 @@ public class AccountController {
 
     @PostMapping("/detail-account")
     public String detail(@ModelAttribute Accounts account) {
-        return Optional.ofNullable(accountsService.updateAccount(account)).map(t -> "redirect:/list-account")
+        return Optional.ofNullable(accountsService.updateAccount(account)).map(t -> "redirect:/users/list-account")
                 .orElse("failed");
     }
 
@@ -88,17 +101,6 @@ public class AccountController {
             throws IOException {
         int id = Integer.parseInt(AccountId);
         accountsService.changeActiveStatus(response, id);
-    }
-
-    @GetMapping("/chart-overview")
-    public String Overview(Model model) {
-        double totalIncome = accountsService.getTotalIncome();
-        double totalExpenses = accountsService.getTotalExpenses();
-        double totalBalance = accountsService.getTotalBalance();
-        model.addAttribute("totalIncome", totalIncome);
-        model.addAttribute("totalExpenses", totalExpenses);
-        model.addAttribute("totalBalance", totalBalance);
-        return "chart-overview";
     }
 
 }

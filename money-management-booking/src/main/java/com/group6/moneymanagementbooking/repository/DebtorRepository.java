@@ -1,8 +1,6 @@
 package com.group6.moneymanagementbooking.repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;

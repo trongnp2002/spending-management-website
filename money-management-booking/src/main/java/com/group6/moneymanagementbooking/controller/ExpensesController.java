@@ -44,7 +44,7 @@ public class ExpensesController {
 
     @PostMapping("/add-expenses")
     public String addExpense(@ModelAttribute Expenses expense) {
-        return Optional.ofNullable(expensesService.addExpenses(expense)).map(t -> "redirect:/list-expenses")
+        return Optional.ofNullable(expensesService.addExpenses(expense)).map(t -> "redirect:/users/list-expenses")
                 .orElse("failed");
     }
 
@@ -70,7 +70,7 @@ public class ExpensesController {
 
     @PostMapping("/detail-expense")
     public String detail(@ModelAttribute Expenses expense) {
-        return Optional.ofNullable(expensesService.updateExpenses(expense)).map(t -> "redirect:/list-expenses")
+        return Optional.ofNullable(expensesService.updateExpenses(expense)).map(t -> "redirect:/users/list-expenses")
                 .orElse("failed");
     }
 
@@ -80,12 +80,5 @@ public class ExpensesController {
         return "redirect:/users/list-expenses";
     }
 
-    @GetMapping("/chart-expenses")
-    public String chartExpense(Model model) {
-        List<Expenses> expenses = expensesService.findAll();
-        Map<String, Double> monthlyExpenses = expensesService.calculateMonthlyExpenses(expenses);
-        model.addAttribute("data", monthlyExpenses);
-        return "chart-expenses";
-    }
 
 }

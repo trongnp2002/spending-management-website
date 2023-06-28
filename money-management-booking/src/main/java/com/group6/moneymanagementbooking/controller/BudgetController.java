@@ -31,6 +31,7 @@ public class BudgetController {
         Collection<Category> categories = categoryService.findExpenseInCategory();
         Map<String,Double> categoryExpensesMap = categoryService.getCategoryTotalExpenses(categories);
         Map<String,Integer> expenseCountMap = categoryService.getExpenseCount(categories);
+        model.addAttribute("categoryData", categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
         model.addAttribute("expenseCountMap", expenseCountMap);
         model.addAttribute("categoryExpensesMap", categoryExpensesMap);
         return "list-budget";

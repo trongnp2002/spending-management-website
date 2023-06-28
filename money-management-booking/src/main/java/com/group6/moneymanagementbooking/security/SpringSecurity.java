@@ -94,9 +94,6 @@ public class SpringSecurity {
                                 .rememberMe().key("Axncmvi2002")
                                 .tokenValiditySeconds(60 * 60 * 24);
 
-                return http.build();
-        }
-
         @Autowired
         public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
                 auth
@@ -106,6 +103,7 @@ public class SpringSecurity {
 
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {
-                return (web) -> web.ignoring().antMatchers("/assets/**");
+                return (web) -> web.ignoring().antMatchers("/assets/**", "/image/**");
         }
+
 }

@@ -2,11 +2,13 @@ package com.group6.moneymanagementbooking.service.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
         if (totalPage == 0)
             page = 1;
         model.addAttribute("data2", totalPage);
-        List<Users> list = usersRepository.findAll(PageRequest.of(page - 1, PAGE_SIZE)).toList();
+        List<Users> list = usersRepository.findByRole("ROLE_USER",PageRequest.of(page - 1, PAGE_SIZE)).toList();
         return UsersMapper.toUsersForAdminDTOResponses(list);
     }
 
@@ -109,8 +111,7 @@ public class AdminServiceImpl implements AdminService {
                 groupOfUsers = usersRepository.findByPhoneContaining(value, PageRequest.of(page, PAGE_SIZE)).toList();
                 break;
         }
-        model.addAttribute("txtSearch", value);
-        model.addAttribute("select", searchBy);
+
         model.addAttribute("data2", totalPage);
         return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers);
     }
@@ -120,7 +121,7 @@ public class AdminServiceImpl implements AdminService {
     public List<UsersForAdminDTOResponse> searchInGroupOfLockedUsers(Model model, String searchBy, String value,
             int page,
             Boolean nonLock) {
-        List<Users> groupOfUsers = null;
+        Page<Users> groupOfUsers = null;
         boolean isLock = !nonLock;
         int totalPage = getSearchMaxPageLocked(searchBy, value, isLock);
         if (page > totalPage)
@@ -132,22 +133,24 @@ public class AdminServiceImpl implements AdminService {
             case "name":
                 groupOfUsers = usersRepository
                         .findByFirstNameContainingOrLastNameContainingAndNonLocked(value, value, isLock,
-                                PageRequest.of(page, PAGE_SIZE))
-                        .toList();
+                                PageRequest.of(page, PAGE_SIZE));
                 break;
             case "email":
                 groupOfUsers = usersRepository
-                        .findByEmailContainingAndNonLocked(value, isLock, PageRequest.of(page, PAGE_SIZE)).toList();
+                        .findByEmailContainingAndNonLocked(value, isLock, PageRequest.of(page, PAGE_SIZE));
                 break;
             case "phone":
                 groupOfUsers = usersRepository
-                        .findByPhoneContainingAndNonLocked(value, isLock, PageRequest.of(page, PAGE_SIZE)).toList();
+                        .findByPhoneContainingAndNonLocked(value, isLock, PageRequest.of(page, PAGE_SIZE));
                 break;
         }
-        model.addAttribute("txtSearch", value);
-        model.addAttribute("select", searchBy);
-        model.addAttribute("data2", totalPage);
-        return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers);
+
+        if (groupOfUsers == null) {
+            model.addAttribute("data2", 0);
+            return UsersMapper.toUsersForAdminDTOResponses(new ArrayList<Users>());
+        }
+        model.addAttribute("data2", groupOfUsers.getTotalPages());
+        return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers.toList());
     }
 
     // 3. search user active/inactive
@@ -155,7 +158,7 @@ public class AdminServiceImpl implements AdminService {
     public List<UsersForAdminDTOResponse> searchInGroupOfActiveUsers(Model model, String searchBy, String value,
             int page,
             Boolean isActive) {
-        List<Users> groupOfUsers = null;
+        Page<Users> groupOfUsers = null;
         isActive = !isActive;
         int totalPage = getSearchMaxPageActive(searchBy, value, isActive);
         if (page > totalPage)
@@ -166,21 +169,24 @@ public class AdminServiceImpl implements AdminService {
         switch (searchBy) {
             case "name":
                 groupOfUsers = usersRepository.findByFirstNameContainingOrLastNameContainingAndActive(
-                        value, value, isActive, PageRequest.of(page, PAGE_SIZE)).toList();
+                        value, value, isActive, PageRequest.of(page, PAGE_SIZE));
                 break;
             case "email":
                 groupOfUsers = usersRepository.findByEmailContainingAndActive(
-                        value, isActive, PageRequest.of(page, PAGE_SIZE)).toList();
+                        value, isActive, PageRequest.of(page, PAGE_SIZE));
                 break;
             case "phone":
                 groupOfUsers = usersRepository.findByPhoneContainingAndActive(
-                        value, isActive, PageRequest.of(page, PAGE_SIZE)).toList();
+                        value, isActive, PageRequest.of(page, PAGE_SIZE));
                 break;
         }
-        model.addAttribute("txtSearch", value);
-        model.addAttribute("select", searchBy);
-        model.addAttribute("data2", totalPage);
-        return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers);
+  
+        if (groupOfUsers == null) {
+            model.addAttribute("data2", 0);
+            return UsersMapper.toUsersForAdminDTOResponses(new ArrayList<Users>());
+        }
+        model.addAttribute("data2", groupOfUsers.getTotalPages());
+        return UsersMapper.toUsersForAdminDTOResponses(groupOfUsers.toList());
 
     }
 

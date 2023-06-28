@@ -6,7 +6,9 @@ const body = document.querySelector('body'),
 
 
 toggle.addEventListener("click" , () =>{
-    sidebar.classList.toggle("close");
+    sidebar.classList.toggle("main-layout_close");
+    sidebar.classList.toggle("main-layout_box-shadow");
+
 })
 
 

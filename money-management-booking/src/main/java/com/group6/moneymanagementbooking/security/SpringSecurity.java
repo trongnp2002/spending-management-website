@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.GrantedAuthority;
@@ -48,6 +47,8 @@ public class SpringSecurity {
    http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.mvcMatchers("/register").permitAll()
+                        .mvcMatchers("/check/**").permitAll()
+                        .mvcMatchers("/otps/**").permitAll()
                         .mvcMatchers("/forgot-password").permitAll()
                         .mvcMatchers("/login").permitAll()
                         .mvcMatchers("/admins/**").hasRole("ADMIN")
@@ -97,6 +98,6 @@ public class SpringSecurity {
     }
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().antMatchers("/assets/**");
+        return (web) -> web.ignoring().antMatchers("/assets/**", "/image/**");
     }
 }

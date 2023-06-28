@@ -31,8 +31,9 @@ tr th {
 }
 
 .red-row {
-    color: green;
+    color: #267e18;
 }
+
 .positive-status,
 .negative-status,
 .disabled-status,
@@ -51,21 +52,21 @@ tr th {
 
 #admin_btnReload {
     width: 120px;
-    
+
 }
 
 .positive-status {
-    background-color: green;
+    background-color: #267e18;
 }
 
 .negative-status {
-    background-color: orangered;
+    background-color: #cccccc;
 }
 
 .disabled-status {
     padding: 8px 20px;
     width: auto;
-    color: orangered;
+    color: tomato;
 }
 
 .disabled-status:hover {
@@ -90,6 +91,7 @@ tr th {
     display: flex;
     align-items: center;
     min-width: 20%;
+    margin: auto;
 }
 
 #pagination button,
@@ -126,26 +128,35 @@ h1 {
     justify-content: space-between;
 }
 
-#admin_goToPageButton, #admin_goToPageInput,#admin_lastPage,#admin_nextPage
-,#admin_previousPage, #admin_firstPage{
+#admin_goToPageButton,
+#admin_goToPageInput,
+#admin_lastPage,
+#admin_nextPage,
+#admin_previousPage,
+#admin_firstPage {
     color: black;
     padding: 6px 12px;
     border: 1px solid black;
     text-align: left;
     border-radius: 4px;
-    background-color: burlywood;
+    background-color: cadetblue;
+    color: black;
 }
-#admin_goToPageInput{
+
+#admin_goToPageInput {
     width: 80px;
     background-color: wheat;
 }
-#admin_goToPageButton{
+
+#admin_goToPageButton {
     width: 52px;
     text-align: center;
 }
-#admin_lastPage,#admin_nextPage
-,#admin_previousPage, #admin_firstPage
-{
+
+#admin_lastPage,
+#admin_nextPage,
+#admin_previousPage,
+#admin_firstPage {
     width: 40px;
     height: 32px;
     display: flex;
@@ -155,7 +166,8 @@ h1 {
     font-size: 20px;
     text-align: center;
 }
- #admin_txtSearch {
+
+#admin_txtSearch {
     padding: 6px 8px;
     border: 1px solid black;
     border-radius: 12px;
@@ -169,7 +181,8 @@ h1 {
 }
 
 #admin_sltSearch {
-    padding: 6px 20px;
+    padding: 6px 16px;
+    width: 124px;
     color: black;
     border: 1px solid saddlebrown;
 }
@@ -187,8 +200,11 @@ h1 {
 .admin_table {
     font-size: 12px;
     width: 100%;
-    border-collapse: collapse;
-
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    margin-bottom: 12px;
 
 }
 
@@ -196,20 +212,25 @@ h1 {
 .admin_table th {
     height: 44px;
     margin-right: .5rem;
-    padding: 16px 16px;
-    border: 1px solid #ddd; 
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    height: 68px;
+    min-height: 68px;
+
 }
 
+
 .admin_table th {
-    background-color: darkgoldenrod;
+    background-color: #004d99;
     color: #fff;
 }
 
 .admin_table tbody tr:nth-child(even) {
-    background-color: burlywood;
+    background-color: #f2f2f2;
 }
+
 .admin_table tbody tr:nth-child(odd) {
-    background-color: #f5f5f5;
+    background-color: #f2f2f2;
 }
 
 .status {
@@ -237,7 +258,7 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: orangered;
+    background-color: #cccccc;
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -249,7 +270,7 @@ h1 {
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background-color: yellow;
+    background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -276,26 +297,33 @@ input:checked+.admin_slider:before {
 .admin_slider.admin_round:before {
     border-radius: 50%;
 }
-h1{
-    font-size: 30px;
-}
+
+
 @media (min-width: 75.0625em) {
-     td{
+    td {
         width: 50px;
         max-width: 200px;
         min-width: 50px;
     }
-}
-@media(max-width: 75em) {
-    h1{
-        font-size: 24px;
+    #table-header {
+        font-size: 30px;
     }
+
+}
+
+@media(max-width: 75em) {
+    #table-header {
+        font-size: 20px !important;
+    }
+
     .admin_table thead {
         display: none;
     }
-    #lbPageInput{
+
+    #lbPageInput {
         min-width: 40px;
     }
+
     .admin_table,
     .admin_table tbody,
     .admin_table tr,
@@ -328,26 +356,35 @@ h1{
         font-weight: bold;
         text-align: left;
     }
-    .admin_data-contact{
+
+    .admin_data-contact {
         display: flex;
         flex-wrap: wrap;
         float: left;
         width: 100%;
         padding: 0;
     }
-    #admin_txtSearch{
-        width:60%;
+
+    #admin_txtSearch {
+        width: 60%;
         margin-bottom: 12px;
     }
 
-    #admin_sltSearch, #admin_btnSearch, #admin_btnReload{
+    #admin_sltSearch,
+    #admin_btnSearch,
+    #admin_btnReload {
         padding: 6px;
         width: 30%;
         min-width: 82px;
         text-align: center;
         margin-bottom: 12px;
     }
-    #lbSearch{
+
+    #lbSearch {
         display: none;
     }
+}
+
+#mainContent {
+    margin: auto;
 }

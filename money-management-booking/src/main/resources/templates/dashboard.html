@@ -24,7 +24,12 @@
 </body>
 </html> -->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/main-layout ::main-fragment(
+    ~{::title}, 
+    ~{::#dashboard_static},
+    ~{::#admin_javascript},
+    ~{::#mainContent})">
+
 
 <head>
     <meta charset="UTF-8">
@@ -34,190 +39,28 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel='stylesheet'>
-    <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}">
+
 
     <title>Dashboard Sidebar Menu</title>
-    <style>
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
+    <th:block id="dashboard_static">
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
+    </th:block>
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-        input:checked+.slider {
-            background-color: #2196F3;
-        }
-
-        input:focus+.slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked+.slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-
-        /* Hiệu ứng khi switch được kích hoạt */
-        .slider.round {
-            border-radius: 34px;
-        }
-
-        .slider.round:before {
-            border-radius: 50%;
-        }
-    </style>
 </head>
 
 <body>
 
-    <nav class="sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <img src="/image/logo.jpg" alt="logo">
-                </span>
-
-                <div class="text logo-text">
-                    <span class="name">PMM</span>
-                    <span class="profession"></span>
-                </div>
-            </div>
-
-            <i class='bx bx-chevron-right toggle'></i>
-        </header>
-
-        <div class="menu-bar">
-            <div class="menu">
 
 
-
-                <ul class="menu-links">
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-home icon'></i>
-                            <span class="text nav-text">Home</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-sort-alt-2 icon'></i>
-                            <span class="text nav-text">Over view</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-detail icon'></i>
-                            <span class="text nav-text">Profile</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-dollar icon'></i>
-                            <span class="text nav-text">Income</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-wallet icon'></i>
-                            <span class="text nav-text">Expense</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-blanket icon'></i>
-                            <span class="text nav-text">Budget</span>
-
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-credit-card-front icon'></i>
-                            <span class="text nav-text">Debt</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-cog icon'></i>
-                            <span class="text nav-text">Setting</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-contact icon'></i>
-                            <span class="text nav-text">Contact</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
-            <div class="bottom-content">
-                <li class="">
-                    <a th:href="@{/logout}">
-                        <i class='bx bx-log-out icon'></i>
-                        <span class="text nav-text">Logout</span>
-                    </a>
-                </li>
-
-
-                </li>
-
-            </div>
-        </div>
-
-    </nav>
-
-    <section class="home">
+    <section class="home" id="mainContent">
         <div class="text">Dashboard Sidebar</div>
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider round"></span>
-        </label>
+
     </section>
 
+    <th:block id="admin_javascript">
 
-    <script th:src="@{/assets/javascrip/script.js}"></script>
+    </th:block>
 
 </body>
 

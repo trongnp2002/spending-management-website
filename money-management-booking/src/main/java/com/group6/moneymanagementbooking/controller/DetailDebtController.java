@@ -1,7 +1,11 @@
 package com.group6.moneymanagementbooking.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,17 +14,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Debt_detail;
-import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.DebtorService;
 import com.group6.moneymanagementbooking.service.DetailDebtService;
 import com.group6.moneymanagementbooking.service.UsersService;
+import com.group6.moneymanagementbooking.util.PaginationUtil;
 import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -36,11 +41,15 @@ public class DetailDebtController {
     private final AccountsService accountsService;
 
     @GetMapping("/view-detail/{id}")
-    public String listDetailDebt(Model model, @PathVariable("id") int id) {
+    public String listDetailDebt(Model model, @PathVariable("id") int id, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int pageSize) {
         model.addAttribute("listAcc", accountsService.findAllByUserId(getIdUser()).size());
-        model.addAttribute("list_detail", detailDebtService.findAllById(id));
-        model.addAttribute("record", detailDebtService.findAllById(id).size());
-        model.addAttribute("id", id);
+        model.addAttribute("debtor", debtorService.getDebtorById(id));
+
+        Pageable pageable = PaginationUtil.getPageable(page, pageSize);
+        List<Debt_detail> items = detailDebtService.findAllById(id);
+        Page<Debt_detail> itemsPage = PaginationUtil.paginate(pageable, items);
+        model.addAttribute("page", itemsPage);
         return "view-detail-debt";
     }
 
@@ -75,13 +84,7 @@ public class DetailDebtController {
             redirectView.setUrl("/Debtor/Detail/Add/" + detail_edbt.getDeptorId());
             return redirectView;
         }
-        Debtor depDebtor = (debtorService.getDebtor(detail_edbt.getDeptorId())).get();
 
-        depDebtor.setTotal(detail_edbt.isClassify() ? (depDebtor.getTotal() + detail_edbt.getMoney_debt())
-                : (depDebtor.getTotal() - detail_edbt.getMoney_debt()));
-
-        acc.setBalance(detail_edbt.isClassify() ? (acc.getBalance() - detail_edbt.getMoney_debt())
-                : (acc.getBalance() + detail_edbt.getMoney_debt()));
         detailDebtService.Save(detail_edbt);
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl("/Debtor/Detail/view-detail/" + detail_edbt.getDeptorId());
@@ -97,13 +100,21 @@ public class DetailDebtController {
         return redirectView;
     }
 
-    @GetMapping("/Edit/{id}")
-    public String editDebt(Model model, @PathVariable("id") int id) {
-        Debt_detail deb = detailDebtService.findById(id);
-        model.addAttribute("debt_detail", deb);
-        model.addAttribute("title", "Edit");
-        return "add-detail-debt";
-    }
+    // @GetMapping("/Edit/{id}")
+    // public String editDebt(Model model, @PathVariable("id") int id) {
+    // Debt_detail deb = detailDebtService.findById(id);
+    // model.addAttribute("debt_detail", deb);
+    // model.addAttribute("title", "Edit");
+    // return "add-detail-debt";
+    // }
+
+    // @GetMapping("/Detail/{id}")
+    // public String editDebt(Model model, @PathVariable("id") int id) {
+    // Debt_detail deb = detailDebtService.findById(id);
+    // model.addAttribute("debt_detail", deb);
+    // model.addAttribute("title", "Edit");
+    // return "add-detail-debt";
+    // }
 
     private int getIdUser() {
         Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());

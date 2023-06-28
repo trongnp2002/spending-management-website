@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.group6.moneymanagementbooking.util.SecurityUtils;
-
 import lombok.RequiredArgsConstructor;
 
 @Controller

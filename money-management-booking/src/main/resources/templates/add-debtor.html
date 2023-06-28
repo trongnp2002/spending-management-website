@@ -13,8 +13,8 @@
 <body>
     <div class="container mt-3">
         <h1 class="text-center" th:text="${title} + ' Debtor'"></h1>
-        <form th:action="@{/Debtor/Add}" th:object="${debtor}" method="post">
-
+        <form th:action="${isUpdate ? '/Debtor/update' : '/Debtor/Add'}" th:object="${debtor}" method="post">
+  
             <div class="mb-3 mt-3">
                 <label hidden for="id" class="form-label">Id:</label>
                 <input type="hidden" class="form-control" placeholder="Enter User_Id" th:value="${debtor.id}"
@@ -50,6 +50,8 @@
                     placeholder="Enter Email" th:field="*{email}" th:value="${debtor.email}" required>
 
             </div>
+            <input type="hidden" class="form-control" th:value="${debtor.total}"
+                    th:field="*{total}" required>
 
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

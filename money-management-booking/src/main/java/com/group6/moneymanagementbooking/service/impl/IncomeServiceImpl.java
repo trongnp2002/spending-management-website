@@ -1,5 +1,7 @@
 package com.group6.moneymanagementbooking.service.impl;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,16 +25,18 @@ public class IncomeServiceImpl implements IncomeService {
     private final AccountsRepository accountsRepository;
     private final AccountsService accountsService;
     private final UsersRepository usersRepository;
+
     @Override
     public Income addIncome(Income income) {
-        try{
-        income.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
-        double amountIcome = income.getAmount();
-        double balanceAccount = accountsRepository.findById(income.getAccounts().getId()).get().getBalance();
-        if (income.getAmount()<0) throw new Exception("Amount must be > 0");
-        accountsRepository.addBalanceById(amountIcome+balanceAccount, income.getAccounts().getId());
-        return incomeRepository.save(income);
-        }catch(Exception e){
+        try {
+            income.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+            double amountIcome = income.getAmount();
+            double balanceAccount = accountsRepository.findById(income.getAccounts().getId()).get().getBalance();
+            if (income.getAmount() < 0)
+                throw new Exception("Amount must be > 0");
+            accountsRepository.addBalanceById(amountIcome + balanceAccount, income.getAccounts().getId());
+            return incomeRepository.save(income);
+        } catch (Exception e) {
             e.getMessage();
         }
         return null;
@@ -40,7 +44,16 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public List<Income> findAll() {
-     return incomeRepository.findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+        List<Income> incomeList = incomeRepository
+                .findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+        // Sắp xếp danh sách theo trường ngày
+        Collections.sort(incomeList, new Comparator<Income>() {
+            @Override
+            public int compare(Income income1, Income income2) {
+                return income2.getIncomeDate().compareTo(income1.getIncomeDate());
+            }
+        });
+        return incomeList;
     }
 
     @Override
@@ -57,21 +70,23 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public Income updateIncome(Income income) {
-        try{
-        income.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
-        double updateMoney = income.getAmount();
-        double currentMoney = getIncome(income.getId()).get().getAmount();
-        if (income.getAmount()<0) throw new Exception("Amount must be >= 0");
-        accountsService.addBalance(updateMoney-currentMoney,income.getAccounts().getId());
-        return incomeRepository.save(income); 
-        }catch (Exception e){
-           e.getMessage();    
+        try {
+            income.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+            double updateMoney = income.getAmount();
+            double currentMoney = getIncome(income.getId()).get().getAmount();
+            if (income.getAmount() < 0)
+                throw new Exception("Amount must be >= 0");
+            if (income.getAccounts().getId() == getIncome(income.getId()).get().getAccounts().getId()) {
+                accountsService.addBalance(updateMoney - currentMoney, income.getAccounts().getId());
+                return incomeRepository.save(income);
+            }
+            accountsService.addBalance(-currentMoney, getIncome(income.getId()).get().getAccounts().getId());
+            accountsService.addBalance(updateMoney, income.getAccounts().getId());
+            return incomeRepository.save(income);
+        } catch (Exception e) {
+            e.getMessage();
         }
         return null;
     }
 
-
-
-}   
-    
-
+}

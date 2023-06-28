@@ -1,6 +1,7 @@
 package com.group6.moneymanagementbooking.controller;
 
-
+import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,15 @@ public class BudgetController {
     private final CategoryService categoryService;
 
     @GetMapping("/list-budget")
-    public String listCategory(Model model){
-      model.addAttribute("listbudget", categoryService.findAll());
-      return "list-budget";
+    public String listBudget(Model model) {
+        model.addAttribute("listbudget", categoryService.findExpenseInCategory());
+        model.addAttribute("record", categoryService.findExpenseInCategory().size());
+        Collection<Category> categories = categoryService.findExpenseInCategory();
+        Map<String,Double> categoryExpensesMap = categoryService.getCategoryTotalExpenses(categories);
+        Map<String,Integer> expenseCountMap = categoryService.getExpenseCount(categories);
+        model.addAttribute("expenseCountMap", expenseCountMap);
+        model.addAttribute("categoryExpensesMap", categoryExpensesMap);
+        return "list-budget";
     }
 
     @GetMapping("/add-budget/{name}")
@@ -35,9 +42,8 @@ public class BudgetController {
 
     @PostMapping("/add-budget")
     public String addBudget(@ModelAttribute Category category) {
-       categoryService.updateCategory(category.getBudget(),category.getName());
+        categoryService.updateCategory(category.getBudget(), category.getName());
         return "redirect:/list-budget";
     }
-
 
 }

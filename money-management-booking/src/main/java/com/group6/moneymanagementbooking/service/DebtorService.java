@@ -9,12 +9,14 @@ public interface DebtorService {
 
     public List<Debtor> findAll(int id);
 
-    public void Save(Debtor debtor);
+    public Debtor Save(Debtor debtor);
 
-    public List<Debtor> SearchByName(String name);
+    public List<Debtor> SearchByName(String name, int userid);
 
     public Optional<Debtor> getDebtor(int id);
 
     public void deleteDebtorById(int id);
+
+    public Debtor getDebtorById(int id);
 
 }

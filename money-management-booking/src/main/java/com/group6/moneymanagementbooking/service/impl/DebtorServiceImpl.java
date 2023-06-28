@@ -1,4 +1,5 @@
 package com.group6.moneymanagementbooking.service.impl;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +23,13 @@ public class DebtorServiceImpl implements DebtorService {
   }
 
   @Override
-  public void Save(Debtor debtor) {
-    debtorRepository.save(debtor);
+  public Debtor Save(Debtor debtor) {
+    return debtorRepository.save(debtor);
   }
 
   @Override
-  public List<Debtor> SearchByName(String name) {
-    return debtorRepository.findAllByNameContaining(name);
+  public List<Debtor> SearchByName(String name, int userid) {
+    return debtorRepository.findAllByNameContainingAnduserid(userid, name);
   }
 
   @Override
@@ -39,6 +40,11 @@ public class DebtorServiceImpl implements DebtorService {
   @Override
   public void deleteDebtorById(int id) {
     debtorRepository.deleteById(id);
+  }
+
+  @Override
+  public Debtor getDebtorById(int id) {
+    return (debtorRepository.findById(id)).get();
   }
 
 }

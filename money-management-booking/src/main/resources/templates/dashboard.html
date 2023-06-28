@@ -11,7 +11,7 @@
 <body>
     <div class="sidebar">
         <a href="#home"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a href="#services"><i class="fa fa-fw fa-wrench"></i> Services</a>
+        <a th:href="@{/Debtor/ListAll}"><i class="fa fa-fw fa-wrench"></i> List Debtors</a>
         <a th:href="@{/editprofile}"><i class="fa fa-fw fa-user"></i> Edit Profile</a>
         <a href="#contact"><i class="fa fa-fw fa-envelope"></i> Contact</a>
       </div>
@@ -23,22 +23,86 @@
       </div>
 </body>
 </html> -->
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
+
+
     <link rel="stylesheet" href="style.css">
-    
+
     <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel='stylesheet'>
     <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}">
-    
-    <title>Dashboard Sidebar Menu</title> 
+
+    <title>Dashboard Sidebar Menu</title>
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Hiệu ứng khi switch được kích hoạt */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
 </head>
+
 <body>
+
     <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -58,26 +122,26 @@
         <div class="menu-bar">
             <div class="menu">
 
-              
+
 
                 <ul class="menu-links">
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-home icon' ></i>
+                            <i class='bx bxs-home icon'></i>
                             <span class="text nav-text">Home</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bx-sort-alt-2 icon' ></i>
+                            <i class='bx bx-sort-alt-2 icon'></i>
                             <span class="text nav-text">Over view</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-detail icon' ></i>
+                            <i class='bx bxs-detail icon'></i>
                             <span class="text nav-text">Profile</span>
                         </a>
                     </li>
@@ -91,36 +155,36 @@
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-wallet icon' ></i>
+                            <i class='bx bxs-wallet icon'></i>
                             <span class="text nav-text">Expense</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-blanket icon' ></i>
+                            <i class='bx bxs-blanket icon'></i>
                             <span class="text nav-text">Budget</span>
-                            
+
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-credit-card-front icon' ></i>
+                            <i class='bx bxs-credit-card-front icon'></i>
                             <span class="text nav-text">Debt</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-cog icon' ></i>
+                            <i class='bx bxs-cog icon'></i>
                             <span class="text nav-text">Setting</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-contact icon' ></i>
+                            <i class='bx bxs-contact icon'></i>
                             <span class="text nav-text">Contact</span>
                         </a>
                     </li>
@@ -130,15 +194,15 @@
 
             <div class="bottom-content">
                 <li class="">
-                    <a href="/money-management-booking/src/main/resources/templates/login.html">
-                        <i class='bx bx-log-out icon' ></i>
+                    <a th:href="@{/logout}">
+                        <i class='bx bx-log-out icon'></i>
                         <span class="text nav-text">Logout</span>
                     </a>
                 </li>
 
-                
+
                 </li>
-                
+
             </div>
         </div>
 
@@ -146,9 +210,15 @@
 
     <section class="home">
         <div class="text">Dashboard Sidebar</div>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
     </section>
 
-    <script src="/assets/javascrip/script.js"></script>
+
+    <script th:src="@{/assets/javascrip/script.js}"></script>
 
 </body>
-</html> 
+
+</html>

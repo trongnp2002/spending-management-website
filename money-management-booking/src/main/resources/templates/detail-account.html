@@ -14,13 +14,13 @@
     <form th:action="@{/detail-account}" th:object="${account}" method="post">
         <p>Id <input type="text" readonly th:field="*{id}"></p>
         <p>name
-            <input th:type="text" th:field="*{name}">
+            <input th:type="text" th:field="*{name}" required>
         </p>
         <p>balance
-            <input th:type="text" th:field="*{balance}">
+            <input th:type="text" th:field="*{balance}" required>
         </p>
         <p>Status
-            <select th:field="*{active}">
+            <select th:field="*{active}" required>
                 <option th:value="TRUE" th:text="active"></option>
                 <option th:value="FALSE" th:text="inactive"></option>
             </select>

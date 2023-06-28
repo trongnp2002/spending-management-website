@@ -24,10 +24,12 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query("select c from Category c where c.income_or_expense = 0 and c.user_id= ?1")
     public List<Category> findExpenseInCategory(int id);
+
     @Modifying
     @Transactional
     @Query("UPDATE Category SET budget = ?1 WHERE name = ?2")
     public void updateCategory(double budget, String name);
+
     @Query("SELECT c FROM Category c WHERE c.user_id = :user_id")
     public List<Category> findAllByUserId(@Param("user_id") int userId);
 

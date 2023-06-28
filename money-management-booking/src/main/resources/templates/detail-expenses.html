@@ -14,23 +14,23 @@
     <form th:action="@{/detail-expense}" th:object="${expense}" method="post">
         <p>Id <input type="text" readonly th:field="*{id}"></p>
         <p>title
-            <input th:type="text" th:field="*{title}">
+            <input th:type="text" th:field="*{title}" required>
         </p>
         <p>amount
-            <input th:type="text" th:field="*{amount}">
+            <input th:type="text" th:field="*{amount}" required>
         </p>
         <p>
-            <select th:field="*{accounts.id}">
+            <select th:field="*{accounts.id}" required>
                 <option th:each="item : ${listaccount}" th:value="${item.id}" th:text="${item.name}"></option>
             </select>
         </p>
         <p>
-            <select th:field="*{category.id}">
+            <select th:field="*{category.id}" required>
                 <option th:each="item : ${listcategory}" th:value="${item.id}" th:text="${item.name}"></option>
             </select>
         </p>
         <p>
-            <input type="date" th:field="*{expenseDate}">
+            <input type="date" th:field="*{expenseDate}" required>
         </p>
         <p>
             <button type="submit">Add</button>

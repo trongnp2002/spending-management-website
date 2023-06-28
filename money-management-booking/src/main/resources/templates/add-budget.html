@@ -12,10 +12,10 @@
     <h1>create a new Budget.</h1>
     <form th:action="@{/add-budget}" th:object="${category}" method="post">
         <p>Category Name
-            <input type="text" th:field="*{name}">
+            <input type="text" th:field="*{name}" required>
         </p>
         <p>budget
-            <input type="text" th:field="*{budget}">
+            <input type="text" th:field="*{budget}" required>
         </p>
         <p>
             <button type="submit">Add</button>

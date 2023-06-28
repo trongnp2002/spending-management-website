@@ -13,4 +13,5 @@ import com.group6.moneymanagementbooking.enity.Income;
 public interface IncomeRepository extends JpaRepository<Income, Integer> {
     @Query("SELECT i FROM Income i WHERE i.userId = :userId")
     public List<Income> findAllByUserId(@Param("userId") int userId);
+
 }

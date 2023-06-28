@@ -50,8 +50,11 @@ public class SpringSecurity {
                         .mvcMatchers("/check/**").permitAll()
                         .mvcMatchers("/otps/**").permitAll()
                         .mvcMatchers("/forgot-password").permitAll()
-                        .mvcMatchers("/users/**").hasRole("USER")
+                        .mvcMatchers("/login").permitAll()
                         .mvcMatchers("/admins/**").hasRole("ADMIN")
+                        
+                     .anyRequest().authenticated()
+
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -98,3 +101,4 @@ public class SpringSecurity {
         return (web) -> web.ignoring().antMatchers("/assets/**");
     }
 }
+

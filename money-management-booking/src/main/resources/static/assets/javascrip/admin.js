@@ -1,38 +1,44 @@
-var firstPageButton = document.getElementById("firstPage");
+var firstPageButton = document.getElementById("admin_firstPage");
 
-var previousPageButton = document.getElementById("previousPage");
-var nextPageButton = document.getElementById("nextPage");
-var lastPageButton = document.getElementById("lastPage");
+var previousPageButton = document.getElementById("admin_previousPage");
+var nextPageButton = document.getElementById("admin_nextPage");
+var lastPageButton = document.getElementById("admin_lastPage");
 
-var currentPageSpan = document.getElementById("goToPageInput").value;
-var totalPages = document.getElementById("totalPages").value;
+var currentPageSpan = document.getElementById("admin_goToPageInput").value;
+var totalPages = document.getElementById("admin_totalPages").value;
 var isLockedUserPage = document.getElementById("isLockPage").value;
 var isStatusUserPage = document.getElementById("isStatusPage").value;
 var locked = document.getElementById("lock").value;
 var active = document.getElementById("status").value;
-var selection = document.getElementById("sltSearch").value;
-var searchValue = document.getElementById("txtSearch").value;
-function changeStatus(userId, currentStatus, page) {
-
-    if (currentStatus === true) {
-        if (confirm("are you sure to disable user: " + userId)) {
+var selection = document.getElementById("admin_sltSearch").value;
+var searchValue = document.getElementById("admin_txtSearch").value;
+function changeStatus(userId, currentStatus) {
+    if (userId != 0) {
+        if (currentStatus === true) {
+            if (confirm("are you sure to disable user: " + userId)) {
+                // window.location = url;
+                changeStatus1(userId)
+            }
+        } else {
             // window.location = url;
             changeStatus1(userId)
         }
-    } else {
-        // window.location = url;
-        changeStatus1(userId)
     }
 }
-function changeStatus1(userId){
-        $.ajax({
-          url:    "/admins/change-status/" + userId,
-          type: "GET",
-          success: function (data) {
-            document.getElementById("user"+userId).innerHTML = data;
-          },
-    
-        });
+
+function changeStatus1(userId) {
+    $.ajax({
+        url: "/admins/change-status/" + userId,
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            document.getElementById("user" + userId).innerHTML = data;
+        },
+        error: function (xhr, status, error) {
+            // Xử lý lỗi
+            alert.log('Lỗi: ' + error);
+        }
+    });
 }
 function goToPage() {
     let goToPageInput = document.getElementById("goToPageInput");
@@ -187,8 +193,8 @@ previousPageButton.addEventListener("click", function (event) {
 
 renderPagination();
 
-var selectElement = document.getElementById("sltSearch");
-var searchButton = document.getElementById("btnSearch");
+var selectElement = document.getElementById("admin_sltSearch");
+var searchButton = document.getElementById("admin_btnSearch");
 
 searchButton.addEventListener("click", function (event) {
     var searchBy = selectElement.value;
@@ -214,9 +220,9 @@ searchButton.addEventListener("click", function (event) {
         window.location = "/admins/search/?select=" + searchBy + "&value=" + value;
     }
 })
-var btnActiveList = document.getElementById("btnActiveList");
-var btnLockedList = document.getElementById("btnLockedList");
-var btnReload = document.getElementById("btnReload");
+var btnActiveList = document.getElementById("admin_btnActiveList");
+var btnLockedList = document.getElementById("admin_btnLockedList");
+var btnReload = document.getElementById("admin_btnReload");
 btnReload.addEventListener("click", function () {
     window.location = "/admins/home";
 

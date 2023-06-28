@@ -90,7 +90,8 @@ public class AdminController {
     }
 
     @GetMapping("/change-status/{id}")
-    public void changeUserActiveStatus(HttpServletResponse response, Model model, @PathVariable("id") String userId) throws IOException {
+    public void changeUserActiveStatus(HttpServletResponse response, Model model, @PathVariable("id") String userId)
+            throws IOException {
         int id = Integer.parseInt(userId);
         adminService.changeActiveStatus(response, id);
 
@@ -112,14 +113,12 @@ public class AdminController {
         return WebUtils.adminDispartcher(HOME, model, groupOfUsers, page, isLockedPage, !isLocked);
     }
 
-
     @GetMapping("/list-status")
     public String getGroupOfActiveUsers(@RequestParam("isactive") Boolean isActive, Model model) {
         boolean isLockedPage = false;
         List<UsersForAdminDTOResponse> groupOfUsers = adminService.getGroupOfActiveUsers(model, isActive, 1);
         return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1, isLockedPage, !isActive);
     }
-
 
     @GetMapping("/list-status/{page}")
     public String getGroupOfActiveUsers(@RequestParam("isactive") Boolean isActive, Model model,
@@ -132,20 +131,22 @@ public class AdminController {
 
     // @GetMapping("/addfast")
     // public String addFast() {
-    //     for (int i = 1; i <= 100; i++) {
-    //         String fist_name = "trong" + i;
-    //         String last_name = "nguyen" + i;
-    //         String email = "trongnguyen" + i + "@gmail.com";
-    //         String password = "$2a$10$tCfT.g3xn99ISNlniDJy/ehNibU5vCqKS.5nDWtmpfozWHpOHo/fu";
-    //         String address = "Ninh Binh";
-    //         String phone = String.valueOf(1000000000 + i);
-    //         UsersDTORegisterRequest usersDTORegisterRequest = new UsersDTORegisterRequest(fist_name, last_name, email,
-    //                 password, password, phone, address);
-    //         Users users = UsersMapper.toUsers(usersDTORegisterRequest);
-    //         adminService.save(users);
-    //     }
-    //     String statusId = "#status" + 100;
-    //     return "redirect:/admins/home/" + statusId;
+    // for (int i = 1; i <= 100; i++) {
+    // String fist_name = "trong" + i;
+    // String last_name = "nguyen" + i;
+    // String email = "trongnguyen" + i + "@gmail.com";
+    // String password =
+    // "$2a$10$tCfT.g3xn99ISNlniDJy/ehNibU5vCqKS.5nDWtmpfozWHpOHo/fu";
+    // String address = "Ninh Binh";
+    // String phone = String.valueOf(1000000000 + i);
+    // UsersDTORegisterRequest usersDTORegisterRequest = new
+    // UsersDTORegisterRequest(fist_name, last_name, email,
+    // password, password, phone, address);
+    // Users users = UsersMapper.toUsers(usersDTORegisterRequest);
+    // adminService.save(users);
+    // }
+    // String statusId = "#status" + 100;
+    // return "redirect:/admins/home/" + statusId;
     // }
 
     // private

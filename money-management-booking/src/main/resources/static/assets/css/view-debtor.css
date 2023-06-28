@@ -121,3 +121,56 @@ table th {
     color:white;
     text-decoration: none;
 }
+
+
+/* phân trang */
+
+.negativeTotal {
+    background-color: red;
+}
+
+.red-row {
+    color: rgb(245, 36, 36);
+}
+
+.pagination {
+display: flex;
+justify-content: space-between;
+align-items: center;
+list-style: none;
+padding: 0;
+margin-top: 20px;
+}
+
+.pagination li {
+margin: 0 5px;
+}
+
+.pagination a,
+.pagination span {
+display: inline-block;
+padding: 10px 20px;
+text-decoration: none;
+border-radius: 4px;
+margin-top: 5px;
+border: 1px solid #ccc;
+}
+
+.pagination a:hover {
+background-color: #f2f2f2;
+}
+
+.pagination .active {
+background-color: #007bff;
+color: rgb(221, 133, 61);
+}
+
+.pagination .previous,
+.pagination .next {
+background-color: #e6dddd;
+color: #000000ce;
+}
+.btn.btn-dangers {
+background-color: #dfdada;
+color: #000000ce;
+}

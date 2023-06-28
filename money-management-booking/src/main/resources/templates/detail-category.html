@@ -14,10 +14,10 @@
     <form th:action="@{/detail-category}" th:object="${category}" method="post">
         <p>Id <input type="text" readonly th:field="*{id}"></p>
         <p>Category Name
-            <input type="text" th:field="*{name}">
+            <input type="text" th:field="*{name}" required>
         </p>
         <p>
-            <select th:field="*{income_or_expense}">
+            <select th:field="*{income_or_expense}" required>
                 <option th:value="TRUE" th:text="income"></option>
                 <option th:value="FALSE" th:text="expenses"></option>
             </select>

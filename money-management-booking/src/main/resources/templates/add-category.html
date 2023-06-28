@@ -13,11 +13,11 @@
     <h1>create a new Category.</h1>
     <form th:action="@{/add-category}" th:object="${category}" method="post">
         <p>Category Name
-            <input type="text" th:field="*{name}">
+            <input type="text" th:field="*{name}" required>
         </p>
         <p>
-            <select th:field="*{income_or_expense}">
-                <option th:value="TRUE" th:text="income"></option>
+            <select th:field="*{income_or_expense}" required>
+                <option th:value="TRUE" th:text="income" ></option>
                 <option th:value="FALSE" th:text="expenses"></option>
             </select>
         </p>

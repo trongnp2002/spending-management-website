@@ -1,9 +1,9 @@
 package com.group6.moneymanagementbooking.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.enity.Expenses;
 
 public interface ExpensesService {
@@ -21,9 +21,7 @@ public interface ExpensesService {
 
     public double totalExpenseInMonth();
 
-    public List<Object[]> getMonthlyExpenseAmounts();
-
     public int getCountByTitle(String name);
 
-    public double calculateTotalExpenses(Category category);
+    public Map<String, Double> calculateMonthlyExpenses(List<Expenses> expenses);
 }

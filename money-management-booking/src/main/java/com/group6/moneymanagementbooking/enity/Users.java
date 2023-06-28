@@ -48,14 +48,14 @@ public class Users {
     private String role;
     @Column(name = "is_active")
     private boolean active;
-
-    private double annually_spending;
-
-    private double monthly_spending;
-
-    private double monthly_saving;
-
-    private double monthly_earning;
+    @Column(name= "annually_spending")
+    private double annuallySpending;
+    @Column(name= "monthly_spending")
+    private double monthlySpending;
+    @Column(name= "monthly_saving")
+    private double monthlySaving;
+    @Column(name= "monthly_earning")
+    private double monthlyEarning;
 
     private String currency;
 

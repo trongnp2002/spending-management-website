@@ -44,4 +44,24 @@ public class Accounts {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Income> income;
+
+    public double getTotalIncome() {
+        if (income != null && !income.isEmpty()) {
+            return income.stream().mapToDouble(Income::getAmount).sum();
+        }
+        return 0.0;
+    }
+
+    public double getTotalExpenses() {
+        if (expenses != null && !expenses.isEmpty()) {
+            return expenses.stream().mapToDouble(Expenses::getAmount).sum();
+        }
+        return 0.0;
+    }
+
+    public double getTotalBalance() {
+        double totalIncome = getTotalIncome();
+        double totalExpenses = getTotalExpenses();
+        return totalIncome - totalExpenses;
+    }
 }

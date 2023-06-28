@@ -88,4 +88,15 @@ public class AccountController {
         accountsService.changeActiveStatus(response, id);
     }
 
+    @GetMapping("/chart-overview")
+    public String Overview(Model model) {
+        double totalIncome = accountsService.getTotalIncome();
+        double totalExpenses = accountsService.getTotalExpenses();
+        double totalBalance = accountsService.getTotalBalance();
+        model.addAttribute("totalIncome", totalIncome);
+        model.addAttribute("totalExpenses", totalExpenses);
+        model.addAttribute("totalBalance", totalBalance);
+        return "chart-overview";
+    }
+
 }

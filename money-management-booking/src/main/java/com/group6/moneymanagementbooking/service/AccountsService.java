@@ -37,4 +37,12 @@ public interface AccountsService {
 
     public Map<String, Integer> getTransactionCount(Collection<Accounts> accounts);
 
+    public Iterable<Accounts> getAllAccounts();
+
+    public double getTotalBalance();
+
+    public double getTotalExpenses();
+
+    public double getTotalIncome();
+
 }

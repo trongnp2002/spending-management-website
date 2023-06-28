@@ -98,7 +98,7 @@ public class SpringSecurity {
     }
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().antMatchers("/assets/**");
+        return (web) -> web.ignoring().antMatchers("/assets/**", "/image/**");
     }
 }
 

@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UsersDTOResponse {
-    private String first_name;
+    private String firstName;
 
-    private String last_name;
+    private String lastName;
 
     private String email;
 
@@ -22,15 +22,17 @@ public class UsersDTOResponse {
 
     private String role;
 
-    private boolean is_active;
+    private String avatar;
 
-    private double annually_spending;
+    private boolean isActive;
 
-    private double monthly_spending;
+    private double annuallySpending;
 
-    private double monthly_saving;
+    private double monthlySpending;
 
-    private double monthly_earning;
+    private double monthlySaving;
+
+    private double monthlyEarning;
 
     private String currency;
     

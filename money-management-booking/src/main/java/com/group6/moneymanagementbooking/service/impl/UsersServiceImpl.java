@@ -18,6 +18,7 @@ import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.UsersService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 import com.group6.moneymanagementbooking.util.StringUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -190,7 +191,22 @@ public class UsersServiceImpl implements UsersService {
         }
         return report;
     }
+    @Override
+    public Users getUsers(){
+        return usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get();
+    }
 
-   
+    @Override
+    public void addAdjustForUser(Users users) {
+        Optional<Users> existingUser = usersRepository.findByEmail(SecurityUtils.getCurrentUsername());
+        if(existingUser.isPresent()){
+        Users userToUpdate = existingUser.get();
+        userToUpdate.setAnnuallySpending(users.getAnnuallySpending());
+        userToUpdate.setMonthlySpending(users.getMonthlySpending());
+        userToUpdate.setMonthlySaving(users.getMonthlySaving());
+        userToUpdate.setMonthlyEarning(users.getMonthlyEarning());
+        usersRepository.save(userToUpdate);
+        }
+    }
 
 }

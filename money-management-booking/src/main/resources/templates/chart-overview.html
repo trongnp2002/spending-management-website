@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <canvas id="pieChart"></canvas>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var income = /*[[${totalIncome}]]*/ {};
+        var expense = /*[[${totalExpenses}]]*/ {};
+        var save = /*[[${totalBalance}]]*/ {};
+        document.addEventListener('DOMContentLoaded', function () {
+            var data = {
+                labels: ['Income', 'Expenses', 'Savings'],
+                datasets: [{
+                    data: [income, expense, save],
+                    backgroundColor: [
+                        '#36A2EB',
+                        '#FF6384',
+                        '#FFCE56'
+                    ]
+                }]
+            };
+
+            var options = {
+                responsive: false
+            };
+
+            var ctx = document.getElementById('pieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: options
+            });
+        });
+        /*]]>*/
+    </script>
+</body>
+
+</html>

@@ -126,4 +126,24 @@ public class AccountsServiceImpl implements AccountsService {
         return transactionCountMap;
     }
 
+    @Override
+    public double getTotalIncome() {
+        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream().mapToDouble(Accounts::getTotalIncome).sum();
+    }
+
+    @Override
+    public double getTotalExpenses() {
+        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream().mapToDouble(Accounts::getTotalExpenses).sum();
+    }
+
+    @Override
+    public double getTotalBalance() {
+        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream().mapToDouble(Accounts::getTotalBalance).sum();
+    }
+
+    @Override
+    public Iterable<Accounts> getAllAccounts() {
+        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+    }
+
 }

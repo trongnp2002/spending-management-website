@@ -25,4 +25,6 @@ public interface DebtorService {
 
     public List<Debtor> getListOwner();
 
+    public List<Debtor> FilterDebtor(String filterType, String name, String filterValueStart, String filterValueEnd);
+
 }

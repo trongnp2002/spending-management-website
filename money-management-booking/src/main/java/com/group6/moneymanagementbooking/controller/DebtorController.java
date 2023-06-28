@@ -42,8 +42,8 @@ public class DebtorController {
     public String listDebtor(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
             Model model, HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
-        List<Debtor> items = debtorService.findAll(getIdUser());
-        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
+        // List<Debtor> items = debtorService.findAll(getIdUser());
+        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, debtorService.findAll(getIdUser()));
         String currentRequestMapping = request.getRequestURI();
         model.addAttribute("mess", errorMessage);
         model.addAttribute("page", itemsPage);
@@ -54,12 +54,6 @@ public class DebtorController {
     @GetMapping("/ListDebtor")
     public String AllDebtor(Model model, @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
-        // List<Debtor> listdeb = new ArrayList<>();
-        // for (var deb : debtorService.findAll(getIdUser())) {
-        // if (deb.getTotal() > 0) {
-        // listdeb.add(deb);
-        // }
-        // }
         List<Debtor> listdeb = debtorService.getListDebtor();
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
@@ -72,12 +66,6 @@ public class DebtorController {
     @GetMapping("/ListOwner")
     public String AllOwner(Model model, @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
-        // List<Debtor> listdeb = new ArrayList<>();
-        // for (var deb : debtorService.findAll(getIdUser())) {
-        // if (deb.getTotal() < 0) {
-        // listdeb.add(deb);
-        // }
-        // }
         List<Debtor> listdeb = debtorService.getListOwner();
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, listdeb);
@@ -103,8 +91,8 @@ public class DebtorController {
         return "redirect:/Debtor/ListAll";
     }
 
-    @PostMapping("/Search")
-    public String searchDebtor(Model model, @RequestParam("nameDebtor") String name,
+    @GetMapping("/Search")
+    public String searchDebtor(Model model, @RequestParam(value = "nameDebtor", required = false) String name,
             @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
             HttpServletRequest request)
             throws Exception {
@@ -113,6 +101,29 @@ public class DebtorController {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("nameDebtor", name);
+        model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
+        return "view-debtor";
+    }
+
+    @GetMapping("/Filter")
+    public String searchDebtor(Model model,
+            @RequestParam(value = "nameDebtor", required = false) String name,
+            @RequestParam(value = "filterType", required = false) String filterType,
+            @RequestParam(value = "filterValueStart", required = false) String filterValueStart,
+            @RequestParam(value = "filterValueEnd", required = false) String filterValueEnd,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int pageSize,
+            HttpServletRequest request) throws Exception {
+
+        String currentRequestMapping = request.getRequestURI();
+        List<Debtor> items = debtorService.FilterDebtor(filterType, name, filterValueStart, filterValueEnd);
+        Pageable pageable = PaginationUtil.getPageable(page, pageSize);
+        Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
+        model.addAttribute("nameDebtor", name);
+        model.addAttribute("filterType", filterType);
+        model.addAttribute("filterValueStart", filterValueStart);
+        model.addAttribute("filterValueEnd", filterValueEnd);
         model.addAttribute("page", itemsPage);
         model.addAttribute("link", currentRequestMapping);
         return "view-debtor";

@@ -41,6 +41,46 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <title>Debtors List</title>
+    <style>
+        /* CSS cho dòng chẵn */
+        tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        /* CSS cho dòng lẻ */
+        tr:nth-child(even) {
+            background-color: white;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-container:first-child {
+            margin-left: 0;
+        }
+
+        .form-container:last-child {
+            margin-right: 0;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+        }
+
+
+        .error {
+            color: red;
+            border-color: red;
+        }
+
+        .separator {
+            margin: 0 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -80,41 +120,85 @@
                                 <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
                             </div>
                         </div>
-                        <form th:action="@{/Debtor/Search}" method="post">
-                            <div class="input-group">
-                                <div class="form-outline">
-                                    <input type="search" name="nameDebtor" th:value="${nameDebtor}"
-                                        placeholder="Search Debtor By Name" class="form-control"
-                                        style="border-radius: 15px;margin-top: 10px;margin-left: 20px">
-                                        <input type="hidden" name="currentLink" th:value="${link}">
-                                </div>
-                                <button type="submit" class="btn btn-secondary"
-                                    style="border-radius: 15px;margin-top: 10px;margin-left:30px">
-                                    <i class="fas fa-search"></i>
-                                </button>
+
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <form th:action="@{/Debtor/Search}" method="get">
+                                    <div class="input-group">
+                                        <div class="form-outline">
+                                            <input type="search" name="nameDebtor" th:value="${nameDebtor}"
+                                                placeholder="Search Debtor By Name" class="form-control"
+                                                style="border-radius: 15px;margin-top: 10px;margin-left: 20px">
+                                            <input type="hidden" name="currentLink" th:value="${link}">
+                                        </div>
+                                        <button type="submit" class="btn btn-secondary"
+                                            style="border-radius: 15px;margin-top: 10px;margin-left:30px">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+
+                            <div style="margin-right: 95px; margin-top: 10px;">
+
+                                <form th:action="@{/Debtor/Filter}" method="get" id="filterForm">
+                                    <div class="input-group">
+                                        <select id="filterType" name="filterType" class="form-control"
+                                            style="border-radius: 15px; margin-right: 10px;">
+                                            <option value="total" th:selected="${filterType == 'total'}">Total Money
+                                            </option>
+                                            <option value="date" th:selected="${filterType == 'date'}">Date Create
+                                            </option>
+                                        </select>
+                                        <input type="hidden" name="nameDebtor" th:value="${nameDebtor}">
+                                        <div id="filterValueContainer">
+
+                                            <div id="rangeContainer"
+                                                th:classappend="${filterType == 'date'} ? 'active' : ''">
+                                                <div class="input-row">
+                                                    <input type="text" id="filterValueStart" name="filterValueStart"
+                                                        class="form-control" style="border-radius: 15px; width: 200px;"
+                                                        placeholder="From" th:value="${filterValueStart}">
+                                                    <span class="separator">-</span>
+                                                    <input type="text" id="filterValueEnd" name="filterValueEnd"
+                                                        class="form-control" style="border-radius: 15px; width: 200px;"
+                                                        placeholder="To" th:value="${filterValueEnd}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="link" th:value="${currentLink}">
+                                        <button type="submit" id="searchButton" class="btn btn-secondary"
+                                            style="border-radius: 15px; margin-left: 10px;">
+                                            <i class="fas fa-search"></i> Filter
+                                        </button>
+                                    </div>
+                                    <div style="margin-left: 20px;"><span style="color: red;" id="errorSpan"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                         <div class="card-body">
                             <div class="table-responsive" style="text-align: center;">
                                 <table class="table table-bordered table-sm" data-resizable-columns-id="demo-table-v2">
                                     <thead>
                                         <tr id="ta" style="background-color: white;color:black;">
-                                            <th class="resizable-column"
-                                                style="position: relative; width: 64.4375px">ID</th>
+                                            <th class="resizable-column" style="position: relative; width: 64.4375px">ID
+                                            </th>
                                             <th class="resizable-column">Name</th>
                                             <th class="resizable-column">Address</th>
-                                            <th class="resizable-column"
-                                                style="position: relative; width: 128.25px;">Phone</th>
-                                            <th class="resizable-column"
-                                                style="position: relative; width: 175.275px;">Email</th>
-                                            <th class="resizable-column"
-                                                style="position: relative; width: 109.25px;">Total</th>
-                                            <th class="resizable-column"
-                                                style="position: relative; width: 155.275px;">Start Date</th>
-                                            <th class="resizable-column"
-                                                style="position: relative; width: 199.325px;">Update</th>
-                                            <th class="resizable-column"
-                                                style="position: relative; width: 317.65px;">Action</th>
+                                            <th class="resizable-column" style="position: relative; width: 128.25px;">
+                                                Phone</th>
+                                            <th class="resizable-column" style="position: relative; width: 175.275px;">
+                                                Email</th>
+                                            <th class="resizable-column" style="position: relative; width: 109.25px;">
+                                                Total</th>
+                                            <th class="resizable-column" style="position: relative; width: 155.275px;">
+                                                Date Create</th>
+                                            <th class="resizable-column" style="position: relative; width: 199.325px;">
+                                                Date Update</th>
+                                            <th class="resizable-column" style="position: relative; width: 317.65px;">
+                                                Action</th>
                                         </tr>
 
                                     </thead>
@@ -156,7 +240,7 @@
                                     </tbody>
                                 </table>
                                 <div class="card-body">
-
+                                    <!-- 
                                     <div class="pagination">
                                         <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
                                             th:href="@{${link}(page=${page.number - 1})}"
@@ -166,7 +250,19 @@
                                         <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
                                             th:href="@{${link}(page=${page.number + 1})}"
                                             class="btn btn-dangers">Next</a>
+                                    </div> -->
+
+                                    <div class="pagination">
+                                        <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
+                                            th:href="@{${link}(page=${page.number - 1}, nameDebtor=${nameDebtor}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
+                                            class="btn btn-dangers">Previous</a>
+                                        <span>Page <span th:text="${page.number + 1}"></span> / <span
+                                                th:text="${page.totalPages}"></span></span>
+                                        <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
+                                            th:href="@{${link}(page=${page.number + 1}, nameDebtor=${nameDebtor}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
+                                            class="btn btn-dangers">Next</a>
                                     </div>
+
 
                                 </div>
 
@@ -205,6 +301,130 @@
             }
         });
     });
+
+
+    document.getElementById("filterType").onchange = function() {
+    var filterType = this.value;
+    var rangeContainer = document.getElementById("rangeContainer");
+    var filterValueStart = document.getElementById("filterValueStart");
+    var filterValueEnd = document.getElementById("filterValueEnd");
+    var errorSpan = document.getElementById("errorSpan");
+    var searchButton = document.getElementById("searchButton");
+
+    if (filterType === "total") {
+        filterValueStart.type = "number";
+        filterValueEnd.type = "number";
+        filterValueStart.classList.remove("error");
+        filterValueEnd.classList.remove("error");
+        errorSpan.textContent = "";
+        errorSpan.style.display = "none";
+    } else if (filterType === "date") {
+        filterValueStart.type = "date";
+        filterValueEnd.type = "date";
+        errorSpan.style.display = "none";
+    }
+
+    filterValueStart.oninput = function() {
+        var startValue = filterValueStart.value;
+        var endValue = filterValueEnd.value;
+
+        if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
+            errorSpan.textContent = "Start value must be less than end value";
+            errorSpan.style.display = "block";
+            filterValueStart.classList.add("error");
+            filterValueEnd.classList.add("error");
+        } else if (filterType === "date" && startValue > endValue) {
+            errorSpan.textContent = "Start date must be before end date";
+            errorSpan.style.display = "block";
+            filterValueStart.classList.add("error");
+            filterValueEnd.classList.add("error");
+        } else {
+            errorSpan.textContent = "";
+            errorSpan.style.display = "none";
+            filterValueStart.classList.remove("error");
+            filterValueEnd.classList.remove("error");
+        }
+        toggleSearchButtonState();
+    };
+
+    filterValueEnd.oninput = function() {
+        var startValue = filterValueStart.value;
+        var endValue = filterValueEnd.value;
+
+        if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
+            errorSpan.textContent = "Start value must be less than end value";
+            errorSpan.style.display = "block";
+            filterValueStart.classList.add("error");
+            filterValueEnd.classList.add("error");
+        } else if (filterType === "date" && startValue > endValue) {
+            errorSpan.textContent = "Start date must be before end date";
+            errorSpan.style.display = "block";
+            filterValueStart.classList.add("error");
+            filterValueEnd.classList.add("error");
+        } else {
+            errorSpan.textContent = "";
+            errorSpan.style.display = "none";
+            filterValueStart.classList.remove("error");
+            filterValueEnd.classList.remove("error");
+        }
+        toggleSearchButtonState();
+    };
+
+    function toggleSearchButtonState() {
+        var startValue = filterValueStart.value.trim();
+        var endValue = filterValueEnd.value.trim();
+
+        if (startValue === "" || endValue === "") {
+            searchButton.disabled = true;
+        } else {
+            searchButton.disabled = false;
+        }
+    }
+
+    toggleSearchButtonState();
+};
+
+document.getElementById("filterForm").onsubmit = function(event) {
+    var startValue = document.getElementById("filterValueStart").value.trim();
+    var endValue = document.getElementById("filterValueEnd").value.trim();
+
+    if (startValue === "" || endValue === "") {
+        event.preventDefault();
+        alert("Please enter both From and To values before submitting the form.");
+    }
+};
+
+
+
+    function submitSearchAndFilterForm() {
+        var nameDebtor = document.getElementById("nameDebtor").value;
+        var filterValueStart = document.getElementById("filterValueStart").value;
+        var filterValueEnd = document.getElementById("filterValueEnd").value;
+        var formAction;
+
+        if (filterValueStart !== "" || filterValueEnd !== "") {
+            formAction = "/Debtor/Filter";
+            if (nameDebtor !== "") {
+                formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
+            }
+            if (filterValueStart !== "" || filterValueEnd !== "") {
+                if (formAction.includes("?")) {
+                    formAction += "&";
+                } else {
+                    formAction += "?";
+                }
+                formAction += "filterValueStart=" + encodeURIComponent(filterValueStart) + "&filterValueEnd=" + encodeURIComponent(filterValueEnd);
+            }
+        } else {
+            formAction = "/Debtor/Search";
+            if (nameDebtor !== "") {
+                formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
+            }
+        }
+
+        document.getElementById("searchAndFilterForm").action = formAction;
+        document.getElementById("searchAndFilterForm").submit();
+    }
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline="javascript"></script>
 <script script th:src="@{/assets/javascrip/jQuery.resizableColumns.min.js}" type="text/javascript"></script>

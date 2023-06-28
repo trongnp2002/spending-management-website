@@ -1,6 +1,5 @@
 package com.group6.moneymanagementbooking.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Debt_detail;
-import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.DebtorService;

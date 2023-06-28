@@ -10,15 +10,15 @@
 
 <body>
     <h1>create a new account.</h1>
-    <form th:action="@{/add-account}" th:object="${accounts}" method="post">
+    <form th:action="@{/users/add-account}" th:object="${accounts}" method="post">
         <p>Account Name
-            <input type="text" th:field="*{name}">
+            <input type="text" th:field="*{name}" required>
         </p>
         <p>Balance
-            <input type="text" th:field="*{balance}">
+            <input type="text" th:field="*{balance}" required>
         </p>
         <p>Status
-            <select th:field="*{active}">
+            <select th:field="*{active}" required>
                 <option th:value="TRUE" th:text="active"></option>
                 <option th:value="FALSE" th:text="inactive"></option>
             </select>

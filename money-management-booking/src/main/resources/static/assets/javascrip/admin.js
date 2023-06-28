@@ -25,6 +25,7 @@ function changeStatus(userId, currentStatus) {
         }
     }
 }
+
 function changeStatus1(userId) {
     $.ajax({
         url: "/admins/change-status/" + userId,

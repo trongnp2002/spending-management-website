@@ -35,6 +35,35 @@ public class Accounts {
     @Column(name = "is_active")
     private boolean active;
 
+    @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Expenses> expenses;
+
+    @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Income> income;
+
+    public double getTotalIncome() {
+        if (income != null && !income.isEmpty()) {
+            return income.stream().mapToDouble(Income::getAmount).sum();
+        }
+        return 0.0;
+    }
+
+    public double getTotalExpenses() {
+        if (expenses != null && !expenses.isEmpty()) {
+            return expenses.stream().mapToDouble(Expenses::getAmount).sum();
+        }
+        return 0.0;
+    }
+
+    public double getTotalBalance() {
+        double totalIncome = getTotalIncome();
+        double totalExpenses = getTotalExpenses();
+        return totalIncome - totalExpenses;
+    }
     @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa
                                                                  // điểm có nhiều người ở)
     // MapopedBy trỏ tới tên biến Address ở trong Person.

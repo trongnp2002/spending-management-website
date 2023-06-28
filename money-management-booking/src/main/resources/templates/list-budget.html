@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/main-layout ::main-fragment(
+    ~{::title}, 
+    ~{::#admin-static-resource},
+    ~{::#admin_javascript},
+    ~{::#mainContent})">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Budget List</title>
+    <th:block id="admin-static-resource">
+         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="/assets/css/view-debtor.css">
+    </th:block>
+    <style>
+        .negativeTotal {
+            background-color: red;
+        }
+
+        .red-row {
+            color: rgb(245, 36, 36);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mainContent" class="box">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="float-left">
+                                    <h3 class="mb-0">Budget List </h3>
+
+                                    <p class="small text-muted m-0" th:text="'Total record: ' + ${record}"></p>
+                                </div>
+
+                                <div class="float-right">
+                                    <a type="button" th:href="@{/users/add-adjust}" title="add adjust"
+                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Adjust</a>
+                                </div>
+
+                                <div class="float-right">
+                                    <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="text-align: center;">
+                                    <table class="table table-bordered table-sm"
+                                        data-resizable-columns-id="demo-table-v2">
+                                        <thead>
+                                            <tr id="ta" style="background-color: white;color:black;">
+                                                <th data-resizable-column-id="name">Name</th>
+                                                <th data-resizable-column-id="goal">Goal</th>
+                                                <th data-resizable-column-id="spent">Spent</th>
+                                                <th data-resizable-column-id="trasaction">Transaction</th>
+                                                <th data-resizable-column-id="process">Process</th>
+                                                <th data-resizable-column-id="action"
+                                                    style="position: relative; width: 317.65px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="item : ${listbudget}" th:class="${item.budget} < ${categoryExpensesMap[item.name]}? 'red-row' : ''">
+                                                <td th:text="${item.name}"></td>
+                                                <td th:text="${item.budget}"></td>       
+                                                <td th:text="${categoryExpensesMap[item.name]}"></td>   
+                                                <td th:text="${expenseCountMap[item.name]}"></td>
+                                                <td>
+                                                    <progress id="file" max="100" th:value="${(categoryExpensesMap[item.name] / item.budget) * 100}"></progress>
+                                                </td>
+                                                <td>
+                                                    <div style="margin: auto; text-align:center">
+                                                        <a th:href="@{/users/add-budget/{name}(name=${item.name})}"
+                                                            title="Edit" class="btn btn-warning"><i
+                                                                class="fa fa-pencil"></i>
+                                                            Set Budget
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block id="admin_javascript">
+        <script th:src="@{/assets/javascrip/admin.js}"></script>
+        <script th:src="@{/assets/javascrip/account.js}"></script>
+    </th:block>
+</body>
+
+</html>

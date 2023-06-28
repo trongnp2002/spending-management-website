@@ -94,8 +94,6 @@ public class SpringSecurity {
                                 .rememberMe().key("Axncmvi2002")
                                 .tokenValiditySeconds(60 * 60 * 24);
 
-
-
         @Autowired
         public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
                 auth
@@ -103,15 +101,9 @@ public class SpringSecurity {
                                 .passwordEncoder(passwordEncoder());
         }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().antMatchers("/assets/**", "/image/**");
-    }
+        @Bean
+        public WebSecurityCustomizer webSecurityCustomizer() {
+                return (web) -> web.ignoring().antMatchers("/assets/**", "/image/**");
+        }
 
 }

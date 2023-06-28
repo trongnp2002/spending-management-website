@@ -18,6 +18,7 @@ import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.UsersService;
+import com.group6.moneymanagementbooking.util.SecurityUtils;
 import com.group6.moneymanagementbooking.util.StringUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -150,7 +151,6 @@ public class UsersServiceImpl implements UsersService {
         if (users.getFailed_attempt() < (MAX_FAILED_ATTEMPTS - 1)) {
             increaseFailedAttempt(users);
             response.sendRedirect("/login?error=login-fail&turn=" + (MAX_FAILED_ATTEMPTS - users.getFailed_attempt()));
-
         } else {
             lock(users);
             response.sendRedirect("/login?error=login-fail&turn=0");
@@ -191,7 +191,22 @@ public class UsersServiceImpl implements UsersService {
         }
         return report;
     }
+    @Override
+    public Users getUsers(){
+        return usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get();
+    }
 
-   
+    @Override
+    public void addAdjustForUser(Users users) {
+        Optional<Users> existingUser = usersRepository.findByEmail(SecurityUtils.getCurrentUsername());
+        if(existingUser.isPresent()){
+        Users userToUpdate = existingUser.get();
+        userToUpdate.setAnnuallySpending(users.getAnnuallySpending());
+        userToUpdate.setMonthlySpending(users.getMonthlySpending());
+        userToUpdate.setMonthlySaving(users.getMonthlySaving());
+        userToUpdate.setMonthlyEarning(users.getMonthlyEarning());
+        usersRepository.save(userToUpdate);
+        }
+    }
 
 }

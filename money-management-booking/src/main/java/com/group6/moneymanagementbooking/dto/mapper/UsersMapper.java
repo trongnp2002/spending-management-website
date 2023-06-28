@@ -14,8 +14,8 @@ public class UsersMapper {
         return UsersDTOResponse.builder().firstName(account.getFirstName()).lastName(account.getLastName())
                 .email(account.getEmail()).phone(account.getPhone()).address(account.getAddress())
                 .role(account.getRole()).isActive(account.isActive()).currency(account.getCurrency())
-                .annuallySpending(account.getAnnually_spending()).monthlyEarning(account.getMonthly_earning())
-                .monthlySaving(account.getMonthly_saving()).monthlySpending(account.getMonthly_spending()).build();
+                .annuallySpending(account.getAnnuallySpending()).monthlyEarning(account.getMonthlyEarning())
+                .monthlySaving(account.getMonthlySaving()).monthlySpending(account.getMonthlySpending()).build();
     }
 
     public static Users toUsers(UsersDTORegisterRequest accountDTORegister) {

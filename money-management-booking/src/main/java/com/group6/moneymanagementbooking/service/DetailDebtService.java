@@ -17,5 +17,7 @@ public interface DetailDebtService {
     public Debt_detail findById(int id);
 
     // public List<Debt_detail> getDetailDebt(int id);
+     
+    
 
 }

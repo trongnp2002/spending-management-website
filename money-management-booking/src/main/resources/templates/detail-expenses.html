@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <h1>Update Expenses.</h1>
+    <form th:action="@{/users/detail-expense}" th:object="${expense}" method="post">
+        <p>Id <input type="text" readonly th:field="*{id}"></p>
+        <p>title
+            <input th:type="text" th:field="*{title}" required>
+        </p>
+        <p>amount
+            <input th:type="text" th:field="*{amount}" required>
+        </p>
+        <p>
+            <select th:field="*{accounts.id}" required>
+                <option th:each="item : ${listaccount}" th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+        </p>
+        <p>
+            <select th:field="*{category.id}" required>
+                <option th:each="item : ${listcategory}" th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+        </p>
+        <p>
+            <input type="date" th:field="*{expenseDate}" required>
+        </p>
+        <p>
+            <button type="submit">Add</button>
+        </p>
+    </form>
+</body>
+
+</html>

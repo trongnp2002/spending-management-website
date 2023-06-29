@@ -25,6 +25,7 @@ function changeStatus(userId, currentStatus) {
         }
     }
 }
+
 function changeStatus1(userId) {
     $.ajax({
         url: "/admins/change-status/" + userId,
@@ -40,8 +41,8 @@ function changeStatus1(userId) {
     });
 }
 function goToPage() {
-    let goToPageInput = document.getElementById("goToPageInput");
-    let pageNumber = parseInt(goToPageInput.value);
+    let goToPageInput = document.getElementById("admin_goToPageInput").value;
+    let pageNumber = parseInt(goToPageInput);
     let url = "/admins/home/page" + pageNumber;
     if (isLockedUserPage == "true") {
         let isLockedList = (locked == "true");
@@ -197,7 +198,7 @@ var searchButton = document.getElementById("admin_btnSearch");
 
 searchButton.addEventListener("click", function (event) {
     var searchBy = selectElement.value;
-    let value = document.getElementById("txtSearch").value;
+    let value = document.getElementById("admin_txtSearch").value;
     if (isLockedUserPage == "true") {
         let isLockedList = (locked == "true");
         if (searchBy == "select") {
@@ -238,4 +239,13 @@ btnActiveList.addEventListener("click", function () {
 })
 
 
+window.addEventListener('beforeunload', function (event) {
+    localStorage.setItem('selection', selectElement.value);
 
+});
+
+window.addEventListener('DOMContentLoaded', function (event) {
+    if (localStorage.getItem('selection') !== null) {
+        selectElement.value = localStorage.getItem('selection');
+    }
+});

@@ -129,6 +129,10 @@ table th {
     background-color: red;
 }
 
+.green-row {
+color: green;
+}
+
 .red-row {
     color: rgb(245, 36, 36);
 }
@@ -173,4 +177,36 @@ color: #000000ce;
 .btn.btn-dangers {
 background-color: #dfdada;
 color: #000000ce;
+}
+
+
+
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-container:first-child {
+    margin-left: 0;
+}
+
+.form-container:last-child {
+    margin-right: 0;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+}
+
+
+.error {
+    color: red;
+    border-color: red;
+}
+
+.separator {
+    margin: 0 5px;
 }

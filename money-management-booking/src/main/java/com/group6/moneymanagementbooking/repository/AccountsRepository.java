@@ -20,11 +20,33 @@ public interface AccountsRepository extends JpaRepository<Accounts, Integer> {
 
     public Optional<Accounts> findByName(String name);
 
+    @Query("select a.name from Accounts a where a.name = ?1 and a.userId = ?2")
+    public Optional<Accounts> findByNameAndUser_id(String name, int id);
+
     @Modifying
     @Transactional
     @Query("UPDATE Accounts Set is_Active = ?1 where id = ?2")
     public void updateActiveById(Boolean active, int id);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Accounts SET balance = ?1 WHERE id = ?2")
+    public void addBalanceById(double balance, int id);
+
+    @Query("UPDATE Accounts SET balance = ?1 WHERE id = ?2")
+    public boolean CheckBalanceById(double balance, int id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Accounts SET balance = ?1 WHERE id = ?2")
+    public void expenseBalanceById(double balance, int id);
+
+    @Query("select balance from Accounts where id = ?1")
+    public double findBalanceById(int id);
+
+    @Query("select a from Accounts a where a.active = ?1 and a.userId = ?2")
+    public List<Accounts> findByActiveAndUserId(boolean active, int id);
+
     @Query("SELECT a FROM Accounts a WHERE a.userId = :userId")
-    List<Accounts> findAllByUserId(@Param("userId") int userId);
+    public List<Accounts> findAllByUserId(@Param("userId") int userId);
 }

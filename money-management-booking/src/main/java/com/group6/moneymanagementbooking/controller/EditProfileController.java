@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.group6.moneymanagementbooking.dto.request.UserDTOEditProfileRequest;
-// import com.group6.moneymanagementbooking.service.EditProfileService;
 import com.group6.moneymanagementbooking.service.EditProfileService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 public class EditProfileController {
     private final EditProfileService editProfileService;
+
 
     @GetMapping("/editprofile")
     public String editProfile(Model model, HttpServletRequest request) {

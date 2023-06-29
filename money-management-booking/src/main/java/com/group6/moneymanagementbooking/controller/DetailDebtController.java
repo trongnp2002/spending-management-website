@@ -1,6 +1,5 @@
 package com.group6.moneymanagementbooking.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Debt_detail;
-import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.DebtorService;
@@ -44,15 +42,16 @@ public class DetailDebtController {
 
     @GetMapping("/view-detail/{id}")
     public String listDetailDebt(Model model, @PathVariable("id") int id, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize) {
-        model.addAttribute("listAcc", accountsService.findAllByUserId(getIdUser()).size());
-        model.addAttribute("debtor", debtorService.getDebtorById(id));
-
+            @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Debt_detail> items = detailDebtService.findAllById(id);
         Page<Debt_detail> itemsPage = PaginationUtil.paginate(pageable, items);
+        String currentRequestMapping = request.getRequestURI();
+        model.addAttribute("listAcc", accountsService.findAllByUserId(getIdUser()).size());
+        model.addAttribute("debtor", debtorService.getDebtorById(id));
         model.addAttribute("page", itemsPage);
-        return "view-detail-debt";
+        model.addAttribute("link", currentRequestMapping);
+        return "view-debt";
     }
 
     @GetMapping("/Add/{id}")
@@ -72,7 +71,7 @@ public class DetailDebtController {
             HttpServletRequest request, RedirectAttributes redirectAttributes)
             throws Exception {
 
-        Accounts acc = accountsService.findById(detail_edbt.getAccount_id());
+        Accounts acc = accountsService.findById(detail_edbt.getAccounts().getId());
         if (!acc.isActive()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Your account is inactive!");
             RedirectView redirectView = new RedirectView();
@@ -110,13 +109,14 @@ public class DetailDebtController {
     // return "add-detail-debt";
     // }
 
-    // @GetMapping("/Detail/{id}")
-    // public String editDebt(Model model, @PathVariable("id") int id) {
-    // Debt_detail deb = detailDebtService.findById(id);
-    // model.addAttribute("debt_detail", deb);
-    // model.addAttribute("title", "Edit");
-    // return "add-detail-debt";
-    // }
+    @GetMapping("/Details/{id}")
+    public String editDebt(Model model, @PathVariable("id") int id) {
+        Debt_detail deb = detailDebtService.findById(id);
+        model.addAttribute("debtor", debtorService.getDebtorById(deb.getDeptorId()));
+        model.addAttribute("debt_detail", deb);
+        model.addAttribute("title", "Edit");
+        return "view-detaildebt";
+    }
 
     private int getIdUser() {
         Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());

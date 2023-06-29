@@ -25,4 +25,8 @@ public interface UsersService {
 
       public Users getUserByEmail(String email);
 
+      public Users getUsers();
+
+      public void addAdjustForUser(Users users);
+
 }

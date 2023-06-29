@@ -39,8 +39,8 @@
             </div>
             <div class="mb-3">
                 <label for="address" class="form-label">Phone:</label>
-                <input type="tel" class="form-control" pattern="[0-9]{10}"
-                    placeholder="Enter Phone at least 10 numbers!" th:field="*{phone}" th:value="${debtor.phone}"
+                <input type="tel" class="form-control" pattern="[0-9]{10,13}"
+                    placeholder="Enter Phone (10-13 numbers)!" th:field="*{phone}" th:value="${debtor.phone}"
                     required>
 
             </div>

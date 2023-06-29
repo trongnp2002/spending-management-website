@@ -57,24 +57,6 @@
                         <div class="card-header">
                             <div class="float-left">
                                 <h3 class="mb-0" th:text="${debtor.name}"></h3>
-                                <p class="small text-muted m-0" th:text="'Total record: ' + ${page.getTotalElements()}">
-                                </p>
-
-                            </div>
-                            <div class="float-right">
-                                <a type="button" th:href="@{/Debtor/ListAll}" title="List Debt"
-                                    class="mr-1 btn btn-primary" style="border-radius: 20px;">Back to List of Debtor</a>
-                            </div>
-                            <div class="float-right">
-                                <th:block th:if="${listAcc > 0}">
-                                    <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${debtor.id}}"
-                                        class="mr-1 btn btn-primary" style="border-radius: 20px;"><i
-                                            class="fa fa-plus"></i>Add new Debt</a>
-                                </th:block>
-                                <th:block th:if="${listAcc == 0}">
-                                    <i style="color: red; margin-right: 350px; font-size: 20px;">You need to create an
-                                        account before creating a debt!</i>
-                                </th:block>
                             </div>
                         </div>
 
@@ -85,6 +67,7 @@
                                         <tr id="ta" style="background-color: white;color:black;">
                                             <th data-resizable-column-id="id"
                                                 style="position: relative; width: 64.4375px">ID</th>
+                                                <th data-resizable-column-id="note">Money from account </th>
                                             <th data-resizable-column-id="note">Note</th>
                                             <th data-resizable-column-id="classify"
                                                 style="position: relative; width: 128.25px;">Classify
@@ -93,46 +76,31 @@
                                             <th data-resizable-column-id="start_date"
                                                 style="position: relative; width: 175.275px;">Start
                                                 Date</th>
-                                            <th data-resizable-column-id="action"
-                                                style="position: relative; width: 317.65px;">Action</th>
                                         </tr>
 
                                     </thead>
                                     <tbody>
-                                        <tr th:each="item : ${page.content}">
+                                        <tr th:each="item : ${debt_detail}">
                                             <td th:text="${item.id}"></td>
+                                            <td th:text="${item.accounts.name}"></td>
                                             <td th:text="${item.note}"></td>
                                             <td th:text="${item.classify ? '+' : '-'}"></td>
                                             <td th:text="${item.money_debt}"></td>
                                             <td th:text="${item.date_create}"></td>
-                                            <td>
-                                                <div style="margin: auto; text-align:center">
-                                                    <a th:href="@{'/Debtor/Detail/Edit/' + ${item.id}}"
-                                                        class="btn btn-warning"><i class="fas fa-info-circle"></i>
-                                                        Detail
-                                                    </a>
-
-                                                    <a th:href="@{'/Debtor/Detail/Delete/' + ${item.id}}"
-                                                        class="btn btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete adebt?');"><i
-                                                            class="fa fa-exclamation-circle"></i>
-                                                        Delete
-                                                    </a>
-                                                    <button th:classappend="${item.classify ? '' : 'disabled'}"
-                                                        aria-readonly="true" type="button" class="btn btn-success"><em
-                                                            class="fa fa-plus"></em></button>
-                                                    <button th:classappend="${item.classify ? 'disabled' : ''}"
-                                                        aria-readonly="true" type="button" class="btn btn-danger"><em
-                                                            class="fa fa-minus"></em></button>
-                                                </div>
-                                            </td>
+                                           
                                         </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
 
+                                <div class="float-right">
+                                    <a type="button" th:href="@{'/Debtor/Detail/view-detail/' + ${debt_detail.deptorId}}"title="Close"
+                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Close</a>
+                                       
+                                </div>
+
                                 <!-- phân trang -->
-                                <div class="card-body">
+                                <!-- <div class="card-body">
                                     <div class="pagination">
                                         <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
                                             th:href="@{/Debtor/ListAll(page=${page.number - 1})}"
@@ -143,7 +111,8 @@
                                             th:href="@{/Debtor/ListAll(page=${page.number + 1})}"
                                             class="btn btn-dangers">Next</a>
                                     </div>
-                                </div>
+                                </div> -->
+
 
                             </div>
                         </div>

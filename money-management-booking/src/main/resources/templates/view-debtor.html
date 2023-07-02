@@ -117,38 +117,44 @@
                                     class="mr-1 btn btn-primary" style="border-radius: 20px;"><i
                                         class="fa fa-plus"></i>Add new Debtor</a> -->
 
-                                        <button type="button" class="mr-1 btn btn-primary" data-toggle="modal" data-target="#editModal" style="border-radius: 20px;">
-                                            Debtor
-                                           </button>
-                                           <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                                             <div class="modal-dialog" role="document">
-                                               <div class="modal-content">
-                                                 <div class="modal-header">
-                                                   <h5 class="modal-title" id="editModalLabel">Add Debtor</h5>
-                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                     <span aria-hidden="true">&times;</span>
-                                                   </button>
-                                                 </div>
-                                                 <div class="modal-body">
-                                                  
+                                <button type="button" class="mr-1 btn btn-primary" data-toggle="modal"
+                                    data-target="#addModal" style="border-radius: 20px;">
+                                    Debtor
+                                </button>
+                                <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="addModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addModalLabel">Add Debtor</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="">
                                                     <div class="position-relative row form-group">
-                                                        <div class="form-label-horizontal col-md-3"> <label class=""><b>Name</b>                                                            
-                                                        </label>
-                                                    </div>
+                                                        <div class="form-label-horizontal col-md-3"> <label
+                                                                class=""><b>Name</b>
+                                                            </label>
+                                                        </div>
                                                         <div class="col-md-9">
-                                                            <input placeholder="Enter Name" type="text" class="form-control" name="name">
-                                                            
+                                                            <input placeholder="Enter Name" type="text"
+                                                                class="form-control" name="name">
+
                                                         </div>
 
 
                                                     </div>
                                                     <div class="position-relative row form-group">
                                                         <div class="form-label-horizontal col-md-3"><label class="">
-                                                            <b>Address</b>
-                                                        </label>
-                                                    </div>
+                                                                <b>Address</b>
+                                                            </label>
+                                                        </div>
                                                         <div class="col-md-9">
-                                                            <input placeholder="Enter Address" type="text" class="form-control" name="Address">
+                                                            <input placeholder="Enter Address" type="text"
+                                                                class="form-control" name="Address">
                                                         </div>
                                                     </div>
                                                     <div class="position-relative row form-group">
@@ -158,7 +164,9 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            <input placeholder="Enter Phone number at least 10 numbers! " type="number" class="form-control" name="Phone">
+                                                            <input
+                                                                placeholder="Enter Phone number at least 10 numbers! "
+                                                                type="number" class="form-control" name="Phone">
 
                                                         </div>
                                                     </div>
@@ -167,232 +175,255 @@
                                                             <label class="">
                                                                 <b>Email</b>
                                                             </label>
-                                                        </div>                                                      
+                                                        </div>
                                                         <div class="col-md-9">
-                                                       <input placeholder="Enter email" type="email" class="form-control" name="Email">
-                                                       </div>
-                                                </div>
-                                                 
-                                                 
-                                                 
-                                                 </div>
-                                                 <div class="modal-footer">
-                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                   <button type="button" class="btn btn-primary">Save Changes</button>
-                                                 </div>
-                                               </div>
-                                             </div>
-                                           </div>
-                                         
-                                           <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-                                           <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                                            <input placeholder="Enter email" type="email"
+                                                                class="form-control" name="Email">
+                                                        </div>
+                                                </form>
+
+                                            </div>
 
 
-
-
-
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="float-right">
-                                <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
-                            </div>
+                            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                            <script
+                                src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+                            <script
+                                src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
                         </div>
 
-                        <div style="display: flex; justify-content: space-between;">
-                            <div>
-                                <form th:action="@{/Debtor/Search}" method="get">
-                                    <div class="input-group">
-                                        <div class="form-outline">
-                                            <input type="search" name="nameDebtor" th:value="${nameDebtor}"
-                                                placeholder="Search Debtor By Name" class="form-control"
-                                                style="border-radius: 15px;margin-top: 10px;margin-left: 20px">
-                                            <input type="hidden" name="currentLink" th:value="${link}">
-                                        </div>
-                                        <button type="submit" class="btn btn-secondary"
-                                            style="border-radius: 15px;margin-top: 10px;margin-left:30px">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                        <div class="float-right">
+                            <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <form th:action="@{/Debtor/Search}" method="get">
+                                <div class="input-group">
+                                    <div class="form-outline">
+                                        <input type="search" name="nameDebtor" th:value="${nameDebtor}"
+                                            placeholder="Search Debtor By Name" class="form-control"
+                                            style="border-radius: 15px;margin-top: 10px;margin-left: 20px">
+                                        <input type="hidden" name="currentLink" th:value="${link}">
                                     </div>
-                                </form>
-                            </div>
+                                    <button type="submit" class="btn btn-secondary"
+                                        style="border-radius: 15px;margin-top: 10px;margin-left:30px">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
 
-                            <div style="margin-right: 95px; margin-top: 10px;">
+                        <div style="margin-right: 95px; margin-top: 10px;">
 
-                                <form th:action="@{/Debtor/Filter}" method="get" id="filterForm">
-                                    <div class="input-group">
-                                        <select id="filterType" name="filterType" class="form-control"
-                                            style="border-radius: 15px; margin-right: 10px;">
-                                            <option value="total" th:selected="${filterType == 'total'}">Total Money
-                                            </option>
-                                            <option value="date" th:selected="${filterType == 'date'}">Date Create
-                                            </option>
-                                        </select>
-                                        <input type="hidden" name="nameDebtor" th:value="${nameDebtor}">
-                                        <div id="filterValueContainer">
+                            <form th:action="@{/Debtor/Filter}" method="get" id="filterForm">
+                                <div class="input-group">
+                                    <select id="filterType" name="filterType" class="form-control"
+                                        style="border-radius: 15px; margin-right: 10px;">
+                                        <option value="total" th:selected="${filterType == 'total'}">Total Money
+                                        </option>
+                                        <option value="date" th:selected="${filterType == 'date'}">Date Create
+                                        </option>
+                                    </select>
+                                    <input type="hidden" name="nameDebtor" th:value="${nameDebtor}">
+                                    <div id="filterValueContainer">
 
-                                            <div id="rangeContainer"
-                                                th:classappend="${filterType == 'date'} ? 'active' : ''">
-                                                <div class="input-row">
-                                                    <input type="text" id="filterValueStart" name="filterValueStart"
-                                                        class="form-control" style="border-radius: 15px; width: 200px;"
-                                                        placeholder="From" th:value="${filterValueStart}">
-                                                    <span class="separator">-</span>
-                                                    <input type="text" id="filterValueEnd" name="filterValueEnd"
-                                                        class="form-control" style="border-radius: 15px; width: 200px;"
-                                                        placeholder="To" th:value="${filterValueEnd}">
-                                                </div>
+                                        <div id="rangeContainer"
+                                            th:classappend="${filterType == 'date'} ? 'active' : ''">
+                                            <div class="input-row">
+                                                <input type="text" id="filterValueStart" name="filterValueStart"
+                                                    class="form-control" style="border-radius: 15px; width: 200px;"
+                                                    placeholder="From" th:value="${filterValueStart}">
+                                                <span class="separator">-</span>
+                                                <input type="text" id="filterValueEnd" name="filterValueEnd"
+                                                    class="form-control" style="border-radius: 15px; width: 200px;"
+                                                    placeholder="To" th:value="${filterValueEnd}">
                                             </div>
                                         </div>
-                                        <input type="hidden" name="link" th:value="${currentLink}">
-                                        <button type="submit" id="searchButton" class="btn btn-secondary"
-                                            style="border-radius: 15px; margin-left: 10px;">
-                                            <i class="fas fa-search"></i> Filter
-                                        </button>
                                     </div>
-                                    <div style="margin-left: 20px;"><span style="color: red;" id="errorSpan"></span>
-                                    </div>
-                                </form>
-                            </div>
+                                    <input type="hidden" name="link" th:value="${currentLink}">
+                                    <button type="submit" id="searchButton" class="btn btn-secondary"
+                                        style="border-radius: 15px; margin-left: 10px;">
+                                        <i class="fas fa-search"></i> Filter
+                                    </button>
+                                </div>
+                                <div style="margin-left: 20px;"><span style="color: red;" id="errorSpan"></span>
+                                </div>
+                            </form>
                         </div>
+                    </div>
 
-                        <div class="card-body">
-                            <div class="table-responsive" style="text-align: center;">
-                                <table class="table table-bordered table-sm" data-resizable-columns-id="demo-table-v2">
-                                    <thead>
-                                        <tr id="ta" style="background-color: white;color:black;">
-                                            <th class="resizable-column" style="position: relative; width: 64.4375px">ID
-                                            </th>
-                                            <th class="resizable-column">Name</th>
-                                            <th class="resizable-column">Address</th>
-                                            <th class="resizable-column" style="position: relative; width: 128.25px;">
-                                                Phone</th>
-                                            <th class="resizable-column" style="position: relative; width: 175.275px;">
-                                                Email</th>
-                                            <th class="resizable-column" style="position: relative; width: 109.25px;">
-                                                Total</th>
-                                            <th class="resizable-column" style="position: relative; width: 155.275px;">
-                                                Date Create</th>
-                                            <th class="resizable-column" style="position: relative; width: 199.325px;">
-                                                Date Update</th>
-                                            <th class="resizable-column" style="position: relative; width: 317.65px;">
-                                                Action</th>
-                                        </tr>
+                    <div class="card-body">
+                        <div class="table-responsive" style="text-align: center;">
+                            <table class="table table-bordered table-sm" data-resizable-columns-id="demo-table-v2">
+                                <thead>
+                                    <tr id="ta" style="background-color: white;color:black;">
+                                        <th class="resizable-column" style="position: relative; width: 64.4375px">ID
+                                        </th>
+                                        <th class="resizable-column">Name</th>
+                                        <th class="resizable-column">Address</th>
+                                        <th class="resizable-column" style="position: relative; width: 128.25px;">
+                                            Phone</th>
+                                        <th class="resizable-column" style="position: relative; width: 175.275px;">
+                                            Email</th>
+                                        <th class="resizable-column" style="position: relative; width: 109.25px;">
+                                            Total</th>
+                                        <th class="resizable-column" style="position: relative; width: 155.275px;">
+                                            Date Create</th>
+                                        <th class="resizable-column" style="position: relative; width: 199.325px;">
+                                            Date Update</th>
+                                        <th class="resizable-column" style="position: relative; width: 317.65px;">
+                                            Action</th>
+                                    </tr>
 
-                                    </thead>
-                                    <tbody style="font-weight: 499;">
-                                        <tr th:each="item : ${page.content}">
+                                </thead>
+                                <tbody style="font-weight: 499;">
+                                    <tr th:each="item : ${page.content}">
 
-                                            <td th:text="${item.id}"></td>
-                                            <td th:text="${item.name}"></td>
-                                            <td th:text="${item.address}"></td>
-                                            <td th:text="${item.phone}"></td>
-                                            <td th:text="${item.email}"></td>
-                                            <td th:text="${item.total}"></td>
-                                            <td th:text="${item.date_create}"></td>
-                                            <td th:text="${item.date_update}"></td>
+                                        <td th:text="${item.id}"></td>
+                                        <td th:text="${item.name}"></td>
+                                        <td th:text="${item.address}"></td>
+                                        <td th:text="${item.phone}"></td>
+                                        <td th:text="${item.email}"></td>
+                                        <td th:text="${item.total}"></td>
+                                        <td th:text="${item.date_create}"></td>
+                                        <td th:text="${item.date_update}"></td>
 
-                                            <td>
-                                                <div style="margin: auto; text-align:center">
-                                                    <a th:href="@{'/Debtor/Detail/view-detail/' + ${item.id}}"
-                                                        class="btn btn-primary"><i class="fas fa-info-circle"></i>
-                                                        Details
-                                                    </a>
+                                        <td>
+                                            <div style="margin: auto; text-align:center">
+                                                <a th:href="@{'/Debtor/Detail/view-detail/' + ${item.id}}"
+                                                    class="btn btn-primary"><i class="fas fa-info-circle"></i>
+                                                    Details
+                                                </a>
 
-                                                    <!-- <a th:href="@{'/Debtor/edit/' + ${item.id}}" title="Edit"
+                                                <!-- <a th:href="@{'/Debtor/edit/' + ${item.id}}" title="Edit"
                                                         class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                         Edit
                                                     </a> -->
-                                                    <a>
-                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                                                            <i class="fa fa-pencil"></i>
-                                                            Edit
-                                                           </button>
-                                                           <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                              <div class="modal-content">
+                                                <a>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#editModal">
+                                                        <i class="fa fa-pencil"></i>
+                                                        Edit
+                                                    </button>
+                                                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                                        aria-labelledby="editModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                  <h5 class="modal-title" id="editModalLabel">Edit Debtor</h5>
-                                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                  </button>
+                                                                    <h5 class="modal-title" id="editModalLabel">Edit
+                                                                        Debtor</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                 
-                                                                   <div class="position-relative row form-group">
-                                                                       <div class="form-label-horizontal col-md-3"> <label class=""><b>Name</b>                                                            
-                                                                       </label>
-                                                                   </div>
-                                                                       <div class="col-md-9">
-                                                                           <input placeholder="Enter Name" type="text" class="form-control" name="name">
-                                                                           
-                                                                       </div>
-               
-               
-                                                                   </div>
-                                                                   <div class="position-relative row form-group">
-                                                                       <div class="form-label-horizontal col-md-3"><label class="">
-                                                                           <b>Address</b>
-                                                                       </label>
-                                                                   </div>
-                                                                       <div class="col-md-9">
-                                                                           <input placeholder="Enter Address" type="text" class="form-control" name="Address">
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="position-relative row form-group">
-                                                                       <div class="form-label-horizontal col-md-3">
-                                                                           <label class="">
-                                                                               <b>Phone</b>
-                                                                           </label>
-                                                                       </div>
-                                                                       <div class="col-md-9">
-                                                                           <input placeholder="Enter Phone number at least 10 numbers! " type="number" class="form-control" name="Phone">
-               
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="position-relative row form-group">
-                                                                       <div class="form-label-horizontal col-md-3">
-                                                                           <label class="">
-                                                                               <b>Email</b>
-                                                                           </label>
-                                                                       </div>                                                      
-                                                                       <div class="col-md-9">
-                                                                      <input placeholder="Enter email" type="email" class="form-control" name="Email">
-                                                                      </div>
-                                                               </div>
-                                                                
-                                                                
-                                                                
+
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class=""><b>Name</b>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <input placeholder="Enter Name" type="text"
+                                                                                class="form-control" name="name">
+
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class="">
+                                                                                <b>Address</b>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <input placeholder="Enter Address"
+                                                                                type="text" class="form-control"
+                                                                                name="Address">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class="">
+                                                                                <b>Phone</b>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <input
+                                                                                placeholder="Enter Phone number at least 10 numbers! "
+                                                                                type="number" class="form-control"
+                                                                                name="Phone">
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class="">
+                                                                                <b>Email</b>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <input placeholder="Enter email"
+                                                                                type="email" class="form-control"
+                                                                                name="Email">
+                                                                        </div>
+                                                                    </div>
+
+
+
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                  <button type="button" class="btn btn-primary">Save Changes</button>
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-primary">Save
+                                                                        Changes</button>
                                                                 </div>
-                                                              </div>
                                                             </div>
-                                                          </div>
-                                                        
-                                                          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                                          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-                                                          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                                        </div>
+                                                    </div>
 
-                                                    </a>
+                                                    <script
+                                                        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                                                    <script
+                                                        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+                                                    <script
+                                                        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-                                                    <a th:href="@{'/Debtor/delete/' + ${item.id}}"
-                                                        class="btn btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete?');"><i
-                                                            class="fa fa-exclamation-circle"></i>
-                                                        Delete
-                                                    </a>
+                                                </a>
 
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                                <div class="card-body">
-                                    <!-- 
+                                                <a th:href="@{'/Debtor/delete/' + ${item.id}}" class="btn btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete?');"><i
+                                                        class="fa fa-exclamation-circle"></i>
+                                                    Delete
+                                                </a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                            <div class="card-body">
+                                <!-- 
                                     <div class="pagination">
                                         <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
                                             th:href="@{${link}(page=${page.number - 1})}"
@@ -404,26 +435,26 @@
                                             class="btn btn-dangers">Next</a>
                                     </div> -->
 
-                                    <div class="pagination">
-                                        <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
-                                            th:href="@{${link}(page=${page.number - 1}, nameDebtor=${nameDebtor}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
-                                            class="btn btn-dangers">Previous</a>
-                                        <span>Page <span th:text="${page.number + 1}"></span> / <span
-                                                th:text="${page.totalPages}"></span></span>
-                                        <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
-                                            th:href="@{${link}(page=${page.number + 1}, nameDebtor=${nameDebtor}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
-                                            class="btn btn-dangers">Next</a>
-                                    </div>
-
-
+                                <div class="pagination">
+                                    <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
+                                        th:href="@{${link}(page=${page.number - 1}, nameDebtor=${nameDebtor}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
+                                        class="btn btn-dangers">Previous</a>
+                                    <span>Page <span th:text="${page.number + 1}"></span> / <span
+                                            th:text="${page.totalPages}"></span></span>
+                                    <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
+                                        th:href="@{${link}(page=${page.number + 1}, nameDebtor=${nameDebtor}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
+                                        class="btn btn-dangers">Next</a>
                                 </div>
 
+
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 
@@ -455,96 +486,96 @@
     });
 
 
-    document.getElementById("filterType").onchange = function() {
-    var filterType = this.value;
-    var rangeContainer = document.getElementById("rangeContainer");
-    var filterValueStart = document.getElementById("filterValueStart");
-    var filterValueEnd = document.getElementById("filterValueEnd");
-    var errorSpan = document.getElementById("errorSpan");
-    var searchButton = document.getElementById("searchButton");
+    document.getElementById("filterType").onchange = function () {
+        var filterType = this.value;
+        var rangeContainer = document.getElementById("rangeContainer");
+        var filterValueStart = document.getElementById("filterValueStart");
+        var filterValueEnd = document.getElementById("filterValueEnd");
+        var errorSpan = document.getElementById("errorSpan");
+        var searchButton = document.getElementById("searchButton");
 
-    if (filterType === "total") {
-        filterValueStart.type = "number";
-        filterValueEnd.type = "number";
-        filterValueStart.classList.remove("error");
-        filterValueEnd.classList.remove("error");
-        errorSpan.textContent = "";
-        errorSpan.style.display = "none";
-    } else if (filterType === "date") {
-        filterValueStart.type = "date";
-        filterValueEnd.type = "date";
-        errorSpan.style.display = "none";
-    }
-
-    filterValueStart.oninput = function() {
-        var startValue = filterValueStart.value;
-        var endValue = filterValueEnd.value;
-
-        if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
-            errorSpan.textContent = "Start value must be less than end value";
-            errorSpan.style.display = "block";
-            filterValueStart.classList.add("error");
-            filterValueEnd.classList.add("error");
-        } else if (filterType === "date" && startValue > endValue) {
-            errorSpan.textContent = "Start date must be before end date";
-            errorSpan.style.display = "block";
-            filterValueStart.classList.add("error");
-            filterValueEnd.classList.add("error");
-        } else {
-            errorSpan.textContent = "";
-            errorSpan.style.display = "none";
+        if (filterType === "total") {
+            filterValueStart.type = "number";
+            filterValueEnd.type = "number";
             filterValueStart.classList.remove("error");
             filterValueEnd.classList.remove("error");
+            errorSpan.textContent = "";
+            errorSpan.style.display = "none";
+        } else if (filterType === "date") {
+            filterValueStart.type = "date";
+            filterValueEnd.type = "date";
+            errorSpan.style.display = "none";
         }
+
+        filterValueStart.oninput = function () {
+            var startValue = filterValueStart.value;
+            var endValue = filterValueEnd.value;
+
+            if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
+                errorSpan.textContent = "Start value must be less than end value";
+                errorSpan.style.display = "block";
+                filterValueStart.classList.add("error");
+                filterValueEnd.classList.add("error");
+            } else if (filterType === "date" && startValue > endValue) {
+                errorSpan.textContent = "Start date must be before end date";
+                errorSpan.style.display = "block";
+                filterValueStart.classList.add("error");
+                filterValueEnd.classList.add("error");
+            } else {
+                errorSpan.textContent = "";
+                errorSpan.style.display = "none";
+                filterValueStart.classList.remove("error");
+                filterValueEnd.classList.remove("error");
+            }
+            toggleSearchButtonState();
+        };
+
+        filterValueEnd.oninput = function () {
+            var startValue = filterValueStart.value;
+            var endValue = filterValueEnd.value;
+
+            if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
+                errorSpan.textContent = "Start value must be less than end value";
+                errorSpan.style.display = "block";
+                filterValueStart.classList.add("error");
+                filterValueEnd.classList.add("error");
+            } else if (filterType === "date" && startValue > endValue) {
+                errorSpan.textContent = "Start date must be before end date";
+                errorSpan.style.display = "block";
+                filterValueStart.classList.add("error");
+                filterValueEnd.classList.add("error");
+            } else {
+                errorSpan.textContent = "";
+                errorSpan.style.display = "none";
+                filterValueStart.classList.remove("error");
+                filterValueEnd.classList.remove("error");
+            }
+            toggleSearchButtonState();
+        };
+
+        function toggleSearchButtonState() {
+            var startValue = filterValueStart.value.trim();
+            var endValue = filterValueEnd.value.trim();
+
+            if (startValue === "" || endValue === "") {
+                searchButton.disabled = true;
+            } else {
+                searchButton.disabled = false;
+            }
+        }
+
         toggleSearchButtonState();
     };
 
-    filterValueEnd.oninput = function() {
-        var startValue = filterValueStart.value;
-        var endValue = filterValueEnd.value;
-
-        if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
-            errorSpan.textContent = "Start value must be less than end value";
-            errorSpan.style.display = "block";
-            filterValueStart.classList.add("error");
-            filterValueEnd.classList.add("error");
-        } else if (filterType === "date" && startValue > endValue) {
-            errorSpan.textContent = "Start date must be before end date";
-            errorSpan.style.display = "block";
-            filterValueStart.classList.add("error");
-            filterValueEnd.classList.add("error");
-        } else {
-            errorSpan.textContent = "";
-            errorSpan.style.display = "none";
-            filterValueStart.classList.remove("error");
-            filterValueEnd.classList.remove("error");
-        }
-        toggleSearchButtonState();
-    };
-
-    function toggleSearchButtonState() {
-        var startValue = filterValueStart.value.trim();
-        var endValue = filterValueEnd.value.trim();
+    document.getElementById("filterForm").onsubmit = function (event) {
+        var startValue = document.getElementById("filterValueStart").value.trim();
+        var endValue = document.getElementById("filterValueEnd").value.trim();
 
         if (startValue === "" || endValue === "") {
-            searchButton.disabled = true;
-        } else {
-            searchButton.disabled = false;
+            event.preventDefault();
+            alert("Please enter both From and To values before submitting the form.");
         }
-    }
-
-    toggleSearchButtonState();
-};
-
-document.getElementById("filterForm").onsubmit = function(event) {
-    var startValue = document.getElementById("filterValueStart").value.trim();
-    var endValue = document.getElementById("filterValueEnd").value.trim();
-
-    if (startValue === "" || endValue === "") {
-        event.preventDefault();
-        alert("Please enter both From and To values before submitting the form.");
-    }
-};
+    };
 
 
 

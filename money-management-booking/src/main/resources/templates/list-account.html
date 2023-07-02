@@ -43,16 +43,16 @@
                                 <div class="float-right">
                                     <!-- <a type="button" th:href="@{/users/add-account}" title="List Account"
                                         class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Account</a> -->
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" style="border-radius: 20px;">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal" style="border-radius: 20px;">
                                             List account
                                            </button>
                                          
                                            
-                                           <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                           <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
                                              <div class="modal-dialog" role="document">
                                                <div class="modal-content">
                                                  <div class="modal-header">
-                                                   <h5 class="modal-title" id="editModalLabel">Add New Account</h5>
+                                                   <h5 class="modal-title" id="addModalLabel">Add New Account</h5>
                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                      <span aria-hidden="true">&times;</span>
                                                    </button>
@@ -102,9 +102,7 @@
                                              </div>
                                            </div>
                                          
-                                           <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-                                           <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                        
 
                                     </div>
                                     <div class="float-right">
@@ -216,9 +214,7 @@
                                                             </div>
                                                           </div>
                                                         
-                                                          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                                          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-                                                          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                                       
 
                                                             </a>
 
@@ -257,7 +253,9 @@
         <th:block id="admin_javascript">
             <script th:src="@{/assets/javascrip/admin.js}"></script>
             <script th:src="@{/assets/javascrip/account.js}"></script>
-
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         </th:block>
 </body>
 

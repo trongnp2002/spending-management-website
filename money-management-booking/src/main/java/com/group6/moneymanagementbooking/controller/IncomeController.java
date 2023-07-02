@@ -32,17 +32,11 @@ public class IncomeController {
     private final AccountsService accountsService;
     private final CategoryService categoryService;
 
-    @GetMapping("/add-income")
-    public String addIncome(Model model) {
-        model.addAttribute("listaccount", accountsService.findByActive());
-        model.addAttribute("listcategory", categoryService.findIncomeInCategory());
-        model.addAttribute("income", new Income());
-        return "add-income";
-    }
 
     @PostMapping("/add-income")
     public String addIncome(@ModelAttribute Income income) {
-        return Optional.ofNullable(incomeService.addIncome(income)).map(t -> "redirect:/users/list-income").orElse("failed");
+        return Optional.ofNullable(incomeService.addIncome(income)).map(t -> "redirect:/users/list-income")
+                .orElse("failed");
     }
 
     @GetMapping("/list-income")
@@ -50,6 +44,9 @@ public class IncomeController {
             Model model) {
         model.addAttribute("listincome", incomeService.findAll());
         model.addAttribute("record", incomeService.findAll().size());
+        model.addAttribute("listaccount", accountsService.findByActive());
+        model.addAttribute("listcategory", categoryService.findIncomeInCategory());
+        model.addAttribute("addincome", new Income());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Income> items = incomeService.findAll();
         Page<Income> itemsPage = PaginationUtil.paginate(pageable, items);
@@ -57,17 +54,10 @@ public class IncomeController {
         return "list-income";
     }
 
-    @GetMapping("/detail-income/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
-        model.addAttribute("income", incomeService.getIncome(id));
-        model.addAttribute("listaccount", accountsService.findByActive());
-        model.addAttribute("listcategory", categoryService.findIncomeInCategory());
-        return "detail-income";
-    }
 
     @PostMapping("/detail-income")
-    public String detail(@ModelAttribute Income income) {
-        return Optional.ofNullable(incomeService.updateIncome(income)).map(t -> "redirect:/users/list-income")
+    public String detail(@ModelAttribute Income addincome) {
+        return Optional.ofNullable(incomeService.updateIncome(addincome)).map(t -> "redirect:/users/list-income")
                 .orElse("failed");
     }
 

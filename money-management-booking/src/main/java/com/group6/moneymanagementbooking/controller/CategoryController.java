@@ -28,11 +28,6 @@ public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
 
-    @GetMapping("/add-category")
-    public String addCategory(Model model) {
-        model.addAttribute("category", new Category());
-        return "add-category";
-    }
 
     @PostMapping("/add-category")
     public String addCategory(@ModelAttribute Category category) {
@@ -44,17 +39,12 @@ public class CategoryController {
             Model model) {
         model.addAttribute("listcategory", categoryService.findAll());
         model.addAttribute("record", categoryService.findAll().size());
+        model.addAttribute("addcategory", new Category());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Category> items = categoryService.findAll();
         Page<Category> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("page", itemsPage);
         return "list-category";
-    }
-
-    @GetMapping("/detail-category/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
-        model.addAttribute("category", categoryService.getCategory(id));
-        return "detail-category";
     }
 
     @PostMapping("/detail-category")

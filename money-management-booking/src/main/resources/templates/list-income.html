@@ -9,7 +9,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Income List</title>
     <th:block id="admin-static-resource">
-         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -42,8 +43,101 @@
                                 </div>
 
                                 <div class="float-right">
-                                    <a type="button" th:href="@{/users/add-income}" title="List Income"
-                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Income</a>
+                                    <!-- <a type="button" th:href="@{/users/add-income}" title="List Income"
+                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Income</a> -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#editModal" style="border-radius: 20px;">
+                                        Add New Income
+                                    </button>
+
+                                    <form th:action="@{/users/add-income}" th:object="${addincome}" method="post">
+                                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">Create New Income
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <div class="position-relative row form-group">
+                                                            <div class="form-label-horizontal col-md-3"> <label
+                                                                    class=""><b>Title</b>
+                                                                </label></div>
+                                                            <div class="col-md-9">
+                                                                <input placeholder="Enter Title" type="text"
+                                                                    class="form-control" th:field="*{title}" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="position-relative row form-group">
+                                                            <div class="form-label-horizontal col-md-3">
+                                                                <label class="">
+                                                                    <b>Amount</b>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <input placeholder="Input number" type="number"
+                                                                    class="form-control" th:field="*{amount}" required
+                                                                    name="amount"
+                                                                    onkeypress="return validateNumberInput(event)">
+                                                            </div>
+                                                        </div>
+                                                        <div class="position-relative row form-group">
+                                                            <div class="form-label-horizontal col-md-3">
+                                                                <label class="">
+                                                                    <b>Accounts</b>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <select th:field="*{accounts.id}" required
+                                                                    class="form-control">
+                                                                    <option th:each="item : ${listaccount}"
+                                                                        th:value="${item.id}" th:text="${item.name}">
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="position-relative row form-group">
+                                                            <div class="form-label-horizontal col-md-3">
+                                                                <label class="">
+                                                                    <b>Category</b>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <select th:field="*{category.id}" required
+                                                                    class="form-control">
+                                                                    <option th:each="item : ${listcategory}"
+                                                                        th:value="${item.id}" th:text="${item.name}">
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="position-relative row form-group">
+                                                            <div class="form-label-horizontal col-md-3"><label class="">
+                                                                    <b>Date</b>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <input type="date" th:field="*{incomeDate}" id="myDate"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
 
                                 <div class="float-right">
@@ -74,17 +168,147 @@
                                                 <td th:text="${item.amount}"></td>
                                                 <td th:text="${item.incomeDate}"></td>
                                                 <td>
-                                                    <div style="margin: auto; text-align:center">
-                                                        <a th:href="@{/users/detail-income/{id}(id=${item.id})}" title="Edit"
-                                                            class="btn btn-warning"><i class="fa fa-pencil"></i>
-                                                            Edit
-                                                        </a>
-                                                        <a th:onclick="confirmDeleteIncome([[${item.id}]])"
-                                                            class="btn btn-danger" style="color: black;"><i
-                                                                class="fa fa-exclamation-circle"></i>
-                                                            Delete
-                                                        </a>
-                                                    </div>
+                                                    <form th:action="@{/users/detail-income}" method="post">
+                                                        <div style="margin: auto; text-align:center">
+                                                           
+                                                            <a>
+                                                                <button type="button" class="btn btn-warning"
+                                                                    data-toggle="modal"
+                                                                    th:data-target="'#editModal' + ${item.id}">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                    Edit
+                                                                </button>
+                                                                <div class="modal fade" th:id="'editModal'+${item.id}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    th:aria-labelledby="'editModalLabel' + ${item.id}"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    th:id="'editModalLabel'+${item.id}">
+                                                                                    Edit Income</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span
+                                                                                        aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+
+                                                                                <input th:value="${item.id}" type="text"
+                                                                                    class="form-control" name="id"
+                                                                                    style="display: none;">
+                                                                                <div
+                                                                                    class="position-relative row form-group">
+                                                                                    <div
+                                                                                        class="form-label-horizontal col-md-3">
+                                                                                        <label class=""><b>Title</b>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9">
+                                                                                        <input th:value="${item.title}"
+                                                                                            type="text"
+                                                                                            class="form-control"
+                                                                                            name="title">
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="position-relative row form-group">
+                                                                                    <div
+                                                                                        class="form-label-horizontal col-md-3">
+                                                                                        <label class="">
+                                                                                            <b>Amount</b>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9">
+                                                                                        <input th:value="${item.amount}"
+                                                                                            type="text"
+                                                                                            class="form-control"
+                                                                                            name="amount">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="position-relative row form-group">
+                                                                                    <div
+                                                                                        class="form-label-horizontal col-md-3">
+                                                                                        <label class="">
+                                                                                            <b>Accounts</b>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9">                                                                              
+                                                                                        <select name="accounts"
+                                                                                            class="form-control">
+                                                                                            <option
+                                                                                                th:each="items : ${listaccount}"
+                                                                                                th:value="${items.id}"
+                                                                                                th:text="${items.name}"
+                                                                                                th:selected="${item.accounts.id == items.id}"
+                                                                                                >
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div
+                                                                                    class="position-relative row form-group">
+                                                                                    <div
+                                                                                        class="form-label-horizontal col-md-3">
+                                                                                        <label class="">
+                                                                                            <b>Category</b>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9">
+                                                                                        <select name="category"
+                                                                                            class="form-control">
+                                                                                            <option
+                                                                                                th:each="items : ${listcategory}"
+                                                                                                th:value="${items.id}"
+                                                                                                th:text="${items.name}"
+                                                                                                th:selected="${item.category.id == items.id}"
+                                                                                                >
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="position-relative row form-group">
+                                                                                    <div
+                                                                                        class="form-label-horizontal col-md-3">
+                                                                                        <label class="">
+                                                                                            <b>Date</b>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9">
+                                                                                        <input th:value="${item.incomeDate}"
+                                                                                            type="date"
+                                                                                            class="form-control"
+                                                                                            name="incomeDate">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-dismiss="modal">Close</button>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary">Save
+                                                                                    Changes</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+
+                                                            <a th:onclick="confirmDelete([[${item.id}]])"
+                                                                class="btn btn-danger" style="color: black;"><i
+                                                                    class="fa fa-exclamation-circle"></i>
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             </c:forEach>
@@ -113,6 +337,9 @@
     <th:block id="admin_javascript">
         <script th:src="@{/assets/javascrip/admin.js}"></script>
         <script th:src="@{/assets/javascrip/account.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </th:block>
 </body>
 

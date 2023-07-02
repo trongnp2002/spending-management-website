@@ -9,7 +9,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Budget List</title>
     <th:block id="admin-static-resource">
-         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -70,22 +71,99 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="item : ${listbudget}" th:class="${item.budget} < ${categoryExpensesMap[item.name]}? 'red-row' : ''">
+                                            <tr th:each="item : ${listbudget}"
+                                                th:class="${item.budget} < ${categoryExpensesMap[item.name]}? 'red-row' : ''">
                                                 <td th:text="${item.name}"></td>
-                                                <td th:text="${item.budget}"></td>       
-                                                <td th:text="${categoryExpensesMap[item.name]}"></td>   
+                                                <td th:text="${item.budget}"></td>
+                                                <td th:text="${categoryExpensesMap[item.name]}"></td>
                                                 <td th:text="${expenseCountMap[item.name]}"></td>
                                                 <td>
-                                                    <progress id="file" max="100" th:value="${(categoryExpensesMap[item.name] / item.budget) * 100}"></progress>
+                                                    <progress id="file" max="100"
+                                                        th:value="${(categoryExpensesMap[item.name] / item.budget) * 100}"></progress>
                                                 </td>
                                                 <td>
-                                                    <div style="margin: auto; text-align:center">
-                                                        <a th:href="@{/users/add-budget/{name}(name=${item.name})}"
+                                                    <form th:action="@{/users/add-budget}" method="post">
+                                                        <div style="margin: auto; text-align:center">
+                                                            <!-- <a th:href="@{/users/add-budget/{name}(name=${item.name})}"
                                                             title="Edit" class="btn btn-warning"><i
                                                                 class="fa fa-pencil"></i>
                                                             Set Budget
-                                                        </a>
-                                                    </div>
+                                                        </a> -->
+                                                            <a>
+                                                                <button type="button" class="btn btn-warning"
+                                                                    data-toggle="modal"
+                                                                    th:data-target="'#editModal' + ${item.id}">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                    Set Budget
+                                                                </button>
+                                                                <div class="modal fade" th:id="'editModal'+${item.id}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    th:aria-labelledby="'editModalLabel' + ${item.id}"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    th:id="'editModalLabel'+${item.id}">
+                                                                                    Set Budget</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span
+                                                                                        aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+
+                                                                                <input th:value="${item.id}" type="text"
+                                                                                    class="form-control" name="id"
+                                                                                    style="display: none;">
+                                                                                <div
+                                                                                    class="position-relative row form-group">
+                                                                                    <div
+                                                                                        class="form-label-horizontal col-md-3">
+                                                                                        <label class=""><b>Name</b>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9">
+                                                                                        <input th:value="${item.name}"
+                                                                                            type="text"
+                                                                                            class="form-control"
+                                                                                            name="name">
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="position-relative row form-group">
+                                                                                    <div
+                                                                                        class="form-label-horizontal col-md-3">
+                                                                                        <label class="">
+                                                                                            <b>Budget</b>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9">
+                                                                                        <input th:value="${item.budget}"
+                                                                                            type="text"
+                                                                                            class="form-control"
+                                                                                            name="budget">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-dismiss="modal">Close</button>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary">Save
+                                                                                    Changes</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -102,17 +180,20 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script th:src="@{/assets/javascrip/admin.js}"></script>
         <script th:src="@{/assets/javascrip/account.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script th:inline="javascript">
             /* Lấy dữ liệu từ model hoặc controller và chuyển thành mảng JSON */
             var categoryData = /*[[${categoryData}]]*/ {};
-    
+
             var labels = Object.keys(categoryData);
             var data = Object.values(categoryData);
-    
+
             /* Mảng các màu sắc cho từng phần tử */
             var predefinedColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#00CC99', '#FF66CC'];
             var colors = getRandomColors(data.length, predefinedColors);
-    
+
             /* Tạo biểu đồ tròn */
             var ctx = document.getElementById('pieChart').getContext('2d');
             var pieChart = new Chart(ctx, {
@@ -128,7 +209,7 @@
                     responsive: false
                 }
             });
-    
+
             /* Hàm tạo mảng màu sắc ngẫu nhiên và không trùng lặp */
             function getRandomColors(count, predefinedColors) {
                 var colors = [];

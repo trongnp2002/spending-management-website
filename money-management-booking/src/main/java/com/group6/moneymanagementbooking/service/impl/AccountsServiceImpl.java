@@ -128,17 +128,25 @@ public class AccountsServiceImpl implements AccountsService {
 
     @Override
     public double getTotalIncome() {
-        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream().mapToDouble(Accounts::getTotalIncome).sum();
+        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream()
+                .mapToDouble(Accounts::getTotalIncome).sum();
     }
 
     @Override
     public double getTotalExpenses() {
-        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream().mapToDouble(Accounts::getTotalExpenses).sum();
+        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream()
+                .mapToDouble(Accounts::getTotalExpenses).sum();
     }
 
     @Override
     public double getTotalBalance() {
-        return findAllByUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId()).stream().mapToDouble(Accounts::getTotalBalance).sum();
+        double sum = 0;
+        List<Accounts> list = findAllByUserId(
+                usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+        for (Accounts i : list) {
+            sum += i.getBalance();
+        }
+        return sum;
     }
 
     @Override

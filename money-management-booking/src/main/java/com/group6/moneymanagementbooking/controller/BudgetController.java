@@ -29,23 +29,18 @@ public class BudgetController {
         model.addAttribute("listbudget", categoryService.findExpenseInCategory());
         model.addAttribute("record", categoryService.findExpenseInCategory().size());
         Collection<Category> categories = categoryService.findExpenseInCategory();
-        Map<String,Double> categoryExpensesMap = categoryService.getCategoryTotalExpenses(categories);
-        Map<String,Integer> expenseCountMap = categoryService.getExpenseCount(categories);
-        model.addAttribute("categoryData", categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
+        Map<String, Double> categoryExpensesMap = categoryService.getCategoryTotalExpenses(categories);
+        Map<String, Integer> expenseCountMap = categoryService.getExpenseCount(categories);
+        model.addAttribute("categoryData",
+                categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
         model.addAttribute("expenseCountMap", expenseCountMap);
         model.addAttribute("categoryExpensesMap", categoryExpensesMap);
         return "list-budget";
     }
 
-    @GetMapping("/add-budget/{name}")
-    public String addBudget(@PathVariable("name") String name, Model model) {
-        model.addAttribute("category", categoryService.findByName(name));
-        return "add-budget";
-    }
-
     @PostMapping("/add-budget")
-    public String addBudget(@ModelAttribute Category category) {
-        categoryService.updateCategory(category.getBudget(), category.getName());
+    public String addBudget(@ModelAttribute Category addcategory) {
+        categoryService.updateCategory(addcategory.getBudget(), addcategory.getName());
         return "redirect:/users/list-budget";
     }
 

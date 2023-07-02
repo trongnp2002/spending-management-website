@@ -59,11 +59,6 @@ public class Accounts {
         return 0.0;
     }
 
-    public double getTotalBalance() {
-        double totalIncome = getTotalIncome();
-        double totalExpenses = getTotalExpenses();
-        return totalIncome - totalExpenses;
-    }
     @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa
                                                                  // điểm có nhiều người ở)
     // MapopedBy trỏ tới tên biến Address ở trong Person.

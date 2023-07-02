@@ -36,20 +36,15 @@ public class AccountController {
     private final AccountsService accountsService;
     private final ExpensesService expensesService;
 
-    @GetMapping("/add-account")
-    public String addAccount(Model model) {
-        model.addAttribute("accounts", new Accounts());
-        return "add-account";
-    }
 
     @PostMapping("/add-account")
-    public String addAccount(@ModelAttribute Accounts accounts) {
-        return Optional.ofNullable(accountsService.addAccounts(accounts)).map(t -> "redirect:/users/list-account").orElse("failed");
+    public String addAccount(@ModelAttribute Accounts addaccounts) {
+        return Optional.ofNullable(accountsService.addAccounts(addaccounts)).map(t -> "redirect:/users/list-account").orElse("failed");
     }
 
     @GetMapping("/list-account")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model) {
+            Model model ) {
         model.addAttribute("listaccount", accountsService.findAll());
         model.addAttribute("record", accountsService.findAll().size());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
@@ -68,6 +63,7 @@ public class AccountController {
         model.addAttribute("totalBalance", totalBalance);
         model.addAttribute("accountsTransaction", accountsTransaction);
         model.addAttribute("page", itemsPage);
+        model.addAttribute("addaccounts", new Accounts());
         return "list-account";
     }
 
@@ -75,12 +71,6 @@ public class AccountController {
     public String updateActive(@PathVariable("id") int id, @PathVariable("action") Boolean action, Model model) {
         accountsService.updateActiveById(action, id);
         return "redirect:/users/list-account";
-    }
-
-    @GetMapping("/detail-account/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
-        model.addAttribute("account", accountsService.findById(id));
-        return "detail-account";
     }
 
     @PostMapping("/detail-account")

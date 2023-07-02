@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.CategoryService;
@@ -34,17 +33,9 @@ public class ExpensesController {
     private final AccountsService accountsService;
     private final CategoryService categoryService;
 
-    @GetMapping("/add-expenses")
-    public String addExpense(Model model) {
-        model.addAttribute("listaccount", accountsService.findByActive());
-        model.addAttribute("listcategory", categoryService.findExpenseInCategory());
-        model.addAttribute("expense", new Expenses());
-        return "add-expenses";
-    }
-
     @PostMapping("/add-expenses")
-    public String addExpense(@ModelAttribute Expenses expense) {
-        return Optional.ofNullable(expensesService.addExpenses(expense)).map(t -> "redirect:/users/list-expenses")
+    public String addExpense(@ModelAttribute Expenses addexpense) {
+        return Optional.ofNullable(expensesService.addExpenses(addexpense)).map(t -> "redirect:/users/list-expenses")
                 .orElse("failed");
     }
 
@@ -53,19 +44,14 @@ public class ExpensesController {
             Model model) {
         model.addAttribute("listexpenses", expensesService.findAll());
         model.addAttribute("record", expensesService.findAll().size());
+        model.addAttribute("listaccount", accountsService.findByActive());
+        model.addAttribute("listcategory", categoryService.findExpenseInCategory());
+        model.addAttribute("addexpense", new Expenses());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Expenses> items = expensesService.findAll();
         Page<Expenses> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("page", itemsPage);
         return "list-expenses";
-    }
-
-    @GetMapping("/detail-expense/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
-        model.addAttribute("expense", expensesService.getExpense(id));
-        model.addAttribute("listaccount", accountsService.findByActive());
-        model.addAttribute("listcategory", categoryService.findExpenseInCategory());
-        return "detail-expenses";
     }
 
     @PostMapping("/detail-expense")
@@ -79,6 +65,5 @@ public class ExpensesController {
         expensesService.deleteById(id);
         return "redirect:/users/list-expenses";
     }
-
 
 }

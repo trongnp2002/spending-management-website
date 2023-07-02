@@ -93,6 +93,7 @@ public class SpringSecurity {
                                                                 .permitAll())
                                 .rememberMe().key("Axncmvi2002")
                                 .tokenValiditySeconds(60 * 60 * 24);
+                                return http.build();}
 
         @Autowired
         public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

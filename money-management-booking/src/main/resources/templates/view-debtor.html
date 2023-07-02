@@ -2,6 +2,8 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,9 +113,85 @@
                                     style="border-radius: 20px;">List Debtor</a>
                             </div>
                             <div class="float-right">
-                                <a type="button" th:href="@{/Debtor/Add}" title="List Debtor"
+                                <!-- <a type="button" th:href="@{/Debtor/Add}" title="List Debtor"
                                     class="mr-1 btn btn-primary" style="border-radius: 20px;"><i
-                                        class="fa fa-plus"></i>Add new Debtor</a>
+                                        class="fa fa-plus"></i>Add new Debtor</a> -->
+
+                                        <button type="button" class="mr-1 btn btn-primary" data-toggle="modal" data-target="#editModal" style="border-radius: 20px;">
+                                            Debtor
+                                           </button>
+                                           <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                             <div class="modal-dialog" role="document">
+                                               <div class="modal-content">
+                                                 <div class="modal-header">
+                                                   <h5 class="modal-title" id="editModalLabel">Add Debtor</h5>
+                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                     <span aria-hidden="true">&times;</span>
+                                                   </button>
+                                                 </div>
+                                                 <div class="modal-body">
+                                                  
+                                                    <div class="position-relative row form-group">
+                                                        <div class="form-label-horizontal col-md-3"> <label class=""><b>Name</b>                                                            
+                                                        </label>
+                                                    </div>
+                                                        <div class="col-md-9">
+                                                            <input placeholder="Enter Name" type="text" class="form-control" name="name">
+                                                            
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="position-relative row form-group">
+                                                        <div class="form-label-horizontal col-md-3"><label class="">
+                                                            <b>Address</b>
+                                                        </label>
+                                                    </div>
+                                                        <div class="col-md-9">
+                                                            <input placeholder="Enter Address" type="text" class="form-control" name="Address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="position-relative row form-group">
+                                                        <div class="form-label-horizontal col-md-3">
+                                                            <label class="">
+                                                                <b>Phone</b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input placeholder="Enter Phone number at least 10 numbers! " type="number" class="form-control" name="Phone">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="position-relative row form-group">
+                                                        <div class="form-label-horizontal col-md-3">
+                                                            <label class="">
+                                                                <b>Email</b>
+                                                            </label>
+                                                        </div>                                                      
+                                                        <div class="col-md-9">
+                                                       <input placeholder="Enter email" type="email" class="form-control" name="Email">
+                                                       </div>
+                                                </div>
+                                                 
+                                                 
+                                                 
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                   <button type="button" class="btn btn-primary">Save Changes</button>
+                                                 </div>
+                                               </div>
+                                             </div>
+                                           </div>
+                                         
+                                           <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                                           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+                                           <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
                             </div>
 
                             <div class="float-right">
@@ -221,9 +299,83 @@
                                                         Details
                                                     </a>
 
-                                                    <a th:href="@{'/Debtor/edit/' + ${item.id}}" title="Edit"
+                                                    <!-- <a th:href="@{'/Debtor/edit/' + ${item.id}}" title="Edit"
                                                         class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                         Edit
+                                                    </a> -->
+                                                    <a>
+                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">
+                                                            <i class="fa fa-pencil"></i>
+                                                            Edit
+                                                           </button>
+                                                           <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                              <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                  <h5 class="modal-title" id="editModalLabel">Edit Debtor</h5>
+                                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                  </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                 
+                                                                   <div class="position-relative row form-group">
+                                                                       <div class="form-label-horizontal col-md-3"> <label class=""><b>Name</b>                                                            
+                                                                       </label>
+                                                                   </div>
+                                                                       <div class="col-md-9">
+                                                                           <input placeholder="Enter Name" type="text" class="form-control" name="name">
+                                                                           
+                                                                       </div>
+               
+               
+                                                                   </div>
+                                                                   <div class="position-relative row form-group">
+                                                                       <div class="form-label-horizontal col-md-3"><label class="">
+                                                                           <b>Address</b>
+                                                                       </label>
+                                                                   </div>
+                                                                       <div class="col-md-9">
+                                                                           <input placeholder="Enter Address" type="text" class="form-control" name="Address">
+                                                                       </div>
+                                                                   </div>
+                                                                   <div class="position-relative row form-group">
+                                                                       <div class="form-label-horizontal col-md-3">
+                                                                           <label class="">
+                                                                               <b>Phone</b>
+                                                                           </label>
+                                                                       </div>
+                                                                       <div class="col-md-9">
+                                                                           <input placeholder="Enter Phone number at least 10 numbers! " type="number" class="form-control" name="Phone">
+               
+                                                                       </div>
+                                                                   </div>
+                                                                   <div class="position-relative row form-group">
+                                                                       <div class="form-label-horizontal col-md-3">
+                                                                           <label class="">
+                                                                               <b>Email</b>
+                                                                           </label>
+                                                                       </div>                                                      
+                                                                       <div class="col-md-9">
+                                                                      <input placeholder="Enter email" type="email" class="form-control" name="Email">
+                                                                      </div>
+                                                               </div>
+                                                                
+                                                                
+                                                                
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                  <button type="button" class="btn btn-primary">Save Changes</button>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        
+                                                          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                                                          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+                                                          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
                                                     </a>
 
                                                     <a th:href="@{'/Debtor/delete/' + ${item.id}}"

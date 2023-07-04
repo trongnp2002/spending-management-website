@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.service.CategoryService;
@@ -28,15 +29,16 @@ public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
 
-
     @PostMapping("/add-category")
-    public String addCategory(@ModelAttribute Category category) {
-        return Optional.ofNullable(categoryService.addCategory(category)).map(t -> "redirect:/users/list-category").orElse("failed");
+    public String addCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
+        categoryService.addCategory(category, redirectAttributes);
+        return "redirect:/users/list-category";
     }
 
     @GetMapping("/list-category")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model) {
+            Model model, @ModelAttribute("mess") String mess) {
+        model.addAttribute("mess", mess);
         model.addAttribute("listcategory", categoryService.findAll());
         model.addAttribute("record", categoryService.findAll().size());
         model.addAttribute("addcategory", new Category());
@@ -60,8 +62,9 @@ public class CategoryController {
     }
 
     @GetMapping("/chart-category")
-    public String chartCategory(Model model){
-        model.addAttribute("categoryData", categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
+    public String chartCategory(Model model) {
+        model.addAttribute("categoryData",
+                categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
         return "chart-category";
     }
 

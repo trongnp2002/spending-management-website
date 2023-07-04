@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
@@ -28,20 +29,20 @@ public class AccountsServiceImpl implements AccountsService {
     private final UsersRepository usersRepository;
 
     @Override
-    public Accounts addAccounts(Accounts accounts) {
+    public Accounts addAccounts(Accounts accounts, Model model) {
         try {
             accounts.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
             boolean checkAccountExits = accountsRepository
                     .findByNameAndUser_id(accounts.getName(), accounts.getUserId()).isPresent();
             if (checkAccountExits)
-                throw new Exception("Account Name Have Exists");
+                throw new Exception("Account name already exists");
             if (accounts.getBalance() < 0)
-                throw new Exception("Balance Mush Be >=0");
+                throw new Exception("Balance must be greater than 0");
             if (accounts.getName().isEmpty())
-                throw new Exception("Name Can't Not Null");
+                throw new Exception("Name cannot be null");
             return accountsRepository.save(accounts);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            model.addAttribute("mess", e.getMessage());
         }
         return null;
     }

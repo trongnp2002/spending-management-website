@@ -8,10 +8,12 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.ui.Model;
+
 import com.group6.moneymanagementbooking.enity.Accounts;
 
 public interface AccountsService {
-    public Accounts addAccounts(Accounts accounts);
+    public Accounts addAccounts(Accounts accounts, Model model);
 
     public List<Accounts> findAll();
 

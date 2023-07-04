@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.CategoryService;
 import com.group6.moneymanagementbooking.service.ExpensesService;
+import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.PaginationUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -35,16 +37,18 @@ public class AccountController {
     @Autowired
     private final AccountsService accountsService;
     private final ExpensesService expensesService;
-
+    private final UsersService usersService;
 
     @PostMapping("/add-account")
-    public String addAccount(@ModelAttribute Accounts addaccounts) {
-        return Optional.ofNullable(accountsService.addAccounts(addaccounts)).map(t -> "redirect:/users/list-account").orElse("failed");
+    public String addAccount(@ModelAttribute Accounts addaccounts, RedirectAttributes redirectAttributes) {
+        accountsService.addAccounts(addaccounts, redirectAttributes);
+        return "redirect:/users/list-account";
     }
 
     @GetMapping("/list-account")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model ) {
+            Model model, @ModelAttribute("mess") String mess) {
+        model.addAttribute("mess", mess);
         model.addAttribute("listaccount", accountsService.findAll());
         model.addAttribute("record", accountsService.findAll().size());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
@@ -64,6 +68,7 @@ public class AccountController {
         model.addAttribute("accountsTransaction", accountsTransaction);
         model.addAttribute("page", itemsPage);
         model.addAttribute("addaccounts", new Accounts());
+        model.addAttribute("user", usersService.getUsers());
         return "list-account";
     }
 

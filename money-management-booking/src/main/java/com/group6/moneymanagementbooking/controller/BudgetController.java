@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.service.CategoryService;
+import com.group6.moneymanagementbooking.service.ExpensesService;
+import com.group6.moneymanagementbooking.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class BudgetController {
     @Autowired
     private final CategoryService categoryService;
+    private final UsersService usersService;
+    private final ExpensesService expensesService;
 
     @GetMapping("/list-budget")
     public String listBudget(Model model) {
@@ -33,8 +37,12 @@ public class BudgetController {
         Map<String, Integer> expenseCountMap = categoryService.getExpenseCount(categories);
         model.addAttribute("categoryData",
                 categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
+        model.addAttribute("categoryDataBudget",
+                categoryService.getCategoriesInfo(categoryService.findExpenseInCategory()));
         model.addAttribute("expenseCountMap", expenseCountMap);
         model.addAttribute("categoryExpensesMap", categoryExpensesMap);
+        model.addAttribute("monthlySpending", usersService.getUsers().getMonthlySpending());
+        model.addAttribute("totalExpenseByMonth", expensesService.getTotalAmountCurrentMonth());
         return "list-budget";
     }
 

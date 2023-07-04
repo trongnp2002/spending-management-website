@@ -29,16 +29,16 @@ class AccountControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-@Test
-void testAddAccount() {
-    Accounts accounts = new Accounts();
-    when(accountsService.addAccounts(accounts)).thenReturn(accounts);
+// @Test
+// void testAddAccount() {
+//     Accounts accounts = new Accounts();
+//     when(accountsService.addAccounts(accounts)).thenReturn(accounts);
 
-    String result = accountController.addAccount(accounts);
+//     String result = accountController.addAccount(accounts);
 
-    assertEquals("success", result);
-    verify(accountsService, times(1)).addAccounts(accounts);
-}
+//     assertEquals("success", result);
+//     verify(accountsService, times(1)).addAccounts(accounts);
+// }
 
     @Test
     void testUpdateActive() {

@@ -71,8 +71,9 @@ public class CategoryController {
     }
 
     @GetMapping("/chart-category")
-    public String chartCategory(Model model){
-        model.addAttribute("categoryData", categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
+    public String chartCategory(Model model) {
+        model.addAttribute("categoryData",
+                categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
         return "chart-category";
     }
 

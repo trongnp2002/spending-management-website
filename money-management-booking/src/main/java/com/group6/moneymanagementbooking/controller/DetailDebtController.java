@@ -42,11 +42,19 @@ public class DetailDebtController {
 
     @GetMapping("/view-detail/{id}")
     public String listDetailDebt(Model model, @PathVariable("id") int id, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
+            @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request,
+            @ModelAttribute("errorMessage") String errorMessage) {
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Debt_detail> items = detailDebtService.findAllById(id);
         Page<Debt_detail> itemsPage = PaginationUtil.paginate(pageable, items);
         String currentRequestMapping = request.getRequestURI();
+
+        Debt_detail debt_detail = new Debt_detail();
+        debt_detail.setDeptorId(id);
+        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("listAccount", accountsService.findAllByUserId(getIdUser()));
+        model.addAttribute("debt_detail", debt_detail);
+
         model.addAttribute("listAcc", accountsService.findAllByUserId(getIdUser()).size());
         model.addAttribute("debtor", debtorService.getDebtorById(id));
         model.addAttribute("page", itemsPage);
@@ -75,14 +83,14 @@ public class DetailDebtController {
         if (!acc.isActive()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Your account is inactive!");
             RedirectView redirectView = new RedirectView();
-            redirectView.setUrl("/Debtor/Detail/Add/" + detail_edbt.getDeptorId());
+            redirectView.setUrl("/Debtor/Detail/view-detail/" + detail_edbt.getDeptorId());
             return redirectView;
         }
         if ((detail_edbt.isClassify() && (detail_edbt.getMoney_debt() > acc.getBalance()))) {
             // RedirectAttributes redirectAttributes ;
             redirectAttributes.addFlashAttribute("errorMessage", "The amount you entered exceeds the account balance!");
             RedirectView redirectView = new RedirectView();
-            redirectView.setUrl("/Debtor/Detail/Add/" + detail_edbt.getDeptorId());
+            redirectView.setUrl("/Debtor/Detail/view-detail/" + detail_edbt.getDeptorId());
             return redirectView;
         }
 

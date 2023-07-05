@@ -1,5 +1,7 @@
 package com.group6.moneymanagementbooking.repository;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +22,5 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer> {
     @Query("SELECT e FROM Expenses e WHERE e.userId = :userId")
     public List<Expenses> findAllByUserId(@Param("userId") int userId);
 
+    public List<Expenses> findByExpenseDateBetweenAndUserId(Date fDate, Date lDate, int user_id);
 }

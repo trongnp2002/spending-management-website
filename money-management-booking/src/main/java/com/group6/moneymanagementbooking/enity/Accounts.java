@@ -45,6 +45,11 @@ public class Accounts {
     @ToString.Exclude
     private Collection<Income> income;
 
+    @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Debt_detail> debtDetail;
+
     public double getTotalIncome() {
         if (income != null && !income.isEmpty()) {
             return income.stream().mapToDouble(Income::getAmount).sum();
@@ -59,15 +64,4 @@ public class Accounts {
         return 0.0;
     }
 
-    public double getTotalBalance() {
-        double totalIncome = getTotalIncome();
-        double totalExpenses = getTotalExpenses();
-        return totalIncome - totalExpenses;
-    }
-    @OneToMany(mappedBy = "accounts", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa
-                                                                 // điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
-    private Collection<Debt_detail> debtDetail;
 }

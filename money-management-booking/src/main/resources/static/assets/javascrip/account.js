@@ -68,3 +68,7 @@ progressBars.forEach(function(progressBar) {
     progressBar.removeAttribute('value');
   });
 });
+
+
+
+

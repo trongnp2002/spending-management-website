@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.enity.Income;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.CategoryService;
 import com.group6.moneymanagementbooking.service.IncomeService;
+import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.PaginationUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -32,43 +33,35 @@ public class IncomeController {
     private final IncomeService incomeService;
     private final AccountsService accountsService;
     private final CategoryService categoryService;
-
-    @GetMapping("/add-income")
-    public String addIncome(Model model) {
-        model.addAttribute("listaccount", accountsService.findByActive());
-        model.addAttribute("listcategory", categoryService.findIncomeInCategory());
-        model.addAttribute("income", new Income());
-        return "add-income";
-    }
+    private final UsersService usersService;
 
     @PostMapping("/add-income")
-    public String addIncome(@ModelAttribute Income income) {
-        return Optional.ofNullable(incomeService.addIncome(income)).map(t -> "redirect:/list-income").orElse("failed");
+    public String addIncome(@ModelAttribute Income income, RedirectAttributes redirectAttributes) {
+        incomeService.addIncome(income, redirectAttributes);
+        return "redirect:/users/list-income";
     }
 
     @GetMapping("/list-income")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model) {
+            Model model, @ModelAttribute("mess") String mess) {
+        model.addAttribute("mess", mess);
         model.addAttribute("listincome", incomeService.findAll());
         model.addAttribute("record", incomeService.findAll().size());
+        model.addAttribute("listaccount", accountsService.findByActive());
+        model.addAttribute("listcategory", categoryService.findIncomeInCategory());
+        model.addAttribute("addincome", new Income());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Income> items = incomeService.findAll();
         Page<Income> itemsPage = PaginationUtil.paginate(pageable, items);
         model.addAttribute("page", itemsPage);
+        model.addAttribute("monthlyEarning", usersService.getUsers().getMonthlyEarning());
+        model.addAttribute("totalIncomeByMonth", incomeService.getTotalAmountCurrentMonth());
         return "list-income";
     }
 
-    @GetMapping("/detail-income/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
-        model.addAttribute("income", incomeService.getIncome(id));
-        model.addAttribute("listaccount", accountsService.findByActive());
-        model.addAttribute("listcategory", categoryService.findIncomeInCategory());
-        return "detail-income";
-    }
-
     @PostMapping("/detail-income")
-    public String detail(@ModelAttribute Income income) {
-        return Optional.ofNullable(incomeService.updateIncome(income)).map(t -> "redirect:/list-income")
+    public String detail(@ModelAttribute Income addincome) {
+        return Optional.ofNullable(incomeService.updateIncome(addincome)).map(t -> "redirect:/users/list-income")
                 .orElse("failed");
     }
 

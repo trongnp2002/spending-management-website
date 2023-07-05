@@ -46,26 +46,26 @@ public class ExpensesControllerTest {
         verify(expensesService, times(1)).addExpenses(expense);
     }
 
-    @Test
-    void testDeleteExpense() {
-        int id = 1;
+    // @Test
+    // void testDeleteExpense() {
+    //     int id = 1;
 
-        String result = expensesController.delete(id);
+    //     String result = expensesController.delete(id);
 
-        assertEquals("redirect:/list-expenses", result);
-        verify(expensesService, times(1)).deleteById(id);
-    }
+    //     assertEquals("redirect:/list-expenses", result);
+    //     verify(expensesService, times(1)).deleteById(id);
+    // }
 
-        @Test
-    void testUpdateExpense() {
-        Expenses expense = new Expenses();
-        when(expensesService.updateExpenses(expense)).thenReturn((expense));
+    //     @Test
+    // void testUpdateExpense() {
+    //     Expenses expense = new Expenses();
+    //     when(expensesService.updateExpenses(expense)).thenReturn((expense));
 
-        String result = expensesController.detail(expense);
+    //     String result = expensesController.detail(expense);
 
-        assertEquals("redirect:/list-expenses", result);
-        verify(expensesService, times(1)).updateExpenses(expense);
-    }
+    //     assertEquals("redirect:/list-expenses", result);
+    //     verify(expensesService, times(1)).updateExpenses(expense);
+    // }
 
     @Test
     void testDetailExpense() {

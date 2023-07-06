@@ -9,26 +9,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Account List</title>
     <th:block id="admin-static-resource">
-         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="/assets/css/view-debtor.css">
+        <link rel="stylesheet" href="/assets/css/accounts.css">
     </th:block>
-    <style>
-        .negativeTotal {
-            background-color: red;
-        }
 
-        .red-row {
-            color: rgb(245, 36, 36);
-        }
-    </style>
+
 </head>
 
 <body>
     <div id="mainContent" class="box">
+        <div class="chart">
+            <canvas id="pieChart"></canvas>
+            <canvas id="expensesChart"></canvas>
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -40,10 +43,16 @@
                                     <p class="small text-muted m-0" th:text="'Total record: ' + ${record}"></p>
                                 </div>
                                 <div class="float-right">
-                                    <a type="button" th:href="@{/users/add-account}" title="List Account"
-                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Account</a>
+                                    <!-- <a type="button" th:href="@{/users/add-account}" title="List Account"
+                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Account</a> -->
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#addModal" style="border-radius: 20px;">
+                                        Add New Account
+                                    </button>
+                                    <div th:replace="layout/account-popup :: add-account-popup(${addaccounts})"></div>
                                 </div>
-                                <div class="float-right">
+                                <div class="mess">
                                     <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
                                 </div>
                             </div>
@@ -77,17 +86,30 @@
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    <div style="margin: auto; text-align:center">
-                                                        <a th:href="@{/users/detail-account/{id}(id=${item.id})}" title="Edit"
-                                                            class="btn btn-warning"><i class="fa fa-pencil"></i>
+
+                                                        <div style="margin: auto; text-align:center">
+                                                            <!-- <a th:href="@{/users/detail-account/{id}(id=${item.id})}"
+                                                            title="Edit" class="btn btn-warning"><i
+                                                                class="fa fa-pencil"></i>
                                                             Edit
-                                                        </a>
-                                                        <a th:onclick="confirmDelete([[${item.id}]])"
-                                                            class="btn btn-danger" style="color: black;"><i
-                                                                class="fa fa-exclamation-circle"></i>
-                                                            Delete
-                                                        </a>
-                                                    </div>
+                                                        </a> -->
+                                                            <a>
+                                                                <button type="button" class="btn btn-warning"
+                                                                    data-toggle="modal"
+                                                                    th:data-target="'#editModal' + ${item.id}">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                    Edit
+                                                                </button>
+                                                                <div
+                                                                    th:replace="layout/account-popup :: edit-account-popup(${item})">
+                                                                </div>
+                                                            </a>
+                                                            <a th:onclick="confirmDelete([[${item.id}]])"
+                                                                class="btn btn-danger" style="color: black;"><i
+                                                                    class="fa fa-exclamation-circle"></i>
+                                                                Delete
+                                                            </a>
+                                                        </div>
                                                 </td>
                                             </tr>
                                             </c:forEach>
@@ -114,10 +136,35 @@
         </div>
     </div>
     <th:block id="admin_javascript">
+
         <script th:src="@{/assets/javascrip/admin.js}"></script>
+        <script th:inline="javascript">
+            var income = /*[[${totalIncome}]]*/ {};
+            var expense = /*[[${totalExpenses}]]*/{};
+            var save = /*[[${totalBalance}]]*/ {};
+            
+            if(income ==0 && expense ==0 && save == 0){
+                income = 1
+                expense = 1
+                save = 1
+            }
+
+        </script>
+
+        <script th:inline="javascript">
+            /* Lấy dữ liệu từ model */
+            var monthlyExpenses = /*[[${data}]]*/ {};
+            /* Chuẩn bị dữ liệu cho biểu đồ */
+            var labels = Object.keys(monthlyExpenses);
+            var data = Object.values(monthlyExpenses);
+            /* Tạo biểu đồ bằng Chart.js */
+        </script>
+
         <script th:src="@{/assets/javascrip/account.js}"></script>
-        
+
+
     </th:block>
+
 </body>
 
 </html>

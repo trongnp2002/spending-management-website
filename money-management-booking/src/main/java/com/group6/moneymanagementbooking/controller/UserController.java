@@ -56,6 +56,6 @@ public class UserController {
     @PostMapping("/add-adjust")
     public String setAdjust(@ModelAttribute Users user){
         usersService.addAdjustForUser(user);
-        return "redirect:/list-budget";
+        return "redirect:/users/list-budget";
     }
 }

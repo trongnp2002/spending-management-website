@@ -31,7 +31,7 @@ public class UsersServiceImpl implements UsersService {
     private final int MAX_FAILED_ATTEMPTS = 3;
     private final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000;
 
-    //register
+    // register
     @Override
     public String userRegister(Model model, UsersDTORegisterRequest accountDTORegister) throws Exception {
         String report = "<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: ";
@@ -52,7 +52,7 @@ public class UsersServiceImpl implements UsersService {
         return "redirect:/login";
     }
 
-    //forgot_password
+    // forgot_password
     @Override
     public String forgotPassword(Model model, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest) {
         String email = usersDTOForgotPasswordRequest.getEmail();
@@ -77,14 +77,14 @@ public class UsersServiceImpl implements UsersService {
         return "login";
     }
 
-    //get user by email
+    // get user by email
     @Override
     public Users getUserByEmail(String email) {
         return (usersRepository.findByEmail(email)).get();
     }
 
-//check_condition
-    //1. check email condition
+    // check_condition
+    // 1. check email condition
     @Override
     public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -102,7 +102,8 @@ public class UsersServiceImpl implements UsersService {
             }
         }
     }
-    //2. check phone condition
+
+    // 2. check phone condition
     @Override
     public void checkPhoneCondition(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userPhone = request.getParameter("userPhone");
@@ -122,7 +123,8 @@ public class UsersServiceImpl implements UsersService {
             }
         }
     }
-// function for security
+
+    // function for security
     public void increaseFailedAttempt(Users users) {
         int fa = users.getFailed_attempt() + 1;
         users.setFailed_attempt(fa);
@@ -157,7 +159,7 @@ public class UsersServiceImpl implements UsersService {
         }
     }
 
-//support function
+    // support function
     private boolean checkPhoneDuplicate(String phone) {
         Optional<Users> accouOptional = usersRepository.findByPhone(phone);
         if (accouOptional.isPresent()) {
@@ -191,21 +193,36 @@ public class UsersServiceImpl implements UsersService {
         }
         return report;
     }
+
     @Override
-    public Users getUsers(){
+    public Users getUsers() {
         return usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get();
     }
 
     @Override
     public void addAdjustForUser(Users users) {
-        Optional<Users> existingUser = usersRepository.findByEmail(SecurityUtils.getCurrentUsername());
-        if(existingUser.isPresent()){
-        Users userToUpdate = existingUser.get();
-        userToUpdate.setAnnuallySpending(users.getAnnuallySpending());
-        userToUpdate.setMonthlySpending(users.getMonthlySpending());
-        userToUpdate.setMonthlySaving(users.getMonthlySaving());
-        userToUpdate.setMonthlyEarning(users.getMonthlyEarning());
-        usersRepository.save(userToUpdate);
+        try {
+            Optional<Users> existingUser = usersRepository.findByEmail(SecurityUtils.getCurrentUsername());
+            if (existingUser.isPresent()) {
+                Users userToUpdate = existingUser.get();
+                double monthlySpending = users.getMonthlySpending();
+                double monthlyEarning = users.getMonthlyEarning();
+                double monthlySaveing = users.getMonthlySaving();
+                double getAnnuallySpending = users.getAnnuallySpending();
+                if (monthlySpending < 0)
+                    throw new Exception("monthlySpending must be greater than 0");
+                if (monthlyEarning < 0)
+                    throw new Exception("monthlyEarning must be greater than 0");
+                if (monthlySaveing > monthlySpending - monthlyEarning)
+                    throw new Exception("Monthly Saving set must be small or equal to the money earned minus spending");
+                userToUpdate.setAnnuallySpending(getAnnuallySpending);
+                userToUpdate.setMonthlySpending(monthlySpending);
+                userToUpdate.setMonthlySaving(monthlySaveing);
+                userToUpdate.setMonthlyEarning(monthlyEarning);
+                usersRepository.save(userToUpdate);
+            }
+        } catch (Exception e) {
+            e.getMessage();
         }
     }
 

@@ -1,3 +1,52 @@
+document.addEventListener('DOMContentLoaded', function () {
+    var data = {
+        labels: ['Income', 'Expenses', 'Savings'],
+        datasets: [{
+            data: [income, expense, save],
+            backgroundColor: [
+                '#36A2EB',
+                '#FF6384',
+                '#FFCE56'
+            ]
+        }]
+    };
+
+    var options = {
+        responsive: false
+    };
+
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: options
+    });
+});
+
+
+var ctx = document.getElementById('expensesChart').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Total Amount',
+            data: data,
+            backgroundColor: '#4BC0C0',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
 
 function DeleteCategory(id){
     if(confirm("Confirm to Delete")){
@@ -68,3 +117,7 @@ progressBars.forEach(function(progressBar) {
     progressBar.removeAttribute('value');
   });
 });
+
+
+
+

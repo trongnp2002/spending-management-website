@@ -1,5 +1,6 @@
 package com.group6.moneymanagementbooking.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,5 @@ public interface IncomeRepository extends JpaRepository<Income, Integer> {
     @Query("SELECT i FROM Income i WHERE i.userId = :userId")
     public List<Income> findAllByUserId(@Param("userId") int userId);
 
+    public List<Income> findByIncomeDateBetweenAndUserId(Date fDate, Date lDate, int user_id);
 }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
     th:fragment="main-fragment(title,otherStaticResource,javascript,mainContent)">
@@ -7,10 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/de1d9009fe.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}">
     <title th:replace="${title}">Dashboard Sidebar Menu</title>
-
     <th:block th:replace="${otherStaticResource}">
 
     </th:block>
@@ -29,66 +27,67 @@
                     <span class="profession"></span>
                 </div>
             </div>
-            <i class='bx bx-chevron-right toggle'></i>
+            <!-- <i class='bx bx-chevron-right toggle'></i> -->
+            <i class="fa-solid fa-angle-right toggle" style="font-size: 13px;"></i>
         </header>
 
         <div class="main-layout_menu-bar">
             <div class="main-layout_menu">
                 <ul class="main-layout_menu-links">
-                    <li class="main-layout_nav-link">
-                        <a href="#">
-                            <i class='bx bxs-home icon'></i>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" class="main-layout_nav-link">
+                        <a th:href="@{/admins/home}">
+                            <i class='fa-solid fa-crown icon'></i>
                             <span class="main-layout_text main-layout_nav-text">Home</span>
                         </a>
                     </li>
                     <li class="main-layout_nav-link">
-                        <a th:href="@{chart-overview}">
-                            <i class='bx bxs-bar-chart-square icon' ></i>
+                        <a th:href="@{/users/list-account}">
+                            <!-- <i class='bx bxs-bar-chart-square icon' ></i> -->
+                            <i class="fa-solid fa-wallet icon"></i>
                             <span class="main-layout_text main-layout_nav-text">Overview</span>
                         </a>
                     </li>
+
                     <li class="main-layout_nav-link">
-                        <a th:href="@{/users/profile}">
-                            <i class='bx bxs-user-circle icon'></i>
-                            <span class="main-layout_text main-layout_nav-text">Profile</span>
-                        </a>
-                    </li>
-                    <li class="main-layout_nav-link">
-                        <a href="#">
-                            <i class='bx bx-dollar icon'></i>
-                            <span class="main-layout_text main-layout_nav-text">Income</span>
-                        </a>
-                    </li>
-                    <li class="main-layout_nav-link">
-                        <a href="#">
-                            <i class='bx bxs-wallet icon'></i>
-                            <span class="main-layout_text main-layout_nav-text">Expense</span>
-                        </a>
-                    </li>
-                    <li class="main-layout_nav-link">
-                        <a href="#">
-                            <i class='bx bxs-blanket icon'></i>
+                        <a th:href="@{/users/list-budget}">
+                            <i class="fa-solid fa-piggy-bank icon"></i>
                             <span class="main-layout_text main-layout_nav-text">Budget</span>
                         </a>
                     </li>
 
                     <li class="main-layout_nav-link">
+                        <a th:href="@{/users/list-income}">
+                            <i class="fa-solid fa-money-bill icon"></i>
+                            <span class="main-layout_text main-layout_nav-text">Income</span>
+                        </a>
+                    </li>
+                    <li class="main-layout_nav-link">
+                        <a th:href="@{/users/list-expenses}">
+                            <i class="fa-solid fa-money-check-dollar icon"></i>
+                            <span class="main-layout_text main-layout_nav-text">Expense</span>
+                        </a>
+                    </li>
+        
+
+                    <li class="main-layout_nav-link">
+
                         <a th:href="@{/Debtor/ListAll}">
-                            <i class='bx bxs-credit-card-front icon'></i>
+                            <i class="fa-solid fa-money-bill-transfer icon"></i>
+
                             <span class="main-layout_text main-layout_nav-text">Debt</span>
                         </a>
                     </li>
 
                     <li class="main-layout_nav-link">
                         <a href="#">
-                            <i class='bx bxs-cog icon'></i>
+                            <i class="fa-solid fa-gear icon"></i>
                             <span class="main-layout_text main-layout_nav-text">Setting</span>
                         </a>
                     </li>
 
                     <li class="main-layout_nav-link">
                         <a href="#">
-                            <i class='bx bx-envelope icon' ></i>
+                            <i class="fa-solid fa-circle-info icon"></i>
                             <span class="main-layout_text main-layout_nav-text">Contact</span>
                         </a>
                     </li>
@@ -97,7 +96,7 @@
             <div class="main-layout_bottom-content">
                 <li class="">
                     <a th:href="@{/logout}">
-                        <i class='bx bx-log-out icon'></i>
+                        <i class="fa-solid fa-right-from-bracket icon"></i>
                         <span class="main-layout_text main-layout_nav-text">Logout</span>
                     </a>
                 </li>
@@ -109,7 +108,7 @@
         <div class="main-layout_text">Dashboard Sidebar</div>
     </section>
     <th:block th:replace="${javascript}">
-        
+
     </th:block>
     <script th:src="@{/assets/javascrip/script.js}"></script>
 </body>

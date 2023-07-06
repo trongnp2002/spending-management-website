@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.service.CategoryService;
 import com.group6.moneymanagementbooking.util.PaginationUtil;
@@ -29,22 +29,19 @@ public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
 
-    @GetMapping("/add-category")
-    public String addCategory(Model model) {
-        model.addAttribute("category", new Category());
-        return "add-category";
-    }
-
     @PostMapping("/add-category")
-    public String addCategory(@ModelAttribute Category category) {
-        return Optional.ofNullable(categoryService.addCategory(category)).map(t -> "success").orElse("failed");
+    public String addCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
+        categoryService.addCategory(category, redirectAttributes);
+        return "redirect:/users/list-category";
     }
 
     @GetMapping("/list-category")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
-            Model model) {
+            Model model, @ModelAttribute("mess") String mess) {
+        model.addAttribute("mess", mess);
         model.addAttribute("listcategory", categoryService.findAll());
         model.addAttribute("record", categoryService.findAll().size());
+        model.addAttribute("addcategory", new Category());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);
         List<Category> items = categoryService.findAll();
         Page<Category> itemsPage = PaginationUtil.paginate(pageable, items);
@@ -52,15 +49,9 @@ public class CategoryController {
         return "list-category";
     }
 
-    @GetMapping("/detail-category/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
-        model.addAttribute("category", categoryService.getCategory(id));
-        return "detail-category";
-    }
-
     @PostMapping("/detail-category")
     public String detail(@ModelAttribute Category category) {
-        return Optional.ofNullable(categoryService.updateCategory(category)).map(t -> "redirect:/list-category")
+        return Optional.ofNullable(categoryService.updateCategory(category)).map(t -> "redirect:/users/list-category")
                 .orElse("failed");
     }
 

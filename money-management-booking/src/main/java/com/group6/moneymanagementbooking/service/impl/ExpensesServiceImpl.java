@@ -1,23 +1,29 @@
 package com.group6.moneymanagementbooking.service.impl;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.group6.moneymanagementbooking.enity.Expenses;
+import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.repository.AccountsRepository;
 import com.group6.moneymanagementbooking.repository.ExpensesRepository;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.ExpensesService;
+import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -31,25 +37,24 @@ public class ExpensesServiceImpl implements ExpensesService {
     private final AccountsRepository accountsRepository;
     private final AccountsService accountsService;
     private final UsersRepository usersRepository;
+    private final UsersService usersService;
 
     @Override
-    public Expenses addExpenses(Expenses expenses) {
+    public Expenses addExpenses(Expenses expenses, Model model) {
         try {
             expenses.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
             double amountExpense = expenses.getAmount();
             double balanceAccount = accountsRepository.findById(expenses.getAccounts().getId()).get().getBalance();
-            if (amountExpense == 0)
-                throw new Exception("Amount can't not empty");
-            if (amountExpense < 0)
-                throw new Exception("Amount must be > 0");
+            if (amountExpense <= 0)
+                throw new Exception("Amount must be greater than 0");
             if (balanceAccount - amountExpense < 0)
-                System.out.println("Warning Balance <0");
+                model.addAttribute("mess", "Warning account with amount less than 0");
             accountsRepository.addBalanceById(balanceAccount - amountExpense, expenses.getAccounts().getId());
             return expensesRepository.save(expenses);
         } catch (Exception e) {
-            e.getMessage();
-            return null;
+            model.addAttribute("mess", e.getMessage());
         }
+        return null;
     }
 
     @Override
@@ -60,7 +65,7 @@ public class ExpensesServiceImpl implements ExpensesService {
         Collections.sort(listExpenses, new Comparator<Expenses>() {
             @Override
             public int compare(Expenses expenses1, Expenses expenses2) {
-                return expenses2.getExpenseDate().compareTo(expenses1.getExpenseDate());
+                return Long.compare(expenses2.getId(), expenses1.getId());
             }
         });
         return listExpenses;
@@ -135,10 +140,43 @@ public class ExpensesServiceImpl implements ExpensesService {
             String monthKey = getMonthKey(expense.getExpenseDate());
             double currentAmount = monthlyExpenses.getOrDefault(monthKey, 0.0);
             currentAmount += expense.getAmount();
-            monthlyExpenses.put(monthKey, currentAmount);
+            if (expense.getExpenseDate().toLocalDate().getYear() == LocalDate.now().getYear()) {
+                monthlyExpenses.put(monthKey, currentAmount);
+            }
         }
+        // Sort Map By String (Month)
+        Map<String, Double> sortedMonthlyExpenses = new LinkedHashMap<>();
+        monthlyExpenses.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEachOrdered(entry -> sortedMonthlyExpenses.put(entry.getKey(), entry.getValue()));
 
-        return monthlyExpenses;
+        return sortedMonthlyExpenses;
+    }
+
+    @Override
+    public double getTotalAmountCurrentMonth() {
+        // Lấy ngày hiện tại
+        LocalDate currentDate = LocalDate.now();
+
+        // Lấy tháng và năm hiện tại
+        int currentMonth = currentDate.getMonthValue();
+        int currentYear = currentDate.getYear();
+
+        // Lấy ngày đầu tiên và cuối cùng của tháng hiện tại
+        LocalDate firstDayOfMonth = LocalDate.of(currentYear, currentMonth, 1);
+        LocalDate lastDayOfMonth = YearMonth.of(currentYear, currentMonth).atEndOfMonth();
+
+        // Chuyển đổi LocalDate thành java.sql.Date
+        Date firstDateOfMonth = Date.valueOf(firstDayOfMonth);
+        Date lastDateOfMonth = Date.valueOf(lastDayOfMonth);
+        Users users = usersService.getUsers();
+        // Lấy tổng số tiền của các expense trong tháng hiện tại
+        List<Expenses> expensesList = expensesRepository.findByExpenseDateBetweenAndUserId(firstDateOfMonth,
+                lastDateOfMonth, users.getId());
+        double totalAmount = expensesList.stream().mapToDouble(Expenses::getAmount).sum();
+
+        return totalAmount;
     }
 
     private String getMonthKey(Date date) {

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.group6.moneymanagementbooking.enity.Category;
 import com.group6.moneymanagementbooking.service.CategoryService;
+import com.group6.moneymanagementbooking.service.ExpensesService;
+import com.group6.moneymanagementbooking.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,28 +25,30 @@ import lombok.RequiredArgsConstructor;
 public class BudgetController {
     @Autowired
     private final CategoryService categoryService;
+    private final UsersService usersService;
+    private final ExpensesService expensesService;
 
     @GetMapping("/list-budget")
     public String listBudget(Model model) {
         model.addAttribute("listbudget", categoryService.findExpenseInCategory());
         model.addAttribute("record", categoryService.findExpenseInCategory().size());
         Collection<Category> categories = categoryService.findExpenseInCategory();
-        Map<String,Double> categoryExpensesMap = categoryService.getCategoryTotalExpenses(categories);
-        Map<String,Integer> expenseCountMap = categoryService.getExpenseCount(categories);
+        Map<String, Double> categoryExpensesMap = categoryService.getCategoryTotalExpenses(categories);
+        Map<String, Integer> expenseCountMap = categoryService.getExpenseCount(categories);
+        model.addAttribute("categoryData",
+                categoryService.getCategoryTotalExpenses(categoryService.findExpenseInCategory()));
+        model.addAttribute("categoryDataBudget",
+                categoryService.getCategoriesInfo(categoryService.findExpenseInCategory()));
         model.addAttribute("expenseCountMap", expenseCountMap);
         model.addAttribute("categoryExpensesMap", categoryExpensesMap);
+        model.addAttribute("monthlySpending", usersService.getUsers().getMonthlySpending());
+        model.addAttribute("totalExpenseByMonth", expensesService.getTotalAmountCurrentMonth());
         return "list-budget";
     }
 
-    @GetMapping("/add-budget/{name}")
-    public String addBudget(@PathVariable("name") String name, Model model) {
-        model.addAttribute("category", categoryService.findByName(name));
-        return "add-budget";
-    }
-
     @PostMapping("/add-budget")
-    public String addBudget(@ModelAttribute Category category) {
-        categoryService.updateCategory(category.getBudget(), category.getName());
+    public String addBudget(@ModelAttribute Category addcategory) {
+        categoryService.updateCategory(addcategory.getBudget(), addcategory.getName());
         return "redirect:/users/list-budget";
     }
 

@@ -9,26 +9,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Budget List</title>
     <th:block id="admin-static-resource">
-         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="/assets/css/view-debtor.css">
+        <link rel="stylesheet" href="/assets/css/accounts.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </th:block>
-    <style>
-        .negativeTotal {
-            background-color: red;
-        }
 
-        .red-row {
-            color: rgb(245, 36, 36);
-        }
-    </style>
 </head>
 
 <body>
     <div id="mainContent" class="box">
+        <div class="chart">
+            <canvas id="pieChartBudget"></canvas>
+            <canvas id="pieChart"></canvas>
+            <canvas id="expenseChart"></canvas>
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -46,7 +49,7 @@
                                         class="mr-1 btn btn-primary" style="border-radius: 20px;">Adjust</a>
                                 </div>
 
-                                <div class="float-right">
+                                <div class="mess">
                                     <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
                                 </div>
                             </div>
@@ -67,20 +70,35 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="item : ${listbudget}" th:class="${item.budget} < ${categoryExpensesMap[item.name]}? 'red-row' : ''">
+                                            <tr th:each="item : ${listbudget}"
+                                                th:class="${item.budget} < ${categoryExpensesMap[item.name]}? 'red-row' : ''">
                                                 <td th:text="${item.name}"></td>
-                                                <td th:text="${item.budget}"></td>       
-                                                <td th:text="${categoryExpensesMap[item.name]}"></td>   
+                                                <td th:text="${item.budget}"></td>
+                                                <td th:text="${categoryExpensesMap[item.name]}"></td>
                                                 <td th:text="${expenseCountMap[item.name]}"></td>
                                                 <td>
-                                                    <progress id="file" max="100" th:value="${(categoryExpensesMap[item.name] / item.budget) * 100}"></progress>
+                                                    <progress id="file" max="100"
+                                                        th:value="${(categoryExpensesMap[item.name] / item.budget) * 100}"></progress>
                                                 </td>
                                                 <td>
+
                                                     <div style="margin: auto; text-align:center">
-                                                        <a th:href="@{/users/add-budget/{name}(name=${item.name})}"
+                                                        <!-- <a th:href="@{/users/add-budget/{name}(name=${item.name})}"
                                                             title="Edit" class="btn btn-warning"><i
                                                                 class="fa fa-pencil"></i>
                                                             Set Budget
+                                                        </a> -->
+                                                        <a>
+                                                            <button type="button" class="btn btn-warning"
+                                                                data-toggle="modal"
+                                                                th:data-target="'#editModal' + ${item.id}">
+                                                                <i class="fa fa-pencil"></i>
+                                                                Set Budget
+                                                            </button>
+
+                                                            <div
+                                                                th:replace="layout/budget-popup :: set-budget-popup(${item})">
+                                                            </div>
                                                         </a>
                                                     </div>
                                                 </td>
@@ -96,8 +114,48 @@
         </div>
     </div>
     <th:block id="admin_javascript">
+
         <script th:src="@{/assets/javascrip/admin.js}"></script>
         <script th:src="@{/assets/javascrip/account.js}"></script>
+
+        <script th:inline="javascript">
+            /* Lấy dữ liệu từ model hoặc controller và chuyển thành mảng JSON */
+            var categoryData = /*[[${categoryData}]]*/ {};
+
+            var labels = Object.keys(categoryData);
+            var data = Object.values(categoryData);
+
+
+
+        </script>
+
+        <script th:inline="javascript">
+            // Dữ liệu quy trình expense và budget
+            var expense = /*[[${totalExpenseByMonth}]]*/ {};
+            var budget = /*[[${monthlySpending}]]*/ {};
+
+            // Tính toán phần trăm chi tiêu so với ngân sách
+            var expensePercentage = (expense / budget) * 100;
+            var remainingPercentage = 100 - expensePercentage;
+
+
+        </script>
+
+
+        <script th:inline="javascript">
+            /* Lấy dữ liệu từ model hoặc controller và chuyển thành mảng JSON */
+            var categoryData = /*[[${categoryDataBudget}]]*/ {};
+
+            var labels = Object.keys(categoryData);
+            var data = Object.values(categoryData);
+
+            /* Mảng các màu sắc cho từng phần tử */
+
+
+
+        </script>
+        <script th:src="@{/assets/javascrip/budget.js}"></script>
+
     </th:block>
 </body>
 

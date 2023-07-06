@@ -9,26 +9,27 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Income List</title>
     <th:block id="admin-static-resource">
-         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="/assets/css/view-debtor.css">
+        <link rel="stylesheet" href="/assets/css/accounts.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </th:block>
-    <style>
-        .negativeTotal {
-            background-color: red;
-        }
 
-        .red-row {
-            color: rgb(245, 36, 36);
-        }
-    </style>
 </head>
 
 <body>
     <div id="mainContent" class="box">
+        <div>
+            <canvas id="incomeChart"></canvas>
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -42,11 +43,18 @@
                                 </div>
 
                                 <div class="float-right">
-                                    <a type="button" th:href="@{/users/add-income}" title="List Income"
-                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Income</a>
+                                    <!-- <a type="button" th:href="@{/users/add-income}" title="List Income"
+                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Add New Income</a> -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#editModal" style="border-radius: 20px;">
+                                        Add New Income
+                                    </button>
+
+                                    <div th:replace="layout/income-popup :: add-income-popup(${addincome})">
+                                    </div>
                                 </div>
 
-                                <div class="float-right">
+                                <div class="mess">
                                     <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
                                 </div>
                             </div>
@@ -74,11 +82,21 @@
                                                 <td th:text="${item.amount}"></td>
                                                 <td th:text="${item.incomeDate}"></td>
                                                 <td>
+
                                                     <div style="margin: auto; text-align:center">
-                                                        <a th:href="@{/users/detail-income/{id}(id=${item.id})}" title="Edit"
-                                                            class="btn btn-warning"><i class="fa fa-pencil"></i>
-                                                            Edit
+
+                                                        <a>
+                                                            <button type="button" class="btn btn-warning"
+                                                                data-toggle="modal"
+                                                                th:data-target="'#editModal' + ${item.id}">
+                                                                <i class="fa fa-pencil"></i>
+                                                                Edit
+                                                            </button>
+                                                            <div
+                                                                th:replace="layout/income-popup :: edit-income-popup(${item})">
+                                                            </div>
                                                         </a>
+
                                                         <a th:onclick="confirmDeleteIncome([[${item.id}]])"
                                                             class="btn btn-danger" style="color: black;"><i
                                                                 class="fa fa-exclamation-circle"></i>
@@ -113,6 +131,39 @@
     <th:block id="admin_javascript">
         <script th:src="@{/assets/javascrip/admin.js}"></script>
         <script th:src="@{/assets/javascrip/account.js}"></script>
+
+        <script th:inline="javascript">
+            // Dữ liệu quy trình expense và budget
+            var expense = /*[[${totalIncomeByMonth}]]*/ {};
+            var budget = /*[[${monthlyEarning}]]*/ {};
+
+            // Tính toán phần trăm chi tiêu so với ngân sách
+            var expensePercentage = (expense / budget) * 100;
+            var remainingPercentage = 100 - expensePercentage;
+
+            // Lấy thẻ canvas và context
+            var canvas = document.getElementById('incomeChart');
+            var ctx = canvas.getContext('2d');
+
+            // Tạo biểu đồ tròn
+            var chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Income', 'Remaining'],
+                    datasets: [{
+                        data: [expensePercentage, remainingPercentage],
+                        backgroundColor: ['#FF6384', '#36A2EB']
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Expense vs Budget'
+                    },
+                    responsive: false, // Đặt kích thước biểu đồ phù hợp với kích thước phần tử chứa
+                }
+            });
+        </script>
     </th:block>
 </body>
 

@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.ui.Model;
+
 import com.group6.moneymanagementbooking.enity.Category;
 
 public interface CategoryService {
-    public Category addCategory(Category category);
+    public Category addCategory(Category category, Model model);
 
     public List<Category> findAll();
 
@@ -31,5 +33,7 @@ public interface CategoryService {
     public Map<String, Double> getCategoryTotalExpenses(Collection<Category> categories);
 
     public Map<String, Integer> getExpenseCount(Collection<Category> categories);
+
+    public Map<String, Double> getCategoriesInfo(List<Category> categories);
 
 }

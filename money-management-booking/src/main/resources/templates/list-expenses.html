@@ -17,6 +17,10 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="/assets/css/view-debtor.css">
         <link rel="stylesheet" href="/assets/css/accounts.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </th:block>
 </head>
 
@@ -48,94 +52,8 @@
                                         Add New Expense
                                     </button>
 
-                                    <form th:action="@{/users/add-expenses}" th:object="${addexpense}" method="post">
-                                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-                                            aria-labelledby="editModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editModalLabel">Create New Expense
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
 
-                                                    <div class="modal-body">
-                                                        <div class="position-relative row form-group">
-                                                            <div class="form-label-horizontal col-md-3"> <label
-                                                                    class=""><b>Title</b>
-                                                                </label></div>
-                                                            <div class="col-md-9">
-                                                                <input placeholder="Enter Title" type="text"
-                                                                    class="form-control" th:field="*{title}" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="position-relative row form-group">
-                                                            <div class="form-label-horizontal col-md-3">
-                                                                <label class="">
-                                                                    <b>Amount</b>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <input placeholder="Input number" type="number"
-                                                                    class="form-control" th:field="*{amount}" required
-                                                                    name="amount"
-                                                                    onkeypress="return validateNumberInput(event)">
-                                                            </div>
-                                                        </div>
-                                                        <div class="position-relative row form-group">
-                                                            <div class="form-label-horizontal col-md-3">
-                                                                <label class="">
-                                                                    <b>Accounts</b>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <select th:field="*{accounts.id}" required
-                                                                    class="form-control">
-                                                                    <option th:each="item : ${listaccount}"
-                                                                        th:value="${item.id}" th:text="${item.name}">
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="position-relative row form-group">
-                                                            <div class="form-label-horizontal col-md-3">
-                                                                <label class="">
-                                                                    <b>Category</b>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <select th:field="*{category.id}" required
-                                                                    class="form-control">
-                                                                    <option th:each="item : ${listcategory}"
-                                                                        th:value="${item.id}" th:text="${item.name}">
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="position-relative row form-group">
-                                                            <div class="form-label-horizontal col-md-3"><label class="">
-                                                                    <b>Date</b>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <input type="date" th:field="*{expenseDate}" id="myDate"
-                                                                    required>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Add</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <div th:replace="layout/expense-popup :: add-expense-popup(${addexpense})"></div>
                                 </div>
                                 <div class="mess">
                                     <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
@@ -176,127 +94,10 @@
                                                                     <i class="fa fa-pencil"></i>
                                                                     Edit
                                                                 </button>
-                                                                <div class="modal fade" th:id="'editModal'+${item.id}"
-                                                                    tabindex="-1" role="dialog"
-                                                                    th:aria-labelledby="'editModalLabel' + ${item.id}"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    th:id="'editModalLabel'+${item.id}">
-                                                                                    Edit Expense</h5>
-                                                                                <button type="button" class="close"
-                                                                                    data-dismiss="modal"
-                                                                                    aria-label="Close">
-                                                                                    <span
-                                                                                        aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-
-                                                                                <input th:value="${item.id}" type="text"
-                                                                                    class="form-control" name="id"
-                                                                                    style="display: none;">
-                                                                                <div
-                                                                                    class="position-relative row form-group">
-                                                                                    <div
-                                                                                        class="form-label-horizontal col-md-3">
-                                                                                        <label class=""><b>Title</b>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <input th:value="${item.title}"
-                                                                                            type="text"
-                                                                                            class="form-control"
-                                                                                            name="title">
-
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="position-relative row form-group">
-                                                                                    <div
-                                                                                        class="form-label-horizontal col-md-3">
-                                                                                        <label class="">
-                                                                                            <b>Amount</b>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <input th:value="${item.amount}"
-                                                                                            type="text"
-                                                                                            class="form-control"
-                                                                                            name="amount">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="position-relative row form-group">
-                                                                                    <div
-                                                                                        class="form-label-horizontal col-md-3">
-                                                                                        <label class="">
-                                                                                            <b>Accounts</b>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <select name="accounts"
-                                                                                            class="form-control">
-                                                                                            <option
-                                                                                                th:each="items : ${listaccount}"
-                                                                                                th:value="${items.id}"
-                                                                                                th:text="${items.name}"
-                                                                                                th:selected="${item.accounts.id == items.id}">
-                                                                                            </option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div
-                                                                                    class="position-relative row form-group">
-                                                                                    <div
-                                                                                        class="form-label-horizontal col-md-3">
-                                                                                        <label class="">
-                                                                                            <b>Category</b>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <select name="category"
-                                                                                            class="form-control">
-                                                                                            <option
-                                                                                                th:each="items : ${listcategory}"
-                                                                                                th:value="${items.id}"
-                                                                                                th:text="${items.name}"
-                                                                                                th:selected="${item.category.id == items.id}">
-                                                                                            </option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="position-relative row form-group">
-                                                                                    <div
-                                                                                        class="form-label-horizontal col-md-3">
-                                                                                        <label class="">
-                                                                                            <b>Date</b>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <input
-                                                                                            th:value="${item.expenseDate}"
-                                                                                            type="date"
-                                                                                            class="form-control"
-                                                                                            name="expenseDate">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button"
-                                                                                    class="btn btn-secondary"
-                                                                                    data-dismiss="modal">Close</button>
-                                                                                <button type="submit"
-                                                                                    class="btn btn-primary">Save
-                                                                                    Changes</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                <div
+                                                                    th:replace="layout/expense-popup :: edit-expense-popup(${item})">
                                                                 </div>
+
                                                             </a>
                                                             <a th:onclick="confirmDeleteExpense([[${item.id}]])"
                                                                 class="btn btn-danger" style="color: black;"><i
@@ -331,17 +132,15 @@
         </div>
     </div>
     <th:block id="admin_javascript">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         <script th:src="@{/assets/javascrip/admin.js}"></script>
         <script th:src="@{/assets/javascrip/account.js}"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
         <script th:inline="javascript">
             // Dữ liệu quy trình expense và budget
             var expense = /*[[${totalExpenseByMonth}]]*/ {};
             var budget = /*[[${monthlySpending}]]*/ {};
-
+            
             // Tính toán phần trăm chi tiêu so với ngân sách
             var expensePercentage = (expense / budget) * 100;
             var remainingPercentage = 100 - expensePercentage;
@@ -369,6 +168,7 @@
                 }
             });
         </script>
+
     </th:block>
 </body>
 

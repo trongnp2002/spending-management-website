@@ -43,6 +43,10 @@
             tr:nth-child(even) {
                 background-color: white;
             }
+
+            td{
+                height: 45px;;
+            }
         </style>
     </th:block>
 
@@ -258,7 +262,6 @@
                                             <th class="sresizable-column" style="position: relative; width: 317.65px;">
                                                 Action</th>
                                         </tr>
-
                                     </thead>
                                     <tbody style="font-weight: 499;">
                                         <tr th:each="item : ${page.content}">
@@ -271,7 +274,7 @@
                                             <td th:text="${item.total}"></td>
                                             <td th:text="${item.date_create}"></td>
                                             <td th:text="${item.date_update}"></td>
-
+                                  
                                             <td>
                                                 <div style="margin: auto; text-align:center">
                                                     <a th:href="@{'/Debtor/Detail/view-detail/' + ${item.id}}"
@@ -398,6 +401,19 @@
                                                 </a>
                                             </form>
                                         </tr>
+                                        <th:block th:if="${page.content.size() < 6}">
+                                            <tr th:each="i : ${#numbers.sequence(1, 6 - page.content.size())}">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </th:block>
                                         <!-- </c:forEach> -->
 
                                     </tbody>
@@ -413,7 +429,6 @@
                                             th:href="@{${link}(page=${page.number + 1}, nameDebtor=${nameDebtor}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
                                             class="btn btn-dangers">Next</a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

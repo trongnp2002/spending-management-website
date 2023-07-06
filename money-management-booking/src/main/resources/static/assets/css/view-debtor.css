@@ -133,6 +133,10 @@ table th {
 color: green;
 }
 
+.green-row {
+color: green;
+}
+
 .red-row {
     color: rgb(245, 36, 36);
 }

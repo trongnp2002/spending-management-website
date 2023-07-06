@@ -1,8 +1,17 @@
 
 function convertNumber(input) {
-    var number = input.toString().replace(/[^0-9]/g, ""); // Remove non-digit characters
-    var convertedText = convertToVietnameseText(number);
-    document.getElementById("convertedText").textContent = convertedText;
+  var number = input.toString().replace(/[^0-9]/g, ""); // Remove non-digit characters
+  var convertedText = convertToVietnameseText(number);
+  convertedText = convertToVietnameseText(number);
+  document.getElementById("convertedText").textContent = convertedText;
+  // document.getElementById("editConvertedText").textContent = convertedText;
+}
+
+
+function convertNumberEdit(input,id) {
+  var number = input.toString().replace(/[^0-9]/g, ""); // Remove non-digit characters
+  var convertedText = convertToVietnameseText(number);
+  document.getElementById("editConvertedText"+id).textContent = convertedText;
 }
 
 function convertToVietnameseText(number) {

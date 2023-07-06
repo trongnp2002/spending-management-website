@@ -7,12 +7,9 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.group6.moneymanagementbooking.enity.Debtor;
@@ -21,7 +18,6 @@ import com.group6.moneymanagementbooking.repository.DebtorRepository;
 import com.group6.moneymanagementbooking.service.DebtorService;
 import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.SecurityUtils;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -47,6 +43,9 @@ public class DebtorServiceImpl implements DebtorService {
 
   @Override
   public Debtor Save(Debtor debtor) {
+    debtor.setTotal(0.0);
+    debtor.setDate_create(LocalDateTime.now());
+    debtor.setDate_update(LocalDateTime.now());
     debtor.setTotal(0.0);
     debtor.setDate_create(LocalDateTime.now());
     debtor.setDate_update(LocalDateTime.now());
@@ -81,11 +80,6 @@ public class DebtorServiceImpl implements DebtorService {
     debtor.setDate_update(LocalDateTime.now());
     debtor.setTotal(debtors.get().getTotal());
     return debtorRepository.save(debtor);
-  }
-
-  private int getIdUser() {
-    Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());
-    return users.getId();
   }
 
   @Override
@@ -161,4 +155,10 @@ public class DebtorServiceImpl implements DebtorService {
 
     return listdebtor;
   }
+
+  private int getIdUser() {
+    Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());
+    return users.getId();
+  }
+
 }

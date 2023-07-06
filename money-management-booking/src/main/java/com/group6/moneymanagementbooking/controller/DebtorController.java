@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.enity.Users;
@@ -116,10 +118,7 @@ public class DebtorController {
         Page<Debtor> itemsPage = PaginationUtil.paginate(pageable, items);
         Debtor debtor = new Debtor();
         debtor.setUserId(getIdUser());
-        // model.addAttribute("isUpdate", false);
         model.addAttribute("debtor", debtor);
-        // model.addAttribute("title", title);
-
         model.addAttribute("nameDebtor", name);
         model.addAttribute("page", itemsPage);
         model.addAttribute("link", currentRequestMapping);
@@ -152,22 +151,24 @@ public class DebtorController {
         return "view-debtor";
     }
 
-    @GetMapping("/edit/{id}")
-    public String registerGet(Model model, @PathVariable("id") int id) {
-        Optional<Debtor> debtor = debtorService.getDebtor(id);
-        // model.addAttribute("isUpdate", true);
-        model.addAttribute("debtor", debtor.get());
-        model.addAttribute("title", "Update");
-        return "add-debtor";
-    }
+    // @GetMapping("/edit/{id}")
+    // public String registerGet(Model model, @PathVariable("id") int id) {
+    // Optional<Debtor> debtor = debtorService.getDebtor(id);
+    // // model.addAttribute("isUpdate", true);
+    // model.addAttribute("debtor", debtor.get());
+    // model.addAttribute("title", "Update");
+    // return "add-debtor";
+    // }
 
     @PostMapping("/update")
     public String updateDebtor(Model model, @ModelAttribute("debtor") Debtor debtor) throws Exception {
+        debtorService.Update(debtor);
         debtorService.Update(debtor);
         return "redirect:/Debtor/ListAll";
     }
 
     @GetMapping("/delete/{id}")
+
     public String deleteDebtor(Model model, @PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         Debtor debtor = (debtorService.getDebtor(id)).get();
         if (debtor.getTotal() != 0) {

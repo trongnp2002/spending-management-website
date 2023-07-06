@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +19,6 @@ import com.group6.moneymanagementbooking.repository.DebtorRepository;
 import com.group6.moneymanagementbooking.service.DebtorService;
 import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.SecurityUtils;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -28,11 +30,23 @@ public class DebtorServiceImpl implements DebtorService {
 
   @Override
   public List<Debtor> findAll(int id) {
-    return debtorRepository.findAllByUserid(id);
+    List<Debtor> debtorList = debtorRepository.findAllByUserid(id);
+    Collections.sort(debtorList, new Comparator<Debtor>() {
+      @Override
+      public int compare(Debtor debtor1, Debtor debtor2) {
+        // Sắp xếp giảm dần theo debtor id
+        return Integer.compare(debtor2.getId(), debtor1.getId());
+      }
+    });
+
+    return debtorList;
   }
 
   @Override
   public Debtor Save(Debtor debtor) {
+    debtor.setTotal(0.0);
+    debtor.setDate_create(LocalDateTime.now());
+    debtor.setDate_update(LocalDateTime.now());
     debtor.setTotal(0.0);
     debtor.setDate_create(LocalDateTime.now());
     debtor.setDate_update(LocalDateTime.now());
@@ -41,26 +55,7 @@ public class DebtorServiceImpl implements DebtorService {
 
   @Override
   public List<Debtor> SearchByName(String name) {
-    // List<Debtor> searchResults = new ArrayList<>();
 
-    // if (currentReques.equals("/Debtor/ListAll")) {
-
-    // searchResults = findAll(getIdUser());
-    // } else if (currentReques.equals("/Debtor/ListOwner")) {
-
-    // searchResults = getListOwner();
-    // } else if (currentReques.equals("/Debtor/ListDebtor")) {
-
-    // searchResults = getListDebtor();
-    // }
-    // List<Debtor> newli = new ArrayList<>();
-    // for (Debtor item : searchResults) {
-    // if (item.getName().toLowerCase().contains(name.toLowerCase().trim())) {
-    // newli.add(item);
-    // } else if (name == " ") {
-    // newli.add(item);
-    // }
-    // }
     return debtorRepository.findAllByNameContainingAnduserid(getIdUser(), name);
   }
 
@@ -86,11 +81,6 @@ public class DebtorServiceImpl implements DebtorService {
     debtor.setDate_update(LocalDateTime.now());
     debtor.setTotal(debtors.get().getTotal());
     return debtorRepository.save(debtor);
-  }
-
-  private int getIdUser() {
-    Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());
-    return users.getId();
   }
 
   @Override
@@ -166,4 +156,10 @@ public class DebtorServiceImpl implements DebtorService {
 
     return listdebtor;
   }
+
+  private int getIdUser() {
+    Users users = usersService.getUserByEmail(SecurityUtils.getCurrentUsername());
+    return users.getId();
+  }
+
 }

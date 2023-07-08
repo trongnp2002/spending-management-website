@@ -133,10 +133,6 @@ table th {
 color: green;
 }
 
-.green-row {
-color: green;
-}
-
 .red-row {
     color: rgb(245, 36, 36);
 }
@@ -213,6 +209,56 @@ color: #000000ce;
 
 .separator {
     margin: 0 5px;
+}
+
+
+
+
+
+.classifys-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 10px;
+
+}
+
+.classify-option {
+    cursor: pointer;
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: rgb(192, 181, 181);
+    border-radius: 20px;
+    color: white;
+    font-size: 24px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.classify-option.active {
+    background-color: rgb(55, 184, 55);
+}
+
+.container span {
+    display: inline-block;
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: rgb(192, 181, 181);
+    border-radius: 20px;
+    color: white;
+    font-size: 24px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+td {
+    height: 45px;
+    ;
 }
 
 

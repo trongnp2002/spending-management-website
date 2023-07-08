@@ -21,14 +21,8 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
-        <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -44,8 +38,13 @@
                 background-color: white;
             }
 
-            td{
-                height: 45px;;
+            td {
+                height: 45px;
+                ;
+            }
+
+            .rounded-popup {
+                border-radius: 20px;
             }
         </style>
     </th:block>
@@ -85,10 +84,7 @@
                                         style="border-radius: 20px;">List Debtor</a>
                                 </div>
 
-
                                 <div class="float-right">
-
-
                                     <button type="button" class="mr-1 btn btn-primary" data-toggle="modal"
                                         data-target="#addModal" style="border-radius: 20px;"><i class="fa fa-plus"></i>
                                         Add New Debtor
@@ -97,8 +93,8 @@
 
                                         <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
                                             aria-labelledby="addModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content rounded-popup">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="addModalLabel">Add Debtor</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
@@ -115,7 +111,7 @@
                                                             </div>
                                                             <div class="col-md-9">
                                                                 <input placeholder="Enter Name" type="text"
-                                                                    class="form-control" name="name">
+                                                                    class="form-control" name="name" required>
                                                                 <input type="hidden" class="form-control"
                                                                     th:value="${debtor.userId}" th:field="*{userId}">
                                                             </div>
@@ -129,7 +125,7 @@
                                                             </div>
                                                             <div class="col-md-9">
                                                                 <input placeholder="Enter Address" type="text"
-                                                                    class="form-control" name="Address">
+                                                                    class="form-control" name="Address" required>
                                                             </div>
                                                         </div>
                                                         <div class="position-relative row form-group">
@@ -140,8 +136,11 @@
                                                             </div>
                                                             <div class="col-md-9">
                                                                 <input
-                                                                    placeholder="Enter Phone number at least 10 numbers! "
-                                                                    type="number" class="form-control" name="Phone">
+                                                                    placeholder="Enter Phone number (at least 10 numbers)"
+                                                                    type="text" class="form-control" name="Phone"
+                                                                    pattern="[0-9]{10,13}"
+                                                                    title="Phone number must be between 10 and 13 digits"
+                                                                    required>
 
                                                             </div>
                                                         </div>
@@ -153,11 +152,9 @@
                                                             </div>
                                                             <div class="col-md-9">
                                                                 <input placeholder="Enter email" type="email"
-                                                                    class="form-control" name="Email">
+                                                                    class="form-control" name="Email" required>
                                                             </div>
                                                         </div>
-
-
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -274,7 +271,7 @@
                                             <td th:text="${item.total}"></td>
                                             <td th:text="${item.date_create}"></td>
                                             <td th:text="${item.date_update}"></td>
-                                  
+
                                             <td>
                                                 <div style="margin: auto; text-align:center">
                                                     <a th:href="@{'/Debtor/Detail/view-detail/' + ${item.id}}"
@@ -313,8 +310,8 @@
                                                     <div class="modal fade" th:id="'editModal'+${item.id}" tabindex="-1"
                                                         role="dialog" th:aria-labelledby="'editModalLabel' + ${item.id}"
                                                         aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content rounded-popup">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title"
                                                                         th:id="'editModalLabel'+${item.id}">Edit
@@ -565,35 +562,35 @@
 
 
 
-            function submitSearchAndFilterForm() {
-                var nameDebtor = document.getElementById("nameDebtor").value;
-                var filterValueStart = document.getElementById("filterValueStart").value;
-                var filterValueEnd = document.getElementById("filterValueEnd").value;
-                var formAction;
+            // function submitSearchAndFilterForm() {
+            //     var nameDebtor = document.getElementById("nameDebtor").value;
+            //     var filterValueStart = document.getElementById("filterValueStart").value;
+            //     var filterValueEnd = document.getElementById("filterValueEnd").value;
+            //     var formAction;
 
-                if (filterValueStart !== "" || filterValueEnd !== "") {
-                    formAction = "/Debtor/Filter";
-                    if (nameDebtor !== "") {
-                        formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
-                    }
-                    if (filterValueStart !== "" || filterValueEnd !== "") {
-                        if (formAction.includes("?")) {
-                            formAction += "&";
-                        } else {
-                            formAction += "?";
-                        }
-                        formAction += "filterValueStart=" + encodeURIComponent(filterValueStart) + "&filterValueEnd=" + encodeURIComponent(filterValueEnd);
-                    }
-                } else {
-                    formAction = "/Debtor/Search";
-                    if (nameDebtor !== "") {
-                        formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
-                    }
-                }
+            //     if (filterValueStart !== "" || filterValueEnd !== "") {
+            //         formAction = "/Debtor/Filter";
+            //         if (nameDebtor !== "") {
+            //             formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
+            //         }
+            //         if (filterValueStart !== "" || filterValueEnd !== "") {
+            //             if (formAction.includes("?")) {
+            //                 formAction += "&";
+            //             } else {
+            //                 formAction += "?";
+            //             }
+            //             formAction += "filterValueStart=" + encodeURIComponent(filterValueStart) + "&filterValueEnd=" + encodeURIComponent(filterValueEnd);
+            //         }
+            //     } else {
+            //         formAction = "/Debtor/Search";
+            //         if (nameDebtor !== "") {
+            //             formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
+            //         }
+            //     }
 
-                document.getElementById("searchAndFilterForm").action = formAction;
-                document.getElementById("searchAndFilterForm").submit();
-            }
+            //     document.getElementById("searchAndFilterForm").action = formAction;
+            //     document.getElementById("searchAndFilterForm").submit();
+            // }
 
             document.addEventListener('DOMContentLoaded', function () {
                 var clearButton = document.getElementById('clearButton');

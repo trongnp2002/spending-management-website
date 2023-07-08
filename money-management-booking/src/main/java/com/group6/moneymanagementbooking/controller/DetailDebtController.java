@@ -20,7 +20,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Debt_detail;
-import com.group6.moneymanagementbooking.enity.Debtor;
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.DebtorService;
@@ -63,8 +62,10 @@ public class DetailDebtController {
         model.addAttribute("debtor", debtorService.getDebtorById(id));
         model.addAttribute("page", itemsPage);
         model.addAttribute("link", currentRequestMapping);
-        return dispathcher(model, debt_detail, accountsService.findAllByUserId(getIdUser()).size(), errorMessage,
-                itemsPage, currentRequestMapping, "", "", "");
+        return "view-debt";
+        // return dispathcher(model, debt_detail,
+        // accountsService.findAllByUserId(getIdUser()).size(), errorMessage,
+        // itemsPage, currentRequestMapping, "", "", "");
     }
 
     // @GetMapping("/Add/{id}")
@@ -152,19 +153,21 @@ public class DetailDebtController {
 
         Debt_detail debt_detail = new Debt_detail();
         debt_detail.setDeptorId(idDebtor);
-        // model.addAttribute("errorMessage", "");
-        // model.addAttribute("listAccount",
-        // accountsService.findAllByUserId(getIdUser()));
-        // model.addAttribute("debt_detail", debt_detail);
-
-        // model.addAttribute("debtor", debtorService.getDebtorById(idDebtor));
-        // model.addAttribute("filterType", filterType);
-        // model.addAttribute("filterValueStart", filterValueStart);
-        // model.addAttribute("filterValueEnd", filterValueEnd);
-        // model.addAttribute("page", itemsPage);
-        // model.addAttribute("link", currentRequestMapping);
-        return dispathcher(model, debt_detail, 0, "", itemsPage, currentRequestMapping, filterType, filterValueStart,
-                filterValueEnd);
+        model.addAttribute("errorMessage", "");
+        model.addAttribute("listAccount",
+                accountsService.findAllByUserId(getIdUser()));
+        model.addAttribute("debt_detail", debt_detail);
+        model.addAttribute("listAcc", accountsService.findAllByUserId(getIdUser()).size());
+        model.addAttribute("debtor", debtorService.getDebtorById(idDebtor));
+        model.addAttribute("filterType", filterType);
+        model.addAttribute("filterValueStart", filterValueStart);
+        model.addAttribute("filterValueEnd", filterValueEnd);
+        model.addAttribute("page", itemsPage);
+        model.addAttribute("link", currentRequestMapping);
+        // return dispathcher(model, debt_detail, 0, "", itemsPage,
+        // currentRequestMapping, filterType, filterValueStart,
+        // filterValueEnd);
+        return "view-debt";
 
     }
 
@@ -173,21 +176,23 @@ public class DetailDebtController {
         return users.getId();
     }
 
-    private String dispathcher(Model model, Debt_detail debt_detail, int listAcc,
-            String errorMessage, Page<Debt_detail> itemsPage,
-            String currentRequestMapping, String filterType, String filterValueStart, String filterValueEnd) {
+    // private String dispathcher(Model model, Debt_detail debt_detail, int listAcc,
+    // String errorMessage, Page<Debt_detail> itemsPage,
+    // String currentRequestMapping, String filterType, String filterValueStart,
+    // String filterValueEnd) {
 
-        model.addAttribute("errorMessage", "");
-        model.addAttribute("listAccount", accountsService.findAllByUserId(getIdUser()));
-        model.addAttribute("debt_detail", debt_detail);
+    // model.addAttribute("errorMessage", "");
+    // model.addAttribute("listAccount",
+    // accountsService.findAllByUserId(getIdUser()));
+    // model.addAttribute("debt_detail", debt_detail);
 
-        model.addAttribute("debtor", debtorService.getDebtorById(idDebtor));
-        model.addAttribute("filterType", filterType);
-        model.addAttribute("filterValueStart", filterValueStart);
-        model.addAttribute("filterValueEnd", filterValueEnd);
-        model.addAttribute("page", itemsPage);
-        model.addAttribute("link", currentRequestMapping);
-        return "view-debt";
+    // model.addAttribute("debtor", debtorService.getDebtorById(idDebtor));
+    // model.addAttribute("filterType", filterType);
+    // model.addAttribute("filterValueStart", filterValueStart);
+    // model.addAttribute("filterValueEnd", filterValueEnd);
+    // model.addAttribute("page", itemsPage);
+    // model.addAttribute("link", currentRequestMapping);
+    // return "view-debt";
 
-    }
+    // }
 }

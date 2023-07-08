@@ -47,15 +47,11 @@ public class DebtorServiceImpl implements DebtorService {
     debtor.setTotal(0.0);
     debtor.setDate_create(LocalDateTime.now());
     debtor.setDate_update(LocalDateTime.now());
-    debtor.setTotal(0.0);
-    debtor.setDate_create(LocalDateTime.now());
-    debtor.setDate_update(LocalDateTime.now());
     return debtorRepository.save(debtor);
   }
 
   @Override
   public List<Debtor> SearchByName(String name) {
-
     return debtorRepository.findAllByNameContainingAnduserid(getIdUser(), name);
   }
 
@@ -108,20 +104,6 @@ public class DebtorServiceImpl implements DebtorService {
   @Override
   public List<Debtor> FilterDebtor(String filterType, String name, String filterValueStart, String filterValueEnd) {
     List<Debtor> listdebtor = new ArrayList<>();
-    // if (name == "" && filterType.equals("total")) {
-    // Double from = Double.parseDouble(filterValueStart);
-    // Double to = Double.parseDouble(filterValueEnd);
-    // listdebtor = debtorRepository.findAllByTotal(getIdUser(), from, to);
-    // } else if (name == null && "date".equals(filterType)) {
-    // String pattern = "yyyy-MM-dd";
-    // DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-    // LocalDate dateStart = LocalDate.parse(filterValueStart, dateFormatter);
-    // LocalDate dateEnd = LocalDate.parse(filterValueEnd, dateFormatter);
-    // LocalDateTime dateTimeStart = dateStart.atStartOfDay();
-    // LocalDateTime dateTimeEnd = dateEnd.atStartOfDay();
-    // listdebtor = debtorRepository.findAllByDate(getIdUser(), dateTimeStart,
-    // dateTimeEnd);
-    // }
     if (name == null) {
       name = "";
     }
@@ -148,7 +130,6 @@ public class DebtorServiceImpl implements DebtorService {
           LocalDateTime dateTimeEnd = dateEnd.atStartOfDay();
           listdebtor = debtorRepository.findAllByDate(getIdUser(), dateTimeStart, dateTimeEnd);
         } catch (DateTimeParseException e) {
-          // Xử lý ngoại lệ khi không thể chuyển đổi thành ngày tháng
           e.printStackTrace();
         }
       }

@@ -13,13 +13,10 @@ import org.springframework.stereotype.Service;
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Debt_detail;
 import com.group6.moneymanagementbooking.enity.Debtor;
-import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.repository.DetailDebtRepository;
 import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.DebtorService;
 import com.group6.moneymanagementbooking.service.DetailDebtService;
-import com.group6.moneymanagementbooking.util.SecurityUtils;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -90,7 +87,6 @@ public class DetailDebtServiceImpl implements DetailDebtService {
                Double to = Double.parseDouble(filterValueEnd.trim());
                listdebtor = detailDebtRepository.findAllByTotal(idDebtor, from, to);
             } catch (NumberFormatException e) {
-               // Xử lý ngoại lệ khi không thể chuyển đổi thành số
                e.printStackTrace();
             }
          } else if (filterValueStart == "" && filterValueEnd == "") {
@@ -108,14 +104,12 @@ public class DetailDebtServiceImpl implements DetailDebtService {
                LocalDateTime dateTimeEnd = dateEnd.atStartOfDay();
                listdebtor = detailDebtRepository.findAllByDate(idDebtor, dateTimeStart, dateTimeEnd);
             } catch (DateTimeParseException e) {
-               // Xử lý ngoại lệ khi không thể chuyển đổi thành ngày tháng
                e.printStackTrace();
             }
          } else if (filterValueStart == "" && filterValueEnd == "") {
             listdebtor = detailDebtRepository.findAllByDeptorId(idDebtor);
          }
       }
-
       return listdebtor;
    }
 
@@ -126,10 +120,6 @@ public class DetailDebtServiceImpl implements DetailDebtService {
 
       if (deb.getAccounts().getId() != newdebt_detail.getAccounts().getId()) {
          Accounts newAcc = accountsService.findById(newdebt_detail.getAccounts().getId());
-         // oldAcc.setBalance(deb.isClassify() ? (oldAcc.getBalance() +
-         // deb.getMoney_debt())
-         // : (oldAcc.getBalance() - deb.getMoney_debt()));
-
          newAcc.setBalance(newdebt_detail.isClassify() ? (newAcc.getBalance() - newdebt_detail.getMoney_debt())
                : (newAcc.getBalance() + newdebt_detail.getMoney_debt()));
 
@@ -146,11 +136,6 @@ public class DetailDebtServiceImpl implements DetailDebtService {
 
       depDebtor.setTotal(newdebt_detail.isClassify() ? (depDebtor.getTotal() + newdebt_detail.getMoney_debt())
             : (depDebtor.getTotal() - deb.getMoney_debt()));
-
-      // oldAcc.setBalance(newdebt_detail.isClassify() ? (oldAcc.getBalance() -
-      // newdebt_detail.getMoney_debt())
-      // : (oldAcc.getBalance() + newdebt_detail.getMoney_debt()));
-
       detailDebtRepository.save(newdebt_detail);
 
    }

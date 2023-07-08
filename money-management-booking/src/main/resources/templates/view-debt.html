@@ -23,15 +23,8 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline="javascript"></script> -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
         <script th:src="@{/assets/javascrip/numtoword.js}"></script>
-
-        <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
-        <!-- Bootstrap DateTimePicker -->
-
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -44,9 +37,9 @@
 
 
         <style>
-            .green-row {
+            /* .green-row {
                 color: green;
-            }
+            } */
 
             /* CSS cho dòng chẵn */
             tr:nth-child(odd) {
@@ -66,7 +59,7 @@
 
 
 
-            .classifys-container {
+            /* .classifys-container {
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -110,6 +103,9 @@
             td {
                 height: 45px;
                 ;
+            }*/
+            .rounded-popup {
+                border-radius: 20px;
             }
         </style>
     </th:block>
@@ -149,8 +145,8 @@
                                             method="post">
                                             <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
                                                 aria-labelledby="editModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content rounded-popup">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="editModalLabel">Add New Debt
                                                             </h5>
@@ -174,7 +170,7 @@
                                                                         th:field="*{deptorId}"
                                                                         th:value="${debt_detail.deptorId}">
                                                                     <select
-                                                                        style="width: 180px; border-radius: 10px; border-color: brown;"
+                                                                        style="height: 37px; width: 180px; border-radius: 13px; border-color: rgb(123, 117, 108);"
                                                                         th:field="*{accounts.id}">
                                                                         <option th:each="item : ${listAccount}"
                                                                             th:value="${item.id}"
@@ -347,17 +343,6 @@
                                                 <td style="font-weight: 499;" th:text="${item.date_create}"></td>
                                                 <td>
                                                     <div style="margin: auto; text-align:center">
-                                                        <!-- <a th:href="@{'/Debtor/Detail/Details/' + ${item.id}}"
-                                                            class="btn btn-warning"><i class="fas fa-info-circle"></i>
-                                                            Detail
-                                                        </a> -->
-
-                                                        <!-- <a th:href="@{'/Debtor/Detail/Delete/' + ${item.id}}"
-                                                            class="btn btn-danger"
-                                                            onclick="return confirm('Are you sure you want to delete adebt?');"><i
-                                                                class="fa fa-exclamation-circle"></i>
-                                                            Delete
-                                                        </a> -->
                                                         <a class="btn btn-warning" data-toggle="modal"
                                                             th:data-target="'#editModal' + ${item.id}">
                                                             <i class="fa fa-pencil"></i>
@@ -381,8 +366,8 @@
                                                         tabindex="-1" role="dialog"
                                                         th:aria-labelledby="'editModalLabel' + ${item.id}"
                                                         aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content rounded-popup">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title"
                                                                         th:id="'editModalLabel' + ${item.id}">Edit Debt
@@ -406,7 +391,7 @@
                                                                                 name="deptorId"
                                                                                 th:value="${debt_detail.deptorId}">
                                                                             <select class="form-control"
-                                                                                style="width: 180px; border-radius: 10px; border-color: brown;"
+                                                                                style="height: 37px; width: 180px; border-radius: 13px; border-color: rgb(123, 117, 108);"
                                                                                 name="accounts.id">
                                                                                 <option
                                                                                     th:each="itemss : ${listAccount}"

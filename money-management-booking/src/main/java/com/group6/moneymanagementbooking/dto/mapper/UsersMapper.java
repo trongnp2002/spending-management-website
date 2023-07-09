@@ -23,7 +23,7 @@ public class UsersMapper {
                 .lastName(accountDTORegister.getLastName()).email(accountDTORegister.getEmail())
                 .password(accountDTORegister.getPassword()).currency("$").phone(accountDTORegister.getPhone())
                 .active(true).nonLocked(true).address(accountDTORegister.getAddress())
-                .active(true).role("ROLE_USER").avatar("avata1").build();
+                .active(true).role("ROLE_USER").build();
     }
 
     public static UsersForAdminDTOResponse toUsersForAdminDTOResponse(Users users) {
@@ -34,17 +34,13 @@ public class UsersMapper {
                 .accountNonLocked(users.isNonLocked()).lockTime(users.getLockTime()).active(users.isActive()).build();
     }
 
-    public static UserDTOEditProfileRequest toUserDTOEditProfileRequest(Users users){
-        return UserDTOEditProfileRequest.builder().address(users.getAddress()).first_name(users.getFirstName())
-        .last_name(users.getLastName()).email(users.getEmail()).avatar(users.getAvatar()).phone(users.getPhone()).build();
+      public static UserDTOEditProfileRequest toUserDTOEditProfileRequest(Users users){
+        return UserDTOEditProfileRequest.builder().address(users.getAddress()).firstName(users.getFirstName()).id(users.getId())
+        .lastName(users.getLastName()).email(users.getEmail()).avatar(users.getAvatar()).phone(users.getPhone()).build();
     }
 
-    public static Users toUsers(UserDTOEditProfileRequest userDTOedit) {
-        return Users.builder().firstName(userDTOedit.getFirst_name()).lastName(userDTOedit.getLast_name())
-                .email(userDTOedit.getEmail())
-                .phone(userDTOedit.getPhone()).address(userDTOedit.getAddress()).avatar(userDTOedit.getAvatar())
-                .build();
-    }
+
+
 
   
 
@@ -53,11 +49,7 @@ public class UsersMapper {
         for (Users user : users) {
             list.add(UsersMapper.toUsersForAdminDTOResponse(user));
         }
-        if (list.size() < 10) {
-            for (int i = list.size() ; i < 10; i++) {
-                list.add(UsersForAdminDTOResponse.builder().id(0).name(null).build());
-            }
-        }
+
         return list;
     }
 

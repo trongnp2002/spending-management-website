@@ -1,42 +1,60 @@
 package com.group6.moneymanagementbooking.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.group6.moneymanagementbooking.enity.OTP;
+import com.group6.moneymanagementbooking.repository.OTPRepository;
 import com.group6.moneymanagementbooking.util.StringUtils;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class OTPService {
+    private final OTPRepository otpRepository;
 
     public void confirm(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        HttpSession session = request.getSession();
         String userOTPInput = request.getParameter("userInput");
-        int realOtp = (int) (session.getAttribute("otp1"));
         String email = request.getParameter("email");
-        String emailSession = (String) session.getAttribute("account");
-        long OTPage = (long)session.getAttribute("OTPage");
-        if (!email.equals(emailSession)) {
 
-            throw new Exception("Email not valid");
+        Optional<OTP> otpCheckNull = otpRepository.findByEmail(email);
+        if (otpCheckNull.isPresent()) {
+            OTP otp = otpCheckNull.get();
+            if (!StringUtils.isNumberic(userOTPInput)) {
+                throw new Exception("OTP is not valid!!!");
 
-        } else if (!StringUtils.isNumberic(userOTPInput)) {
-
-            throw new Exception("OTP is not valid!!!");
-
-        } else {
-            if(System.currentTimeMillis() - OTPage > 60*1000){
+            }
+            if (LocalDateTime.now().isBefore(otp.getDate_create().plusMinutes(1))) {
+                if (!otp.getCode().equals(userOTPInput)) {
+                    throw new Exception("Your OTP is not correct");
+                }
+            } else {
                 throw new Exception("Your OTP is expired!!");
             }
-            int userOTPNum = Integer.parseInt(userOTPInput);
-            if (userOTPNum != realOtp) {
-
-                throw new Exception("Your OTP is not correct");
-
+            if(otp.isUsed()){
+                throw new Exception("This OTP already used");
+            }else{
+                otp.setUsed(true);
+                otpRepository.save(otp);
             }
+
+        }else{
+            throw new Exception("Your OTP not exist");
         }
+    }
+
+    public void saveOTP(OTP otp) {
+        Optional<OTP> checkDuplicate = otpRepository.findByEmail(otp.getEmail());
+        if (checkDuplicate.isPresent()) {
+            otp.setId(checkDuplicate.get().getId());
+        }
+        otpRepository.save(otp);
     }
 }

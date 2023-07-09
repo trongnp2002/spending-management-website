@@ -23,9 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.group6.moneymanagementbooking.enity.Accounts;
 import com.group6.moneymanagementbooking.enity.Expenses;
 import com.group6.moneymanagementbooking.service.AccountsService;
-import com.group6.moneymanagementbooking.service.CategoryService;
 import com.group6.moneymanagementbooking.service.ExpensesService;
-import com.group6.moneymanagementbooking.service.UsersService;
 import com.group6.moneymanagementbooking.util.PaginationUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -37,7 +35,6 @@ public class AccountController {
     @Autowired
     private final AccountsService accountsService;
     private final ExpensesService expensesService;
-    private final UsersService usersService;
 
     @PostMapping("/add-account")
     public String addAccount(@ModelAttribute Accounts addaccounts, RedirectAttributes redirectAttributes) {
@@ -45,7 +42,7 @@ public class AccountController {
         return "redirect:/users/list-account";
     }
 
-    @GetMapping("/list-account")
+    @GetMapping("/overview")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
             Model model, @ModelAttribute("mess") String mess) {
         model.addAttribute("mess", mess);
@@ -67,8 +64,7 @@ public class AccountController {
         model.addAttribute("totalBalance", totalBalance);
         model.addAttribute("accountsTransaction", accountsTransaction);
         model.addAttribute("page", itemsPage);
-        model.addAttribute("addaccounts", new Accounts());
-        model.addAttribute("user", usersService.getUsers());
+        model.addAttribute("addaccounts", new Accounts());  
         return "list-account";
     }
 

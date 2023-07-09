@@ -28,10 +28,4 @@ public class CheckConditionController {
 
     }
 
-    @GetMapping("/phone")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void checkPhone(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        userService.checkPhoneCondition(request, response);
-
-    }
 }

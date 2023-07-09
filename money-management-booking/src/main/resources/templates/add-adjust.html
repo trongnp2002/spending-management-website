@@ -46,7 +46,9 @@
                 <h1 th:text="'What\'s Up' +' '+ *{lastName} +'!'"></h1>
                 <p>create a budget of how much you want to spend, save and earning goals. Also distribute your budget.</p>
             </div>
-
+            <div class="mess">
+                <i style="color: red; margin-right: 170px;" class="mb-0" th:text="${mess}"></i>
+            </div>
 
             <div class="row">
                 <div class="col-md-6">
@@ -81,7 +83,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="amount">I want to earn (Annually):</label>
+                        <label for="amount">I want to earn (Monthly):</label>
                         <input type="number" class="form-control" placeholder="Enter amount" th:field="*{monthlyEarning}">
                         <div class="text-muted">
                             <small>Per Month</small>
@@ -91,8 +93,8 @@
             </div>
 
             <div class="button-container">
-                <button class="btn btn-secondary"><a th:href="@{/users/list-budget}">Go To Budget</a></button>
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary"><a style="color: #ffff;" th:href="@{/users/list-budget}">Go To Budget</a></button>
             </div>
 
     </form>

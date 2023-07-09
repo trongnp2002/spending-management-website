@@ -17,6 +17,10 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="/assets/css/view-debtor.css">
         <link rel="stylesheet" href="/assets/css/accounts.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </th:block>
 
 </head>
@@ -26,7 +30,7 @@
         <div class="chart">
             <canvas id="pieChartBudget"></canvas>
             <canvas id="pieChart"></canvas>
-            <canvas id="expenseChart" ></canvas>
+            <canvas id="expenseChart"></canvas>
         </div>
         <div class="container-fluid">
             <div class="row">
@@ -77,88 +81,26 @@
                                                         th:value="${(categoryExpensesMap[item.name] / item.budget) * 100}"></progress>
                                                 </td>
                                                 <td>
-                                                    <form th:action="@{/users/add-budget}" method="post">
-                                                        <div style="margin: auto; text-align:center">
-                                                            <!-- <a th:href="@{/users/add-budget/{name}(name=${item.name})}"
+
+                                                    <div style="margin: auto; text-align:center">
+                                                        <!-- <a th:href="@{/users/add-budget/{name}(name=${item.name})}"
                                                             title="Edit" class="btn btn-warning"><i
                                                                 class="fa fa-pencil"></i>
                                                             Set Budget
                                                         </a> -->
-                                                            <a>
-                                                                <button type="button" class="btn btn-warning"
-                                                                    data-toggle="modal"
-                                                                    th:data-target="'#editModal' + ${item.id}">
-                                                                    <i class="fa fa-pencil"></i>
-                                                                    Set Budget
-                                                                </button>
-                                                                <div class="modal fade" th:id="'editModal'+${item.id}"
-                                                                    tabindex="-1" role="dialog"
-                                                                    th:aria-labelledby="'editModalLabel' + ${item.id}"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    th:id="'editModalLabel'+${item.id}">
-                                                                                    Set Budget</h5>
-                                                                                <button type="button" class="close"
-                                                                                    data-dismiss="modal"
-                                                                                    aria-label="Close">
-                                                                                    <span
-                                                                                        aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
+                                                        <a>
+                                                            <button type="button" class="btn btn-warning"
+                                                                data-toggle="modal"
+                                                                th:data-target="'#editModal' + ${item.id}">
+                                                                <i class="fa fa-pencil"></i>
+                                                                Set Budget
+                                                            </button>
 
-                                                                                <input th:value="${item.id}" type="text"
-                                                                                    class="form-control" name="id"
-                                                                                    style="display: none;">
-                                                                                <div
-                                                                                    class="position-relative row form-group">
-                                                                                    <div
-                                                                                        class="form-label-horizontal col-md-3">
-                                                                                        <label class=""><b>Name</b>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <input th:value="${item.name}"
-                                                                                            type="text"
-                                                                                            class="form-control"
-                                                                                            name="name">
-
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="position-relative row form-group">
-                                                                                    <div
-                                                                                        class="form-label-horizontal col-md-3">
-                                                                                        <label class="">
-                                                                                            <b>Budget</b>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <input th:value="${item.budget}"
-                                                                                            type="text"
-                                                                                            class="form-control"
-                                                                                            name="budget">
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button"
-                                                                                    class="btn btn-secondary"
-                                                                                    data-dismiss="modal">Close</button>
-                                                                                <button type="submit"
-                                                                                    class="btn btn-primary">Save
-                                                                                    Changes</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </form>
+                                                            <div
+                                                                th:replace="layout/budget-popup :: set-budget-popup(${item})">
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -172,12 +114,10 @@
         </div>
     </div>
     <th:block id="admin_javascript">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         <script th:src="@{/assets/javascrip/admin.js}"></script>
         <script th:src="@{/assets/javascrip/account.js}"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
         <script th:inline="javascript">
             /* Lấy dữ liệu từ model hoặc controller và chuyển thành mảng JSON */
             var categoryData = /*[[${categoryData}]]*/ {};
@@ -185,25 +125,7 @@
             var labels = Object.keys(categoryData);
             var data = Object.values(categoryData);
 
-            /* Mảng các màu sắc cho từng phần tử */
 
-            /* Tạo biểu đồ tròn */
-            var ctx = document.getElementById('pieChart').getContext('2d');
-            var pieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels, // Tên của từng category
-                    datasets: [{
-                        data: data, // Tổng expense của từng category
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#00CC99', '#FF66CC'] // Màu sắc cho từng phần tử
-                    }]
-                },
-                options: {
-                    responsive: false
-                }
-            });
-
-            /* Hàm tạo mảng màu sắc ngẫu nhiên và không trùng lặp */
 
         </script>
 
@@ -219,28 +141,7 @@
                 remainingPercentage = 0;
             }
 
-            // Lấy thẻ canvas và context
-            var canvas = document.getElementById('expenseChart');
-            var ctx = canvas.getContext('2d');
 
-            // Tạo biểu đồ tròn
-            var chart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Expense', 'Remaining'],
-                    datasets: [{
-                        data: [expensePercentage, remainingPercentage],
-                        backgroundColor: ['#FF6384', '#36A2EB']
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Expense vs Budget'
-                    },
-                    responsive: false, // Đặt kích thước biểu đồ phù hợp với kích thước phần tử chứa
-                }
-            });
         </script>
 
 
@@ -249,29 +150,15 @@
             var categoryData = /*[[${categoryDataBudget}]]*/ {};
 
             var labels = Object.keys(categoryData);
-            var data = Object.values(categoryData);
+            var datas = Object.values(categoryData);
 
             /* Mảng các màu sắc cho từng phần tử */
 
-            /* Tạo biểu đồ tròn */
-            var ctx = document.getElementById('pieChartBudget').getContext('2d');
-            var pieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels, // Tên của từng category
-                    datasets: [{
-                        data: data, // Tổng expense của từng category
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#00CC99', '#FF66CC']// Màu sắc cho từng phần tử
-                    }]
-                },
-                options: {
-                    responsive: false
-                }
-            });
 
-            /* Hàm tạo mảng màu sắc ngẫu nhiên và không trùng lặp */
 
         </script>
+        <script th:src="@{/assets/javascrip/budget.js}"></script>
+
     </th:block>
 </body>
 

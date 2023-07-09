@@ -1,186 +1,730 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/main-layout ::main-fragment(
+    ~{::title}, 
+    ~{::#admin-static-resource},
+    ~{::#admin_javascript},
+    ~{::#mainContent})">
 
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/3098a9fa7b.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Moment.js -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="js/resizableColumns.min.js"></script>
-    <link rel="stylesheet" href="css/admin.css" /> -->
 
-    <!-- Bootstrap DateTimePicker -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script> -->
-    <script src="js/resizableColumns.min.js"></script>
-    <link rel="stylesheet" href="/assets/css/view-debtor.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
-    <script src="js/numtowords.min.js"></script> -->
-    <!-- Import thư viện JSON -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="shortcut icon" href="./img/ODB_ Online_Debt_Book.png" type="image/x-icon"> -->
+    <th:block id="admin-static-resource">
+        <link rel="stylesheet" href="/assets/css/view-debtor.css">
+        <!-- <link rel="stylesheet" th:href="@{/assets/css/debtdetail.css}"> -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://kit.fontawesome.com/3098a9fa7b.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script th:src="@{/assets/javascrip/numtoword.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <style>
-        .green-row {
-            color: green;
-        }
-        /* CSS cho dòng chẵn */
-        tr:nth-child(odd) {
-            background-color: #f2f2f2;
-        }
-    
-        /* CSS cho dòng lẻ */
-        tr:nth-child(even) {
-            background-color: white;
-        }
-    </style>
+
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+
+
+        <style>
+            /* .green-row {
+                color: green;
+            } */
+
+            /* CSS cho dòng chẵn */
+            tr:nth-child(odd) {
+                background-color: #f2f2f2;
+            }
+
+            /* CSS cho dòng lẻ */
+            tr:nth-child(even) {
+                background-color: white;
+            }
+
+
+            .form-control-inline {
+                display: inline-block;
+            }
+
+
+
+
+            /* .classifys-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 10px;
+
+            }
+
+            .classify-option {
+                cursor: pointer;
+                width: 300px;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                background-color: rgb(192, 181, 181);
+                border-radius: 20px;
+                color: white;
+                font-size: 24px;
+                margin: 0 5px;
+                cursor: pointer;
+            }
+
+            .classify-option.active {
+                background-color: rgb(55, 184, 55);
+            }
+
+            .container span {
+                display: inline-block;
+                width: 300px;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                background-color: rgb(192, 181, 181);
+                border-radius: 20px;
+                color: white;
+                font-size: 24px;
+                margin: 0 5px;
+                cursor: pointer;
+            }
+
+            td {
+                height: 45px;
+                ;
+            }*/
+            .rounded-popup {
+                border-radius: 20px;
+            }
+        </style>
+    </th:block>
+
     <title>Debtors List</title>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="main">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="float-left">
-                                <h3 class="mb-0" th:text="${debtor.name}"></h3>
-                                <p class="small text-muted m-0" th:text="'Total record: ' + ${page.getTotalElements()}">
-                                </p>
+    <th:block id="mainContent">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="float-left">
+                                    <h3 class="mb-0" th:text="${debtor.name}"></h3>
+                                    <p class="small text-muted m-0"
+                                        th:text="'Total record: ' + ${page.getTotalElements()}">
+                                    </p>
 
-                            </div>
-                            <div class="float-right">
-                                <a type="button" th:href="@{/Debtor/ListAll}" title="List Debt"
-                                    class="mr-1 btn btn-primary" style="border-radius: 20px;">Back to List of Debtor</a>
-                            </div>
-                            <div class="float-right">
-                                <th:block th:if="${listAcc > 0}">
-                                    <a type="button" th:href="@{'/Debtor/Detail/Add/' + ${debtor.id}}"
-                                        class="mr-1 btn btn-primary" style="border-radius: 20px;"><i
-                                            class="fa fa-plus"></i>Add new Debt</a>
-                                </th:block>
-                                <th:block th:if="${listAcc == 0}">
-                                    <i style="color: red; margin-right: 350px; font-size: 20px;">You need to create an
-                                        account before creating a debt!</i>
-                                </th:block>
-                            </div>
-                        </div>
+                                </div>
+                                <div class="float-right">
+                                    <a type="button" th:href="@{/Debtor/ListAll}" title="List Debt"
+                                        class="mr-1 btn btn-primary" style="border-radius: 20px;">Back to List of
+                                        Debtor</a>
+                                </div>
+                                <div class="float-right">
+                                    <th:block th:if="${listAcc > 0}">
+                                        <button type="button" class="mr-1 btn btn-primary" data-toggle="modal"
+                                            data-target="#editModal" style="border-radius: 20px;"><i
+                                                class="fa fa-plus"></i>
+                                            Add New Debt
+                                        </button>
 
-                        <div class="card-body">
-                            <div class="table-responsive" style="text-align: center;">
-                                <table class="table table-bordered table-sm" data-resizable-columns-id="demo-table-v2">
-                                    <thead>
-                                        <tr id="ta" style="background-color: white;color:black;">
-                                            <th class="resizable-column" style="position: relative; width: 64.4375px">ID
-                                            </th>
-                                            <th class="resizable-column">Note</th>
-                                            <th class="resizable-column" style="position: relative; width: 128.25px;">
-                                                Classify
-                                            </th>
-                                            <th class="resizable-column">Money
-                                                Debt</th>
-                                            <th class="resizable-column" style="position: relative; width: 175.275px;">
-                                                Start
-                                                Date</th>
-                                            <th class="resizable-column" style="position: relative; width: 317.65px;">
-                                                Action</th>
-                                        </tr>
+                                        <form th:action="@{/Debtor/Detail/Add}" th:object="${debt_detail}"
+                                            method="post">
+                                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="editModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content rounded-popup">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel">Add New Debt
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
 
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="item : ${page.content}"
-                                            th:classappend="${item.classify ? 'green-row' : 'red-row'}">
-                                            <td style="font-weight: 499;" th:text="${item.id}"></td>
-                                            <td style="font-weight: 499;" th:text="${item.note}"></td>
-                                            <td style="font-weight: 499;" th:text="${item.classify ? '+' : '-'}"></td>
-                                            <td style="font-weight: 499;" th:text="${item.money_debt}"></td>
-                                            <td style="font-weight: 499;" th:text="${item.date_create}"></td>
-                                            <td>
-                                                <div style="margin: auto; text-align:center">
-                                                    <a th:href="@{'/Debtor/Detail/Details/' + ${item.id}}"
-                                                        class="btn btn-warning"><i class="fas fa-info-circle"></i>
-                                                        Detail
-                                                    </a>
+                                                            <div class="position-relative row form-group">
+                                                                <div class="form-label-horizontal col-md-3"> <label
+                                                                        class=""><b>Account(*)</b>
+                                                                    </label></div>
+                                                                <div class="col-md-9">
+                                                                    <input type="hidden" class="form-control"
+                                                                        th:field="*{id}" th:value="${debt_detail.id}">
+                                                                    <input type="hidden" id="debtorId"
+                                                                        value="${debtor.id}">
+                                                                    <input type="hidden" class="form-control"
+                                                                        th:field="*{deptorId}"
+                                                                        th:value="${debt_detail.deptorId}">
+                                                                    <select
+                                                                        style="height: 37px; width: 180px; border-radius: 13px; border-color: rgb(123, 117, 108);"
+                                                                        th:field="*{accounts.id}">
+                                                                        <option th:each="item : ${listAccount}"
+                                                                            th:value="${item.id}"
+                                                                            th:text="${item.name}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="position-relative row form-group">
+                                                                <div class="form-label-horizontal col-md-3"><label
+                                                                        class=""><b>Note(*)
+                                                                        </b></label></div>
+                                                                <div class="col-md-9">
+                                                                    <textarea rows="8" placeholder="Note"
+                                                                        class="form-control" name="note"
+                                                                        id="noteSettlement"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="position-relative row form-group">
+                                                                <div class="form-label-horizontal col-md-3">
+                                                                    <label class="">
+                                                                        <b>Classify(*)</b>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <div class="classifys-container">
+                                                                        <span class="classify-option" id="plus"
+                                                                            onclick="selectOptions(true)">+</span>
+                                                                        <span class="classify-option" id="minus"
+                                                                            onclick="selectOptions(false)">-</span>
+                                                                        <input type="hidden" id="classifyValue"
+                                                                            th:field="*{classify}" name="classify"
+                                                                            value="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="position-relative row form-group">
+                                                                <div class="form-label-horizontal col-md-3">
+                                                                    <label class="">
+                                                                        <b>Amount(*)</b>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <input type="number" class="form-control"
+                                                                        th:field="*{money_debt}"
+                                                                        placeholder="Enter amount monney" min="0"
+                                                                        th:value="${debt_detail.money_debt}"
+                                                                        id="numberInput"
+                                                                        oninput="convertNumber(this.value)">
+                                                                    <div style="color: red;" id="convertedText"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="position-relative row form-group">
+                                                                <div class="form-label-horizontal col-md-3"><label
+                                                                        class="">
+                                                                        <b>Date(*)</b>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <input type="datetime-local" class="form-control"
+                                                                        th:field="*{date_create}" required />
+                                                                </div>
+                                                            </div>
 
-                                                    <a th:href="@{'/Debtor/Detail/Delete/' + ${item.id}}"
-                                                        class="btn btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete adebt?');"><i
-                                                            class="fa fa-exclamation-circle"></i>
-                                                        Delete
-                                                    </a>
-                                                    <button th:classappend="${item.classify ? '' : 'disabled'}"
-                                                        aria-readonly="true" type="button" class="btn btn-success"><em
-                                                            class="fa fa-plus"></em></button>
-                                                    <button th:classappend="${item.classify ? 'disabled' : ''}"
-                                                        aria-readonly="true" type="button" class="btn btn-danger"><em
-                                                            class="fa fa-minus"></em></button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save
+                                                                Changes</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                            </div>
+                                        </form>
 
-                                <!-- phân trang -->
-                                <div class="card-body">
-                                    <div class="pagination">
-                                        <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
-                                            th:href="@{/Debtor/ListAll(page=${page.number - 1})}"
-                                            class="btn btn-dangers">Previous</a>
-                                        <span>Page <span th:text="${page.number + 1}"></span> / <span
-                                                th:text="${page.totalPages}"></span></span>
-                                        <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
-                                            th:href="@{/Debtor/ListAll(page=${page.number + 1})}"
-                                            class="btn btn-dangers">Next</a>
-                                    </div>
+                                    </th:block>
+
+                                    <th:block th:if="${listAcc == 0}">
+                                        <i style="color: red; margin-right: 350px; font-size: 20px;">You need to create
+                                            an account before creating a debt!</i>
+                                    </th:block>
                                 </div>
 
+                                <div class="float-left" style="margin-left: 70px;">
+                                    <i style="color: red; font-size: 21px;" th:text="${errorMessage}"></i>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between;">
+                                <div style="margin-right: 50px; margin-top: 10px;">
+                                    <form th:action="@{/Debtor/Detail/Filter}" method="get" id="filterForm">
+                                        <div class="input-group">
+                                            <select id="filterType" name="filterType" class="form-control"
+                                                style="border-radius: 15px; margin-right: 10px; width: 150px;">
+                                                <option value="total" th:selected="${filterType == 'total'}">Total Money
+                                                </option>
+                                                <option value="date" th:selected="${filterType == 'date'}">Date Start
+                                                </option>
+                                            </select>
+                                            <input type="hidden" name="nameDebtor" th:value="${nameDebtor}">
+                                            <div id="filterValueContainer">
+
+                                                <div id="rangeContainer"
+                                                    th:classappend="${filterType == 'date'} ? 'active' : ''">
+                                                    <div class="input-row">
+                                                        <input type="text" id="filterValueStart" name="filterValueStart"
+                                                            class="form-control"
+                                                            style="border-radius: 15px; width: 200px;"
+                                                            placeholder="From" th:value="${filterValueStart}">
+                                                        <span class="separator">-</span>
+                                                        <input type="text" id="filterValueEnd" name="filterValueEnd"
+                                                            class="form-control"
+                                                            style="border-radius: 15px; width: 200px;" placeholder="To"
+                                                            th:value="${filterValueEnd}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="link" th:value="${currentLink}">
+                                            <button type="submit" id="searchButton" class="btn btn-secondary"
+                                                style="border-radius: 15px; margin-left: 10px;">
+                                                <i class="fas fa-search"></i> Filter
+                                            </button>
+                                            <button type="button" id="clearButton" class="btn btn-secondary"
+                                                style="border-radius: 15px; margin-left: 10px;">
+                                                <i class="fas fa-times"></i> Clear Filter
+                                            </button>
+                                        </div>
+                                        <div style="margin-left: 20px;"><span style="color: red;" id="errorSpan"></span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="text-align: center;">
+                                    <table class="table table-bordered table-sm"
+                                        data-resizable-columns-id="demo-table-v2">
+                                        <thead>
+                                            <tr id="ta" style="background-color: white;color:black;">
+                                                <th class="resizable-column"
+                                                    style="position: relative; width: 64.4375px">ID
+                                                </th>
+                                                <th class="resizable-column">From Account</th>
+                                                <th class="resizable-column">Note</th>
+                                                <th class="resizable-column"
+                                                    style="position: relative; width: 128.25px;">
+                                                    Classify
+                                                </th>
+                                                <th class="resizable-column">Money
+                                                    Debt</th>
+                                                <th class="resizable-column"
+                                                    style="position: relative; width: 175.275px;">
+                                                    Start
+                                                    Date</th>
+                                                <th class="resizable-column"
+                                                    style="position: relative; width: 317.65px;">
+                                                    Action</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="item : ${page.content}"
+                                                th:classappend="${item.classify ? 'green-row' : 'red-row'}">
+                                                <td style="font-weight: 499;" th:text="${item.id}"></td>
+                                                <td style="font-weight: 499;" th:text="${item.accounts.name}"></td>
+                                                <td style="font-weight: 499;" th:text="${item.note}"></td>
+                                                <td style="font-weight: 499;" th:text="${item.classify ? '+' : '-'}">
+                                                </td>
+                                                <td style="font-weight: 499;" th:text="${item.money_debt}"></td>
+                                                <td style="font-weight: 499;" th:text="${item.date_create}"></td>
+                                                <td>
+                                                    <div style="margin: auto; text-align:center">
+                                                        <a class="btn btn-warning" data-toggle="modal"
+                                                            th:data-target="'#editModal' + ${item.id}">
+                                                            <i class="fa fa-pencil"></i>
+                                                            Edit
+                                                        </a>
+                                                        <a th:href="@{'/Debtor/Detail/Delete/' + ${item.id}}"
+                                                            th:classappend="${item.classify ? 'disabled' : ''}"
+                                                            onclick="return confirm('Are you sure that the debt has been paid off?');"
+                                                            type="button" class="btn btn-success"><em
+                                                                class="fa fa-plus"></em></a>
+                                                        <a th:href="@{'/Debtor/Detail/Delete/' + ${item.id}}"
+                                                            th:classappend="${item.classify ? '' : 'disabled'}"
+                                                            onclick="return confirm('Are you sure that the debt has been paid off?');"
+                                                            type="button" class="btn btn-danger"><em
+                                                                class="fa fa-minus"></em></a>
+                                                    </div>
+                                                </td>
+                                                <form th:action="@{/Debtor/Detail/Update/{id}(id=${item.id})}"
+                                                    method="post">
+                                                    <div class="modal fade" th:id="'editModal' + ${item.id}"
+                                                        tabindex="-1" role="dialog"
+                                                        th:aria-labelledby="'editModalLabel' + ${item.id}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content rounded-popup">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        th:id="'editModalLabel' + ${item.id}">Edit Debt
+                                                                    </h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class=""><b>Account(*)</b></label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <input type="hidden" class="form-control"
+                                                                                name="id" th:value="${debt_detail.id}">
+                                                                            <input type="hidden" id="debtorId"
+                                                                                value="${debtor.id}">
+                                                                            <input type="hidden" class="form-control"
+                                                                                name="deptorId"
+                                                                                th:value="${debt_detail.deptorId}">
+                                                                            <select class="form-control"
+                                                                                style="height: 37px; width: 180px; border-radius: 13px; border-color: rgb(123, 117, 108);"
+                                                                                name="accounts.id">
+                                                                                <option
+                                                                                    th:each="itemss : ${listAccount}"
+                                                                                    th:value="${itemss.id}"
+                                                                                    th:text="${itemss.name}"
+                                                                                    th:selected="${itemss.id == item.accounts.id}">
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class=""><b>Note(*)</b></label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <textarea rows="8" placeholder="Note"
+                                                                                class="form-control" name="note"
+                                                                                id="noteSettlement"
+                                                                                th:text="${item.note}"></textarea>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class=""><b>Classify(*)</b></label>
+                                                                        </div>
+                                                                        <div class="col-md-9 classifys-container">
+                                                                            <span class="classify-option"
+                                                                                th:id="'plus'+ ${item.id}"
+                                                                                th:onclick="selectOption(true, [[${item.id}]])"
+                                                                                th:classappend="${item.classify ? 'active' : ''}">+</span>
+                                                                            <span class="classify-option"
+                                                                                th:id="'minus'+ ${item.id}"
+                                                                                th:onclick="selectOption(false, [[${item.id}]])"
+                                                                                th:classappend="${!item.classify ? 'active' : ''}">-</span>
+                                                                            <input type="hidden"
+                                                                                th:id="'classifyValue'+ ${item.id}"
+                                                                                name="classify"
+                                                                                th:value="${item.classify}" />
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class=""><b>Amount(*)</b></label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <input type="number" class="form-control"
+                                                                                name="money_debt"
+                                                                                placeholder="Enter amount money" min="0"
+                                                                                th:value="${item.money_debt}"
+                                                                                th:oninput="convertNumberEdit(this.value, [[${item.id}]])">
+                                                                            <div style="color: red;"
+                                                                                th:id="'editConvertedText'+${item.id}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="position-relative row form-group">
+                                                                        <div class="form-label-horizontal col-md-3">
+                                                                            <label class=""><b>Date(*)</b></label>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <input type="datetime-local"
+                                                                                class="form-control" name="date_create"
+                                                                                th:value="${item.date_create}"
+                                                                                required />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </tr>
+                                            <!-- </c:forEach> -->
+                                            <th:block th:if="${page.content.size() < 6}">
+                                                <tr th:each="i : ${#numbers.sequence(1, 6 - page.content.size())}">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </th:block>
+
+                                        </tbody>
+                                    </table>
+
+                                    <!-- phân trang -->
+                                    <div class="card-body">
+                                        <div class="card-body">
+                                            <div class="pagination">
+                                                <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
+                                                    th:href="@{${link}(page=${page.number - 1}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
+                                                    class="btn btn-dangers">Previous</a>
+                                                <span>Page <span th:text="${page.number + 1}"></span> / <span
+                                                        th:text="${page.totalPages}"></span></span>
+                                                <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
+                                                    th:href="@{${link}(page=${page.number + 1}, filterType=${filterType}, filterValueStart=${filterValueStart}, filterValueEnd=${filterValueEnd})}"
+                                                    class="btn btn-dangers">Next</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</body>
-<script>
+    </th:block>
+    <th:block id="admin_javascript">
+        <script>
 
-    $(document).ready(function () {
-        $(".resizable-column").resizable({
-            handles: 'e', // Chỉ cho phép kéo dãn chiều rộng từ phía bên phải
-            minWidth: 50, // Chiều rộng tối thiểu của cột
-            resize: function (event, ui) {
-                // Khi cột được kéo dãn, điều chỉnh chiều rộng của các ô dữ liệu tương ứng
-                var columnIndex = $(this).index();
-                $("table tbody tr").each(function () {
-                    $(this).find("td:eq(" + columnIndex + ")").width(ui.size.width);
+            $(document).ready(function () {
+                $(".resizable-column").resizable({
+                    handles: 'e', // Chỉ cho phép kéo dãn chiều rộng từ phía bên phải
+                    minWidth: 50, // Chiều rộng tối thiểu của cột
+                    resize: function (event, ui) {
+                        // Khi cột được kéo dãn, điều chỉnh chiều rộng của các ô dữ liệu tương ứng
+                        var columnIndex = $(this).index();
+                        $("table tbody tr").each(function () {
+                            $(this).find("td:eq(" + columnIndex + ")").width(ui.size.width);
+                        });
+                    }
                 });
-            }
-        });
-    });
-</script>
+            });
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+            // function selectOption(isPlus) {
+            //     var plusOption = document.getElementById("plus");
+            //     var minusOption = document.getElementById("minus");
+            //     var classifyValue = document.getElementById("classifyValue");
+
+            //     if (isPlus) {
+            //         plusOption.classList.add("active");
+            //         minusOption.classList.remove("active");
+            //         classifyValue.value = "true";
+            //     } else {
+            //         plusOption.classList.remove("active");
+            //         minusOption.classList.add("active");
+            //         classifyValue.value = "false";
+            //     }
+            // }
+
+
+            function selectOptions(isPlus) {
+                var plusOption = document.getElementById("plus");
+                var minusOption = document.getElementById("minus");
+                var classifyValue = document.getElementById("classifyValue");
+
+                if (isPlus) {
+                    plusOption.classList.add("active");
+                    minusOption.classList.remove("active");
+                    classifyValue.value = "true";
+                } else {
+                    plusOption.classList.remove("active");
+                    minusOption.classList.add("active");
+                    classifyValue.value = "false";
+                }
+            }
+
+            function selectOption(isPlus, id) {
+                var plusOption = document.getElementById("plus" + id);
+                var minusOption = document.getElementById("minus" + id);
+                var classifyValue = document.getElementById("classifyValue" + id);
+
+                if (isPlus) {
+                    plusOption.classList.add("active");
+                    minusOption.classList.remove("active");
+                    classifyValue.value = "true";
+                } else {
+                    plusOption.classList.remove("active");
+                    minusOption.classList.add("active");
+                    classifyValue.value = "false";
+                }
+            }
+
+
+            document.getElementById("filterType").onchange = function () {
+                var filterType = this.value;
+                var rangeContainer = document.getElementById("rangeContainer");
+                var filterValueStart = document.getElementById("filterValueStart");
+                var filterValueEnd = document.getElementById("filterValueEnd");
+                var errorSpan = document.getElementById("errorSpan");
+                var searchButton = document.getElementById("searchButton");
+
+                if (filterType === "total") {
+                    filterValueStart.type = "number";
+                    filterValueEnd.type = "number";
+                    filterValueStart.classList.remove("error");
+                    filterValueEnd.classList.remove("error");
+                    errorSpan.textContent = "";
+                    errorSpan.style.display = "none";
+                } else if (filterType === "date") {
+                    filterValueStart.type = "date";
+                    filterValueEnd.type = "date";
+                    errorSpan.style.display = "none";
+                }
+
+                filterValueStart.oninput = function () {
+                    var startValue = filterValueStart.value;
+                    var endValue = filterValueEnd.value;
+
+                    if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
+                        errorSpan.textContent = "Start value must be less than end value";
+                        errorSpan.style.display = "block";
+                        filterValueStart.classList.add("error");
+                        filterValueEnd.classList.add("error");
+                    } else if (filterType === "date" && startValue > endValue) {
+                        errorSpan.textContent = "Start date must be before end date";
+                        errorSpan.style.display = "block";
+                        filterValueStart.classList.add("error");
+                        filterValueEnd.classList.add("error");
+                    } else {
+                        errorSpan.textContent = "";
+                        errorSpan.style.display = "none";
+                        filterValueStart.classList.remove("error");
+                        filterValueEnd.classList.remove("error");
+                    }
+                    toggleSearchButtonState();
+                };
+
+                filterValueEnd.oninput = function () {
+                    var startValue = filterValueStart.value;
+                    var endValue = filterValueEnd.value;
+
+                    if (filterType === "total" && parseFloat(startValue) > parseFloat(endValue)) {
+                        errorSpan.textContent = "Start value must be less than end value";
+                        errorSpan.style.display = "block";
+                        filterValueStart.classList.add("error");
+                        filterValueEnd.classList.add("error");
+                        //  searchButton.disabled = true;
+                    } else if (filterType === "date" && startValue > endValue) {
+                        errorSpan.textContent = "Start date must be before end date";
+                        errorSpan.style.display = "block";
+                        filterValueStart.classList.add("error");
+                        filterValueEnd.classList.add("error");
+                        // searchButton.disabled = true;
+                    } else {
+                        errorSpan.textContent = "";
+                        errorSpan.style.display = "none";
+                        filterValueStart.classList.remove("error");
+                        filterValueEnd.classList.remove("error");
+                    }
+                    //  toggleSearchButtonState();
+                };
+
+                // function toggleSearchButtonState() {
+                //     var startValue = filterValueStart.value.trim();
+                //     var endValue = filterValueEnd.value.trim();
+
+                //     if (startValue === "" || endValue === "") {
+                //         searchButton.disabled = true;
+                //     } else {
+                //         searchButton.disabled = false;
+                //     }
+                // }
+
+                toggleSearchButtonState();
+            };
+
+            document.getElementById("filterForm").onsubmit = function (event) {
+                var startValue = document.getElementById("filterValueStart").value.trim();
+                var endValue = document.getElementById("filterValueEnd").value.trim();
+
+                if ((startValue != "" && endValue === "") || (startValue === "" && endValue != "")) {
+                    event.preventDefault();
+                    alert("Please enter both From and To values before submitting the form.");
+                }
+            };
+
+
+
+            // function submitSearchAndFilterForm() {
+            //     var nameDebtor = document.getElementById("nameDebtor").value;
+            //     var filterValueStart = document.getElementById("filterValueStart").value;
+            //     var filterValueEnd = document.getElementById("filterValueEnd").value;
+            //     var formAction;
+
+            //     if (filterValueStart !== "" || filterValueEnd !== "") {
+            //         formAction = "/Debtor/Filter";
+            //         if (nameDebtor !== "") {
+            //             formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
+            //         }
+            //         if (filterValueStart !== "" || filterValueEnd !== "") {
+            //             if (formAction.includes("?")) {
+            //                 formAction += "&";
+            //             } else {
+            //                 formAction += "?";
+            //             }
+            //             formAction += "filterValueStart=" + encodeURIComponent(filterValueStart) + "&filterValueEnd=" + encodeURIComponent(filterValueEnd);
+            //         }
+            //     } else {
+            //         formAction = "/Debtor/Search";
+            //         if (nameDebtor !== "") {
+            //             formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
+            //         }
+            //     }
+
+            //     document.getElementById("searchAndFilterForm").action = formAction;
+            //     document.getElementById("searchAndFilterForm").submit();
+            // }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var clearButton = document.getElementById('clearButton');
+                clearButton.addEventListener('click', function () {
+                    // Xử lý sự kiện khi người dùng nhấp vào nút Clear Filter
+                    document.getElementById('filterForm').reset();
+                    document.getElementById('rangeContainer').classList.remove('active'); // Bỏ chọn active class cho rangeContainer (nếu có)
+                    document.getElementById("filterValueStart").value = "";
+                    document.getElementById("filterValueEnd").value = "";
+                    var debtorId = document.getElementById("debtorId").value;
+                    // window.location.href = '/Debtor/Detail/view-detail/' + debtorId;
+
+                });
+            });
+
+        </script>
+    </th:block>
+</body>
+
+
 <!-- <script th:src="@{/assets/javascrip/resizable-column.js}"></script> -->
 
 </html>

@@ -200,7 +200,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void addAdjustForUser(Users users) {
+    public void addAdjustForUser(Users users, Model model) {
         try {
             Optional<Users> existingUser = usersRepository.findByEmail(SecurityUtils.getCurrentUsername());
             if (existingUser.isPresent()) {
@@ -208,13 +208,12 @@ public class UsersServiceImpl implements UsersService {
                 double monthlySpending = users.getMonthlySpending();
                 double monthlyEarning = users.getMonthlyEarning();
                 double monthlySaveing = users.getMonthlySaving();
-                double s = monthlyEarning - monthlySpending;
                 double getAnnuallySpending = users.getAnnuallySpending();
                 if (monthlySpending < 0)
                     throw new Exception("monthlySpending must be greater than 0");
                 if (monthlyEarning < 0)
                     throw new Exception("monthlyEarning must be greater than 0");
-                if (monthlySaveing > s) {
+                if (monthlySaveing > monthlyEarning - monthlySpending) {
                     throw new Exception("Monthly Saving set must be small or equal to the money earned minus spending");
                 }
                 userToUpdate.setAnnuallySpending(getAnnuallySpending);
@@ -224,7 +223,7 @@ public class UsersServiceImpl implements UsersService {
                 usersRepository.save(userToUpdate);
             }
         } catch (Exception e) {
-            e.getMessage();
+            model.addAttribute("mess", e.getMessage());
         }
     }
 

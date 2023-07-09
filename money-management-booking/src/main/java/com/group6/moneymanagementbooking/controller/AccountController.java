@@ -50,7 +50,7 @@ public class AccountController {
     }
 
     @GetMapping("/list-account")
-    public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
+    public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int pageSize,
             Model model, @ModelAttribute("mess") String mess) {
         model.addAttribute("mess", mess);
         model.addAttribute("listaccount", accountsService.findAll());

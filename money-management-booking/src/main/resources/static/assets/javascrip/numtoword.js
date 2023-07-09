@@ -1,14 +1,23 @@
 
 function convertNumber(input) {
-    var number = input.toString().replace(/[^0-9]/g, ""); // Remove non-digit characters
-    var convertedText = convertToVietnameseText(number);
-    document.getElementById("convertedText").textContent = convertedText;
+  var number = input.toString().replace(/[^0-9]/g, ""); // Remove non-digit characters
+  var convertedText = convertToVietnameseText(number);
+  convertedText = convertToVietnameseText(number);
+  document.getElementById("convertedText").textContent = convertedText;
+  // document.getElementById("editConvertedText").textContent = convertedText;
+}
+
+
+function convertNumberEdit(input,id) {
+  var number = input.toString().replace(/[^0-9]/g, ""); // Remove non-digit characters
+  var convertedText = convertToVietnameseText(number);
+  document.getElementById("editConvertedText"+id).textContent = convertedText;
 }
 
 function convertToVietnameseText(number) {
-    const ones = ['', ' một ', ' hai ', ' ba ', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+    const ones = ['', ' một ', ' hai ', ' ba ', ' bốn ', ' năm ', ' sáu ', ' bảy ', ' tám ', ' chín '];
     const tens = ['', 'mười', 'hai mươi', 'ba mươi', 'bốn mươi', 'năm mươi', 'sáu mươi', 'bảy mươi', 'tám mươi', 'chín mươi'];
-    const scales = ['', ' ngàn', ' triệu', ' tỷ'];
+    const scales = ['', ' nghìn', ' triệu', ' tỷ'];
   
     let numArray = number.toString().split('').reverse();
     let result = [];
@@ -44,11 +53,11 @@ function convertToVietnameseText(number) {
             text = text.slice(0, -6);
           }
           if (chunk === 1 && i === 0 && scale === '') {
-            text += 'một ';
+            text += ' một ';
           } else if (chunk === 4 && i === 0 && scale === '') {
-            text += 'tư';
+            text += ' tư ';
           } else if (chunk === 5 && i === 0 && scale === '') {
-            text += 'năm';
+            text += ' năm ';
           } else {
             text += ones[chunk];
           }

@@ -27,6 +27,6 @@ public interface UsersService {
 
       public Users getUsers();
 
-      public void addAdjustForUser(Users users);
+      public void addAdjustForUser(Users users, Model model);
 
 }

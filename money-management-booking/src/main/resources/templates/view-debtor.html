@@ -302,11 +302,6 @@
                                             </td>
                                             <form th:action="@{/Debtor/update}" method="post">
                                                 <a>
-                                                    <!-- <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                        data-target="#editModal">
-                                                        <i class="fa fa-pencil"></i>
-                                                        Edit
-                                                    </button> -->
                                                     <div class="modal fade" th:id="'editModal'+${item.id}" tabindex="-1"
                                                         role="dialog" th:aria-labelledby="'editModalLabel' + ${item.id}"
                                                         aria-hidden="true">
@@ -510,7 +505,7 @@
                         filterValueStart.classList.remove("error");
                         filterValueEnd.classList.remove("error");
                     }
-                    toggleSearchButtonState();
+                   // toggleSearchButtonState();
                 };
 
                 filterValueEnd.oninput = function () {
@@ -533,28 +528,28 @@
                         filterValueStart.classList.remove("error");
                         filterValueEnd.classList.remove("error");
                     }
-                    toggleSearchButtonState();
+                    //toggleSearchButtonState();
                 };
 
-                function toggleSearchButtonState() {
-                    var startValue = filterValueStart.value.trim();
-                    var endValue = filterValueEnd.value.trim();
+                // function toggleSearchButtonState() {
+                //     var startValue = filterValueStart.value.trim();
+                //     var endValue = filterValueEnd.value.trim();
 
-                    if (startValue === "" || endValue === "") {
-                        searchButton.disabled = true;
-                    } else {
-                        searchButton.disabled = false;
-                    }
-                }
+                //     if (startValue === "" || endValue === "") {
+                //      //   searchButton.disabled = true;
+                //     } else {
+                //         searchButton.disabled = false;
+                //     }
+                // }
 
-                toggleSearchButtonState();
+               // toggleSearchButtonState();
             };
 
             document.getElementById("filterForm").onsubmit = function (event) {
                 var startValue = document.getElementById("filterValueStart").value.trim();
                 var endValue = document.getElementById("filterValueEnd").value.trim();
 
-                if (startValue === "" || endValue === "") {
+                if ((startValue != "" && endValue === "") || (startValue === "" && endValue != "")) {
                     event.preventDefault();
                     alert("Please enter both From and To values before submitting the form.");
                 }
@@ -600,7 +595,7 @@
                     document.getElementById('rangeContainer').classList.remove('active'); // Bỏ chọn active class cho rangeContainer (nếu có)
                     document.getElementById("filterValueStart").value = "";
                     document.getElementById("filterValueEnd").value = "";
-                    window.location.href = '/Debtor/ListAll';
+                   // window.location.href = '/Debtor/ListAll';
                 });
             });
 

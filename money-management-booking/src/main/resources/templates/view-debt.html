@@ -11,10 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
     <th:block id="admin-static-resource">
         <link rel="stylesheet" href="/assets/css/view-debtor.css">
-        <!-- <link rel="stylesheet" th:href="@{/assets/css/debtdetail.css}"> -->
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://kit.fontawesome.com/3098a9fa7b.js" crossorigin="anonymous"></script>
@@ -27,20 +25,9 @@
         <script th:src="@{/assets/javascrip/numtoword.js}"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-
-
-
-
         <style>
-            /* .green-row {
-                color: green;
-            } */
-
             /* CSS cho dòng chẵn */
             tr:nth-child(odd) {
                 background-color: #f2f2f2;
@@ -56,54 +43,6 @@
                 display: inline-block;
             }
 
-
-
-
-            /* .classifys-container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                margin-bottom: 10px;
-
-            }
-
-            .classify-option {
-                cursor: pointer;
-                width: 300px;
-                height: 50px;
-                line-height: 50px;
-                text-align: center;
-                background-color: rgb(192, 181, 181);
-                border-radius: 20px;
-                color: white;
-                font-size: 24px;
-                margin: 0 5px;
-                cursor: pointer;
-            }
-
-            .classify-option.active {
-                background-color: rgb(55, 184, 55);
-            }
-
-            .container span {
-                display: inline-block;
-                width: 300px;
-                height: 50px;
-                line-height: 50px;
-                text-align: center;
-                background-color: rgb(192, 181, 181);
-                border-radius: 20px;
-                color: white;
-                font-size: 24px;
-                margin: 0 5px;
-                cursor: pointer;
-            }
-
-            td {
-                height: 45px;
-                ;
-            }*/
             .rounded-popup {
                 border-radius: 20px;
             }
@@ -204,6 +143,9 @@
                                                                             th:field="*{classify}" name="classify"
                                                                             value="">
                                                                     </div>
+                                                                    <div><i>(+) add a debt
+                                                                            to this person, (-) pay a debt or add a debt
+                                                                            you borrow from this person</i></div>
                                                                 </div>
                                                             </div>
                                                             <div class="position-relative row form-group">
@@ -433,7 +375,6 @@
                                                                                 name="classify"
                                                                                 th:value="${item.classify}" />
                                                                         </div>
-
                                                                     </div>
                                                                     <div class="position-relative row form-group">
                                                                         <div class="form-label-horizontal col-md-3">
@@ -530,24 +471,6 @@
                 });
             });
 
-
-            // function selectOption(isPlus) {
-            //     var plusOption = document.getElementById("plus");
-            //     var minusOption = document.getElementById("minus");
-            //     var classifyValue = document.getElementById("classifyValue");
-
-            //     if (isPlus) {
-            //         plusOption.classList.add("active");
-            //         minusOption.classList.remove("active");
-            //         classifyValue.value = "true";
-            //     } else {
-            //         plusOption.classList.remove("active");
-            //         minusOption.classList.add("active");
-            //         classifyValue.value = "false";
-            //     }
-            // }
-
-
             function selectOptions(isPlus) {
                 var plusOption = document.getElementById("plus");
                 var minusOption = document.getElementById("minus");
@@ -634,20 +557,17 @@
                         errorSpan.style.display = "block";
                         filterValueStart.classList.add("error");
                         filterValueEnd.classList.add("error");
-                        //  searchButton.disabled = true;
                     } else if (filterType === "date" && startValue > endValue) {
                         errorSpan.textContent = "Start date must be before end date";
                         errorSpan.style.display = "block";
                         filterValueStart.classList.add("error");
                         filterValueEnd.classList.add("error");
-                        // searchButton.disabled = true;
                     } else {
                         errorSpan.textContent = "";
                         errorSpan.style.display = "none";
                         filterValueStart.classList.remove("error");
                         filterValueEnd.classList.remove("error");
                     }
-                    //  toggleSearchButtonState();
                 };
 
                 // function toggleSearchButtonState() {
@@ -674,38 +594,6 @@
                 }
             };
 
-
-
-            // function submitSearchAndFilterForm() {
-            //     var nameDebtor = document.getElementById("nameDebtor").value;
-            //     var filterValueStart = document.getElementById("filterValueStart").value;
-            //     var filterValueEnd = document.getElementById("filterValueEnd").value;
-            //     var formAction;
-
-            //     if (filterValueStart !== "" || filterValueEnd !== "") {
-            //         formAction = "/Debtor/Filter";
-            //         if (nameDebtor !== "") {
-            //             formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
-            //         }
-            //         if (filterValueStart !== "" || filterValueEnd !== "") {
-            //             if (formAction.includes("?")) {
-            //                 formAction += "&";
-            //             } else {
-            //                 formAction += "?";
-            //             }
-            //             formAction += "filterValueStart=" + encodeURIComponent(filterValueStart) + "&filterValueEnd=" + encodeURIComponent(filterValueEnd);
-            //         }
-            //     } else {
-            //         formAction = "/Debtor/Search";
-            //         if (nameDebtor !== "") {
-            //             formAction += "?nameDebtor=" + encodeURIComponent(nameDebtor);
-            //         }
-            //     }
-
-            //     document.getElementById("searchAndFilterForm").action = formAction;
-            //     document.getElementById("searchAndFilterForm").submit();
-            // }
-
             document.addEventListener('DOMContentLoaded', function () {
                 var clearButton = document.getElementById('clearButton');
                 clearButton.addEventListener('click', function () {
@@ -723,8 +611,5 @@
         </script>
     </th:block>
 </body>
-
-
-<!-- <script th:src="@{/assets/javascrip/resizable-column.js}"></script> -->
 
 </html>

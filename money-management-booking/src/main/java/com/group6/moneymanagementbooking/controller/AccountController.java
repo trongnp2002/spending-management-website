@@ -41,7 +41,11 @@ public class AccountController {
 
     @PostMapping("/add-account")
     public String addAccount(@ModelAttribute Accounts addaccounts, RedirectAttributes redirectAttributes) {
-        accountsService.addAccounts(addaccounts, redirectAttributes);
+        try{
+            accountsService.addAccounts(addaccounts, redirectAttributes);  
+        }catch(Exception e){
+          redirectAttributes.addAttribute("mess", e.getMessage());
+        }
         return "redirect:/users/list-account";
     }
 

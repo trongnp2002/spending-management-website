@@ -338,12 +338,15 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script th:inline="javascript">
             // Dữ liệu quy trình expense và budget
-            var expense = /*[[${totalIncomeByMonth}]]*/ {};
+            var income = /*[[${totalIncomeByMonth}]]*/ {};
             var budget = /*[[${monthlyEarning}]]*/ {};
 
             // Tính toán phần trăm chi tiêu so với ngân sách
-            var expensePercentage = (expense / budget) * 100;
-            var remainingPercentage = 100 - expensePercentage;
+            var incomePercentage = (income / budget) * 100;
+            var remainingPercentage = 100 - incomePercentage;
+            if (remainingPercentage < 0) {
+                remainingPercentage = 0;
+            }
 
             // Lấy thẻ canvas và context
             var canvas = document.getElementById('incomeChart');
@@ -355,7 +358,7 @@
                 data: {
                     labels: ['Income', 'Remaining'],
                     datasets: [{
-                        data: [expensePercentage, remainingPercentage],
+                        data: [incomePercentage, remainingPercentage],
                         backgroundColor: ['#FF6384', '#36A2EB']
                     }]
                 },

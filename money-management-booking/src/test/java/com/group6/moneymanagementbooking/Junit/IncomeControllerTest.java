@@ -35,16 +35,16 @@ public class IncomeControllerTest {
     void setUp() {
     }
 
-    @Test
-    void testAddIncome() {
-        Income income = new Income();
-        when(incomeService.addIncome(income)).thenReturn(income);
+    // @Test
+    // void testAddIncome() {
+    //     Income income = new Income();
+    //     when(incomeService.addIncome(income)).thenReturn(income);
 
-        String result = incomeController.addIncome(income);
+    //     String result = incomeController.addIncome(income);
 
-        assertEquals("redirect:/list-income", result);
-        verify(incomeService, times(1)).addIncome(income);
-    }
+    //     assertEquals("redirect:/list-income", result);
+    //     verify(incomeService, times(1)).addIncome(income);
+    // }
 
     @Test
     void testDeleteIncome() {

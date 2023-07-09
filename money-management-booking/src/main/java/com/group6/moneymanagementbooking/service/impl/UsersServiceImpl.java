@@ -208,13 +208,15 @@ public class UsersServiceImpl implements UsersService {
                 double monthlySpending = users.getMonthlySpending();
                 double monthlyEarning = users.getMonthlyEarning();
                 double monthlySaveing = users.getMonthlySaving();
+                double s = monthlyEarning - monthlySpending;
                 double getAnnuallySpending = users.getAnnuallySpending();
                 if (monthlySpending < 0)
                     throw new Exception("monthlySpending must be greater than 0");
                 if (monthlyEarning < 0)
                     throw new Exception("monthlyEarning must be greater than 0");
-                if (monthlySaveing > monthlySpending - monthlyEarning)
+                if (monthlySaveing > s) {
                     throw new Exception("Monthly Saving set must be small or equal to the money earned minus spending");
+                }
                 userToUpdate.setAnnuallySpending(getAnnuallySpending);
                 userToUpdate.setMonthlySpending(monthlySpending);
                 userToUpdate.setMonthlySaving(monthlySaveing);

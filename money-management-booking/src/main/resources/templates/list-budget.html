@@ -215,6 +215,9 @@
             // Tính toán phần trăm chi tiêu so với ngân sách
             var expensePercentage = (expense / budget) * 100;
             var remainingPercentage = 100 - expensePercentage;
+            if (remainingPercentage < 0) {
+                remainingPercentage = 0;
+            }
 
             // Lấy thẻ canvas và context
             var canvas = document.getElementById('expenseChart');

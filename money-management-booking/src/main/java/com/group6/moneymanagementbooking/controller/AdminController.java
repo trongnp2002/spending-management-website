@@ -32,7 +32,7 @@ public class AdminController {
     private final UsersRepository usersRepository;
     private final String HOME = "admin-home";
 
-    @GetMapping("/home")
+    @GetMapping(value = {"/home", "/index", "/"})
     public String adminHomePage(Model model) {
         List<UsersForAdminDTOResponse> groupOfUsers = adminService.getPageGroupOfUsers(model, 1);
         return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1,

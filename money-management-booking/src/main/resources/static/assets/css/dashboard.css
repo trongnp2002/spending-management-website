@@ -88,7 +88,7 @@ body.dark {
     padding: 10px 14px;
     background: var(--sidebar-color);
     transition: var(--tran-05);
-    z-index: 100;
+    z-index: 1;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
 }
@@ -341,7 +341,7 @@ body.dark .switch::before {
 
 .main-layout_home {
     position: absolute;
-    top: 0;
+    top: 62px;
     right: 0;
     left: 250px;
     width: calc(100% - 250px);
@@ -361,34 +361,58 @@ body.dark .switch::before {
     width: calc(100% - 78px);
 }
 
-
+.main-layout_sidebar.main-layout_close~.main-layout_top-header{
+    left: 89px;
+}
+.main-layout_top-header .main-layout_total-money p{
+    display: inline-block;
+}
+header i{
+    margin-top: 40px;
+}
 @media screen and (max-width: 46em) {
-
+    .fa-sack-dollar {
+        display: block;
+    }
+    header i{
+        margin-top: 44px;
+    }
     .main-layout_home {
 
         left: 0px;
         width: 98%;
     }
-
+    .main-layout_top-header .main-layout_total-money{
+        display: none;
+    }
+    .main-layout_top-header .main-layout_total-money p{
+        display: none;
+    }
     .main-layout_sidebar.main-layout_close~.main-layout_home {
         left: 0px;
         width: 98%;
 
     }
+    .main-layout_sidebar.main-layout_close~.main-layout_top-header {
+        left: 13px;
 
+    }
     .main-layout_sidebar.main-layout_close {
         width: 0px;
         padding: 6px;
     }
 
     .main-layout_sidebar.main-layout_close~#main-layout_logo-project {
-        width: 0;
-        height: 0;
-        display: none;
+        width: 0 !important;
+        height: 0 !important;
+        display: none !important;
     }
-    header i{
-        margin-top: 40px;
+    .main-layout_sidebar.main-layout_close~.main-layout_image-text{
+        width: 0 !important;
+        height: 0 !important;
+        display: none !important;
     }
+
 
 }
 
@@ -396,6 +420,39 @@ body.dark .main-layout_home .main-layout_text {
     color: var(--text-color);
 }
 
+.main-layout_top-header{
+    position: fixed;
+    top: 0;
+    left: 250px;
+    right: 0;
+    transition: var(--tran-05);
+    height: 56px;
+    background-color: cadetblue;
+    z-index: 4;
+
+}
+.main-layout_top-header{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 0 12px;   
+    color: white;
+    box-sizing: border-box;
+}
+.main-layout_top-header h6{
+    line-height: 56px;
+    height: 56px;
+}
+
+.main-layout_top-header .main-layout_total-money{
+    text-align: left;
+    padding-left: 20px;
+    line-height: 56px;
+    min-height: 100%;
+    width: auto;
+}
 
 /* 
 body {font-family: "Lato", sans-serif;}

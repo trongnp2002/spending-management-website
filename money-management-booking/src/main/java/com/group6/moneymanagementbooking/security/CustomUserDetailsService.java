@@ -15,17 +15,17 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UsersRepository accountRepository;
+    private UsersRepository userRepository;
 
     public CustomUserDetailsService(UsersRepository accountRepository) {
-        this.accountRepository = accountRepository;
+        this.userRepository = accountRepository;
     }
 
     @Override
     public MyUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Users> user = accountRepository.findByEmail(email);
+        Optional<Users> user = userRepository.findByEmail(email);
 
-        if (user != null) {
+        if (user.isPresent()) {
             Users account = user.get();
             return new MyUserDetails(account);
         }else{

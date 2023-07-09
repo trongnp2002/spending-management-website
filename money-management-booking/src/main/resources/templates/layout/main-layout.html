@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:spring="http://www.springframework.org/tags"
     th:fragment="main-fragment(title,otherStaticResource,javascript,mainContent)">
 
 <head th:fragment="header(title)">
@@ -14,7 +14,7 @@
     </th:block>
 </head>
 
-<body>
+<body th:onload="report([[${param.report}]])">
 
     <nav class="main-layout_sidebar main-layout_close">
         <header>
@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li class="main-layout_nav-link">
-                        <a th:href="@{/users/list-account}">
+                        <a th:href="@{/users/overview}">
                             <!-- <i class='bx bxs-bar-chart-square icon' ></i> -->
                             <i class="fa-solid fa-wallet icon"></i>
                             <span class="main-layout_text main-layout_nav-text">Overview</span>
@@ -67,7 +67,7 @@
                             <span class="main-layout_text main-layout_nav-text">Expense</span>
                         </a>
                     </li>
-        
+
 
                     <li class="main-layout_nav-link">
 
@@ -79,7 +79,7 @@
                     </li>
 
                     <li class="main-layout_nav-link">
-                        <a href="#">
+                        <a th:href="@{/users/setting}">
                             <i class="fa-solid fa-gear icon"></i>
                             <span class="main-layout_text main-layout_nav-text">Setting</span>
                         </a>
@@ -104,13 +104,22 @@
             </div>
         </div>
     </nav>
+    <div class="main-layout_top-header">
+        <h6> Hi there <span th:text="${currentUser}"></span>!!!
+        </h6>
+        <div class="main-layout_total-money"> 
+            <i class="fa-solid fa-sack-dollar icon" ></i>
+            <p> Your total money: </p>
+            <span th:text="' '+${totalMoney}"></span>
+        </div>
+    </div>
     <section class="main-layout_home" th:insert="${mainContent}">
-        <div class="main-layout_text">Dashboard Sidebar</div>
+
     </section>
     <th:block th:replace="${javascript}">
 
     </th:block>
-    <script th:src="@{/assets/javascrip/script.js}"></script>
+    <script th:src="@{/assets/javascript/script.js}"></script>
 </body>
 
 </html>

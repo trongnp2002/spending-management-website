@@ -3,8 +3,11 @@ package com.group6.moneymanagementbooking.util;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SecurityUtils {
+
     public static String getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
@@ -18,4 +21,6 @@ public class SecurityUtils {
         }
         return null;
     }
+
+
 }

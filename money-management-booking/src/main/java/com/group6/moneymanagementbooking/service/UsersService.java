@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
 
+import com.group6.moneymanagementbooking.dto.request.UserDTOEditProfileRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.Users;
@@ -28,5 +29,11 @@ public interface UsersService {
       public Users getUsers();
 
       public void addAdjustForUser(Users users, Model model);
+
+    public void uploadAvatar(String avatar);
+
+    public void updateInfo(UserDTOEditProfileRequest userDTOEditProfile) throws Exception;
+
+    public void changePassword(String newPass);
 
 }

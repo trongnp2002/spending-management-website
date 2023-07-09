@@ -70,7 +70,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="item : ${listbudget}"
+                                            <tr th:each="item : ${page.content}"
                                                 th:class="${item.budget} < ${categoryExpensesMap[item.name]}? 'red-row' : ''">
                                                 <td th:text="${item.name}"></td>
                                                 <td th:text="${item.budget}"></td>
@@ -103,8 +103,31 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            <th:block th:if="${page.content.size() < 6}">
+                                                <tr th:each="i : ${#numbers.sequence(1, 6 - page.content.size())}">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </th:block>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
+                                    <div class="card-body">
+                                        <div class="pagination">
+                                            <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
+                                                th:href="@{/users/list-budget(page=${page.number - 1})}"
+                                                class="btn btn-dangers">Previous</a>
+                                            <span>Page <span th:text="${page.number + 1}"></span> / <span
+                                                    th:text="${page.totalPages}"></span></span>
+                                            <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
+                                                th:href="@{/users/list-budget(page=${page.number + 1})}"
+                                                class="btn btn-dangers">Next</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -114,10 +137,8 @@
         </div>
     </div>
     <th:block id="admin_javascript">
-
-        <script th:src="@{/assets/javascrip/admin.js}"></script>
-        <script th:src="@{/assets/javascrip/account.js}"></script>
-
+        <script th:src="@{/assets/javascript/account.js}"></script>
+        <script th:src="@{/assets/javascript/admin.js}"></script>
         <script th:inline="javascript">
             /* Lấy dữ liệu từ model hoặc controller và chuyển thành mảng JSON */
             var categoryData = /*[[${categoryData}]]*/ {};
@@ -157,8 +178,7 @@
 
 
         </script>
-        <script th:src="@{/assets/javascrip/budget.js}"></script>
-
+        <script th:src="@{/assets/javascript/budget.js}"></script>
     </th:block>
 </body>
 

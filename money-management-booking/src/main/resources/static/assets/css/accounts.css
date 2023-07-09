@@ -24,11 +24,15 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
     float: left;
 }
 
 #expensesChart {
     height: auto !important;
     width: 600px !important;
+}
+
+.table-bordered td{
+    height: 52px;
 }

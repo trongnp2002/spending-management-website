@@ -69,7 +69,6 @@
                     </div>
                     <p id="emailMess" style="line-height: 24px; height: 24px; margin-top: 20px;"></p>
                     <div class="register_field" style="margin-top: 20px;">
-
                         <div class="register_label">
                             Email
                         </div>
@@ -96,7 +95,6 @@
                     </div>
                     <div>
                         <a th:href="@{/login}" style="font-size: 12px;">Already have an account??</a>
-
                     </div>
 
                 </div>
@@ -108,13 +106,13 @@
                         <div class="register_label">
                             First Name
                         </div>
-                        <input type="text" name="firstName" th:field="*{firstName}" required>
+                        <input type="text" name="firstName" th:field="*{firstName}" >
                     </div>
                     <div class="register_field">
                         <div class="register_label">
                             Last Name
                         </div>
-                        <input type="text" name="lastName" th:field="*{lastName}">
+                        <input type="text" name="lastName" th:field="*{lastName}" >
                     </div>
                     <div class="register_field register_btns">
                         <button type="button" class="prev-1 register_prev">Previous</button>
@@ -130,7 +128,7 @@
                         <div class="register_label">
                             Phone
                         </div>
-                        <input type="text" name="phone" th:field="*{phone}" onkeyup="checkPhone(this)" required>
+                        <input type="text" name="phone" th:field="*{phone}" onkeyup="checkPhone(this)">
                     </div>
                     <div class="register_field">
                         <div class="register_label">
@@ -138,7 +136,7 @@
                         </div>
                         <input type="text" name="address" th:field="*{address}">
                     </div>
-                    <div class="register_field register_btns">
+                    <div  class="register_field register_btns">
                         <button type="button" class="prev-2 register_prev">Previous</button>
                         <button type="button" class="next-2 register_next">Next</button>
                     </div>
@@ -171,7 +169,7 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" th:inline="javascript"></script>
 
-    <script th:src="@{/assets/javascrip/register.js}">
+    <script th:src="@{/assets/javascript/register.js}">
     </script>
 
 

@@ -109,7 +109,7 @@ public class DebtorServiceImpl implements DebtorService {
     }
 
     if ("total".equals(filterType)) {
-      if (filterValueStart != null && filterValueEnd != null) {
+      if (filterValueStart != "" && filterValueEnd != "") {
         try {
           Double from = Double.parseDouble(filterValueStart.trim());
           Double to = Double.parseDouble(filterValueEnd.trim());
@@ -118,9 +118,11 @@ public class DebtorServiceImpl implements DebtorService {
           // Xử lý ngoại lệ khi không thể chuyển đổi thành số
           e.printStackTrace();
         }
+      } else if (filterValueStart == "" && filterValueEnd == "") {
+        listdebtor = findAll(getIdUser());
       }
     } else if ("date".equals(filterType)) {
-      if (filterValueStart != null && filterValueEnd != null) {
+      if (filterValueStart != "" && filterValueEnd != "") {
         try {
           String pattern = "yyyy-MM-dd";
           DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
@@ -132,6 +134,8 @@ public class DebtorServiceImpl implements DebtorService {
         } catch (DateTimeParseException e) {
           e.printStackTrace();
         }
+      } else if (filterValueStart == "" && filterValueEnd == "") {
+        listdebtor = findAll(getIdUser());
       }
     }
 

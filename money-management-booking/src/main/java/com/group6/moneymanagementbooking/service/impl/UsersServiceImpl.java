@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.group6.moneymanagementbooking.dto.mapper.UsersMapper;
+import com.group6.moneymanagementbooking.dto.request.UserDTOEditProfileRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTOForgotPasswordRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTOLoginRequest;
 import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class UsersServiceImpl implements UsersService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
-    private final int MAX_FAILED_ATTEMPTS = 3;
+    private final int MAX_FAILED_ATTEMPTS = 5;
     private final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000;
 
     // register
@@ -50,6 +51,43 @@ public class UsersServiceImpl implements UsersService {
                 .build();
         model.addAttribute("usersDTOLoginRequest", usersDTOLoginRequest);
         return "redirect:/login";
+    }
+
+    // update avatar
+    @Override
+    public void uploadAvatar(String avatar) {
+        Users users = usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get();
+        users.setAvatar(avatar);
+        usersRepository.save(users);
+    }
+
+    // update_user
+    @Override
+    public void updateInfo(UserDTOEditProfileRequest userDTOEditProfile) throws Exception {
+        Optional<Users> usersOptional = usersRepository.findByEmail(userDTOEditProfile.getEmail());
+        if (usersOptional.isPresent()) {
+            Users users = usersOptional.get();
+            users.setAddress(userDTOEditProfile.getAddress());
+            users.setFirstName(userDTOEditProfile.getFirstName());
+            users.setLastName(userDTOEditProfile.getLastName());
+            users.setPhone(userDTOEditProfile.getPhone());
+            try {
+                usersRepository.save(users);
+            } catch (Exception e) {
+                throw new Exception("Update Infor: " + e.getMessage());
+            }
+
+        } else {
+            throw new Exception("Data cannot be null");
+        }
+    }
+
+    // change_password
+    @Override
+    public void changePassword(String newPass) {
+        Users users = getUsers();
+        users.setPassword(newPass);
+        usersRepository.save(users);
     }
 
     // forgot_password
@@ -179,16 +217,27 @@ public class UsersServiceImpl implements UsersService {
 
     private String registerCheckCondition(UsersDTORegisterRequest accountDTORegister) {
         String report = "";
+        String pass =  accountDTORegister.getPassword();
         if (checkEmailDuplicate(accountDTORegister.getEmail())) {
-            report += "This email already exits!! </br>";
+            report = "This email already exits!! </br>";
         }
-        if (checkPhoneDuplicate(accountDTORegister.getPhone())) {
-            report += "This phone already in use!! </br>";
+        if(pass.length() < 6){
+            report = "Password length must be >= 6";
         }
-        if (!accountDTORegister.getPassword().equals(accountDTORegister.getRepeatPassword())) {
+        boolean isUpperCharacter = false;
+        for(int i = 0; i <  pass.length(); i++){
+            if(Character.isUpperCase(pass.charAt(i))){
+                isUpperCharacter = true;
+            }
+        }
+        if(!isUpperCharacter){
+            report = "Password must contain a capital letter!!!";
+        }
+
+        if (!pass.equals(accountDTORegister.getRepeatPassword())) {
             report += "Password and password is different!!! </br>";
         }
-        if (accountDTORegister.getPassword().isEmpty() || accountDTORegister.getRepeatPassword().isEmpty()) {
+        if (pass.isEmpty() || accountDTORegister.getRepeatPassword().isEmpty()) {
             report += "Password/Re-password cannot be empty!!! </br>";
         }
         return report;

@@ -55,7 +55,6 @@ class DebtorControllerTest {
         debtor.setTotal(0.0);
         when(debtorService.getDebtor(anyInt())).thenReturn(Optional.of(debtor));
 
-        Model model = mock(Model.class);
 
         // String viewName = debtorController.deleteDebtor(model, 1);
 

@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
     private final UsersRepository usersRepository;
-    private final int PAGE_SIZE = 10;
+    private final int PAGE_SIZE = 8;
 
     // getting
     // 1. get group of users original

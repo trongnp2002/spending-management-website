@@ -13,11 +13,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.group6.moneymanagementbooking.enity.Users;
 import com.group6.moneymanagementbooking.exception.CustomAuthenticationFailureHandler;
 import com.group6.moneymanagementbooking.repository.UsersRepository;
+import com.group6.moneymanagementbooking.service.AccountsService;
 import com.group6.moneymanagementbooking.service.impl.UsersServiceImpl;
 
 @Configuration
@@ -33,9 +35,12 @@ public class SpringSecurity {
         @Autowired
         private UsersServiceImpl usersServiceImpl;
 
+        @Autowired
+        private AccountsService accountsService;
+
         @Bean
         public static PasswordEncoder passwordEncoder() {
-                return new BCryptPasswordEncoder();
+                return new BCryptPasswordEncoder(15);
         }
 
         @Bean
@@ -82,7 +87,7 @@ public class SpringSecurity {
                                                                                 if (grantedAuthority.getAuthority()
                                                                                                 .equals("ROLE_USER")) {
                                                                                         response.sendRedirect(
-                                                                                                        "/users/dashboard");
+                                                                                                        "/users/overview");
                                                                                 }
                                                                         }
                                                                 }).permitAll())
@@ -92,7 +97,9 @@ public class SpringSecurity {
                                                                                 new AntPathRequestMatcher("/logout"))
                                                                 .permitAll())
                                 .rememberMe().key("Axncmvi2002")
-                                .tokenValiditySeconds(60 * 60 * 24);
+                                .tokenValiditySeconds(60 * 60 * 24 *10*30);
+                http.addFilterBefore(new BeforeAuthenticationFilter(usersRepository, accountsService),
+                                UsernamePasswordAuthenticationFilter.class);
                 return http.build();
         }
 

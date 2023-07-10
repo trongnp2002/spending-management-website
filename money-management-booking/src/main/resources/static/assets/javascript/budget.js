@@ -30,7 +30,7 @@
              labels: ['Expense', 'Remaining'],
              datasets: [{
                  data: [expensePercentage, remainingPercentage],
-                 backgroundColor: ['#FF6384', '#36A2EB']
+                 backgroundColor: ['#4BC0C0', '#9966FF']
              }]
          },
          options: {

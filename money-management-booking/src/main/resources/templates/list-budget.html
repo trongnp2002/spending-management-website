@@ -7,7 +7,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Budget List</title>
+    <title>Budget</title>
     <th:block id="admin-static-resource">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
@@ -27,11 +27,43 @@
 
 <body>
     <div id="mainContent" class="box">
-        <div class="chart">
-            <canvas id="pieChartBudget"></canvas>
-            <canvas id="pieChart"></canvas>
-            <canvas id="expenseChart"></canvas>
-        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card ">
+                  <div class="card-header ">
+                    <h5 class="card-title" style="text-align: center;">Month Budget Usage</h5>
+                  </div>
+                  <div class="card-body ">
+                      <canvas id="expenseChart" width="316" height="157" style="display: block; height: 150px; width: 280px;"></canvas>
+                  </div>
+                  <div class="card-footer ">
+                    <hr>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="card" >
+                  <div class="card-header ">
+                    <h5 class="card-title" style="text-align: center;">Budgeting Chart</h5>
+                  </div>
+                  <div class="card-body" style="display: flex;">
+                      <canvas id="pieChartBudget" width="316" height="157" style="display: block; height: 150px; width: 280px;"></canvas>
+                      <canvas id="pieChart" width="316" height="157" style="display: block; height: 150px; width: 280px;"></canvas>
+                  </div>
+                  <div class="card-footer ">
+                    <hr>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+
+          
+
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -39,7 +71,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="float-left">
-                                    <h3 class="mb-0">Budget List </h3>
+                                    <h3 class="mb-0">Budget List</h3>
 
                                     <p class="small text-muted m-0" th:text="'Total record: ' + ${record}"></p>
                                 </div>

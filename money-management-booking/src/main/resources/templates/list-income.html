@@ -7,7 +7,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Income List</title>
+    <title>Income</title>
     <th:block id="admin-static-resource">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
@@ -27,9 +27,25 @@
 
 <body>
     <div id="mainContent" class="box">
-        <div>
-            <canvas id="incomeChart"></canvas>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header ">
+                        <h5 class="card-title" style="text-align: center;">Month Income Usage</h5>
+                    </div>
+                    <div class="card-body ">
+                        <canvas id="incomeChart" width="316" height="157"
+                            style="display: block; height: 150px; width: 280px;"></canvas>
+                    </div>
+                    <div class="card-footer ">
+                        <hr>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -165,7 +181,7 @@
                     labels: ['Income', 'Remaining'],
                     datasets: [{
                         data: [incomePercentage, remainingPercentage],
-                        backgroundColor: ['#FF6384', '#36A2EB']
+                        backgroundColor: ['#FF9F40', '#9966FF']
                     }]
                 },
                 options: {

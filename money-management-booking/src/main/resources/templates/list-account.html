@@ -7,7 +7,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Account List</title>
+    <title>Overview</title>
     <th:block id="admin-static-resource">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
@@ -28,10 +28,40 @@
 
 <body>
     <div id="mainContent" class="box">
-        <div class="chart">
-            <canvas id="pieChart"></canvas>
-            <canvas id="expensesChart"></canvas>
-        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+              <div class="card ">
+                <div class="card-header ">
+                  <h5 class="card-title" style="text-align: center;">Transaction</h5>
+                </div>
+                <div class="card-body ">
+                    <canvas id="pieChart" width="316" height="157" style="display: block; height: 150px; width: 280px;"></canvas>
+                </div>
+                <div class="card-footer ">
+                  <hr>
+                </div>
+              </div>
+            </div>
+        
+            <div class="col-md-8">
+              <div class="card card-chart">
+                <div class="card-header">
+                  <h5 class="card-title" style="text-align: center;">Expense For The Year</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="expensesChart" width="708" height="176" style="display: block; height: 141px; width: 567px;"></canvas>
+                </div>
+                <div class="card-footer">
+                  <hr/>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">

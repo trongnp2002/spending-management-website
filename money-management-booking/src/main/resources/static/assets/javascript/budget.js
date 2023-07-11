@@ -30,7 +30,7 @@
              labels: ['Expense', 'Remaining'],
              datasets: [{
                  data: [expensePercentage, remainingPercentage],
-                 backgroundColor: ['#FF6384', '#36A2EB']
+                 backgroundColor: ['#4BC0C0', '#9966FF']
              }]
          },
          options: {
@@ -50,7 +50,7 @@ var pieChart = new Chart(ctx, {
     data: {
         labels: labels, // Tên của từng category
         datasets: [{
-            data: data, // Tổng expense của từng category
+            data: datas, // Tổng expense của từng category
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#00CC99', '#FF66CC']// Màu sắc cho từng phần tử
         }]
     },

@@ -7,7 +7,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Income List</title>
+    <title>Income</title>
     <th:block id="admin-static-resource">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
@@ -27,9 +27,25 @@
 
 <body>
     <div id="mainContent" class="box">
-        <div>
-            <canvas id="incomeChart"></canvas>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header ">
+                        <h5 class="card-title" style="text-align: center;">Month Income Usage</h5>
+                    </div>
+                    <div class="card-body ">
+                        <canvas id="incomeChart" width="316" height="157"
+                            style="display: block; height: 150px; width: 280px;"></canvas>
+                    </div>
+                    <div class="card-footer ">
+                        <hr>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -105,7 +121,17 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            </c:forEach>
+                                            <th:block th:if="${page.content.size() < 6}">
+                                                <tr th:each="i : ${#numbers.sequence(1, 6 - page.content.size())}">
+                                                    <td style="width: 53px; height: 52px;"></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </th:block>
+                                            <!-- </c:forEach> -->
                                         </tbody>
                                     </table>
                                     <div class="card-body">
@@ -134,12 +160,15 @@
 
         <script th:inline="javascript">
             // Dữ liệu quy trình expense và budget
-            var expense = /*[[${totalIncomeByMonth}]]*/ {};
+            var income = /*[[${totalIncomeByMonth}]]*/ {};
             var budget = /*[[${monthlyEarning}]]*/ {};
 
             // Tính toán phần trăm chi tiêu so với ngân sách
-            var expensePercentage = (expense / budget) * 100;
-            var remainingPercentage = 100 - expensePercentage;
+            var incomePercentage = (income / budget) * 100;
+            var remainingPercentage = 100 - incomePercentage;
+            if (remainingPercentage < 0) {
+                remainingPercentage = 0;
+            }
 
             // Lấy thẻ canvas và context
             var canvas = document.getElementById('incomeChart');
@@ -151,8 +180,8 @@
                 data: {
                     labels: ['Income', 'Remaining'],
                     datasets: [{
-                        data: [expensePercentage, remainingPercentage],
-                        backgroundColor: ['#FF6384', '#36A2EB']
+                        data: [incomePercentage, remainingPercentage],
+                        backgroundColor: ['#FF9F40', '#9966FF']
                     }]
                 },
                 options: {

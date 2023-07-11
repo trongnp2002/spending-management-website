@@ -29,7 +29,7 @@ public class AccountsServiceImpl implements AccountsService {
     private final UsersRepository usersRepository;
 
     @Override
-    public Accounts addAccounts(Accounts accounts, Model model) {
+    public Accounts addAccounts(Accounts accounts, Model model) throws Exception {
         try {
             accounts.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
             boolean checkAccountExits = accountsRepository
@@ -42,9 +42,8 @@ public class AccountsServiceImpl implements AccountsService {
                 throw new Exception("Name cannot be null");
             return accountsRepository.save(accounts);
         } catch (Exception e) {
-            model.addAttribute("mess", e.getMessage());
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
 
     @Override

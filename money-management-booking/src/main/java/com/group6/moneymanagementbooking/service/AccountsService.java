@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import com.group6.moneymanagementbooking.enity.Accounts;
 
 public interface AccountsService {
-    public Accounts addAccounts(Accounts accounts, Model model);
+    public Accounts addAccounts(Accounts accounts, Model model) throws Exception;
 
     public List<Accounts> findAll();
 

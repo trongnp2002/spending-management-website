@@ -7,7 +7,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Account List</title>
+    <title>Overview</title>
     <th:block id="admin-static-resource">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
@@ -28,10 +28,40 @@
 
 <body>
     <div id="mainContent" class="box">
-        <div class="chart">
-            <canvas id="pieChart"></canvas>
-            <canvas id="expensesChart"></canvas>
-        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+              <div class="card ">
+                <div class="card-header ">
+                  <h5 class="card-title" style="text-align: center;">Transaction</h5>
+                </div>
+                <div class="card-body ">
+                    <canvas id="pieChart" width="316" height="157" style="display: block; height: 150px; width: 280px;"></canvas>
+                </div>
+                <div class="card-footer ">
+                  <hr>
+                </div>
+              </div>
+            </div>
+        
+            <div class="col-md-8">
+              <div class="card card-chart">
+                <div class="card-header">
+                  <h5 class="card-title" style="text-align: center;">Expense For The Year</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="expensesChart" width="708" height="176" style="display: block; height: 141px; width: 567px;"></canvas>
+                </div>
+                <div class="card-footer">
+                  <hr/>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -71,6 +101,7 @@
                                                     style="position: relative; width: 317.65px;">Action</th>
                                             </tr>
                                         </thead>
+                                        
                                         <tbody>
                                             <tr th:each="item : ${page.content}"
                                                 th:class="${item.balance < 0} ? 'red-row' : ''">
@@ -87,32 +118,42 @@
                                                 </td>
                                                 <td>
 
-                                                        <div style="margin: auto; text-align:center">
-                                                            <!-- <a th:href="@{/users/detail-account/{id}(id=${item.id})}"
+                                                    <div style="margin: auto; text-align:center">
+                                                        <!-- <a th:href="@{/users/detail-account/{id}(id=${item.id})}"
                                                             title="Edit" class="btn btn-warning"><i
                                                                 class="fa fa-pencil"></i>
                                                             Edit
                                                         </a> -->
-                                                            <a>
-                                                                <button type="button" class="btn btn-warning"
-                                                                    data-toggle="modal"
-                                                                    th:data-target="'#editModal' + ${item.id}">
-                                                                    <i class="fa fa-pencil"></i>
-                                                                    Edit
-                                                                </button>
-                                                                <div
-                                                                    th:replace="layout/account-popup :: edit-account-popup(${item})">
-                                                                </div>
-                                                            </a>
-                                                            <a th:onclick="confirmDelete([[${item.id}]])"
-                                                                class="btn btn-danger" style="color: black;"><i
-                                                                    class="fa fa-exclamation-circle"></i>
-                                                                Delete
-                                                            </a>
-                                                        </div>
+                                                        <a>
+                                                            <button type="button" class="btn btn-warning"
+                                                                data-toggle="modal"
+                                                                th:data-target="'#editModal' + ${item.id}">
+                                                                <i class="fa fa-pencil"></i>
+                                                                Edit
+                                                            </button>
+                                                            <div
+                                                                th:replace="layout/account-popup :: edit-account-popup(${item})">
+                                                            </div>
+                                                        </a>
+                                                        <a th:onclick="confirmDelete([[${item.id}]])"
+                                                            class="btn btn-danger" style="color: black;"><i
+                                                                class="fa fa-exclamation-circle"></i>
+                                                            Delete
+                                                        </a>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            </c:forEach>
+                                            <th:block th:if="${page.content.size() < 6}">
+                                                <tr th:each="i : ${#numbers.sequence(1, 6 - page.content.size())}">
+                                                    <td style="width: 53px; height: 52px;"></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </th:block>
+                                            <!-- </c:forEach> -->
                                         </tbody>
                                     </table>
                                     <div class="card-body">
@@ -142,13 +183,36 @@
             var income = /*[[${totalIncome}]]*/ {};
             var expense = /*[[${totalExpenses}]]*/{};
             var save = /*[[${totalBalance}]]*/ {};
-            
-            if(income ==0 && expense ==0 && save == 0){
+
+            if (income == 0 && expense == 0 && save == 0) {
                 income = 1
                 expense = 1
                 save = 1
             }
+            document.addEventListener('DOMContentLoaded', function () {
+                var data = {
+                    labels: ['Income', 'Expenses', 'Savings'],
+                    datasets: [{
+                        data: [income, expense, save],
+                        backgroundColor: [
+                            '#36A2EB',
+                            '#FF6384',
+                            '#FFCE56'
+                        ]
+                    }]
+                };
 
+                var options = {
+                    responsive: false
+                };
+
+                var ctx = document.getElementById('pieChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: options
+                });
+            });
         </script>
 
         <script th:inline="javascript">
@@ -158,6 +222,28 @@
             var labels = Object.keys(monthlyExpenses);
             var data = Object.values(monthlyExpenses);
             /* Tạo biểu đồ bằng Chart.js */
+
+            var ctx = document.getElementById('expensesChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Amount',
+                        data: data,
+                        backgroundColor: '#4BC0C0',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         </script>
 
         <script th:src="@{/assets/javascript/account.js}"></script>

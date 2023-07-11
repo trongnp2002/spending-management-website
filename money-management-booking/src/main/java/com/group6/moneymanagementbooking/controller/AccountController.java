@@ -38,12 +38,16 @@ public class AccountController {
 
     @PostMapping("/add-account")
     public String addAccount(@ModelAttribute Accounts addaccounts, RedirectAttributes redirectAttributes) {
-        accountsService.addAccounts(addaccounts, redirectAttributes);
-        return "redirect:/users/list-account";
+        try{
+            accountsService.addAccounts(addaccounts, redirectAttributes);  
+        }catch(Exception e){
+          redirectAttributes.addAttribute("mess", e.getMessage());
+        }
+        return "redirect:/users/overview";
     }
 
     @GetMapping("/overview")
-    public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize,
+    public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int pageSize,
             Model model, @ModelAttribute("mess") String mess) {
         model.addAttribute("mess", mess);
         model.addAttribute("listaccount", accountsService.findAll());
@@ -71,19 +75,19 @@ public class AccountController {
     @GetMapping("/list-account/{id}/{action}")
     public String updateActive(@PathVariable("id") int id, @PathVariable("action") Boolean action, Model model) {
         accountsService.updateActiveById(action, id);
-        return "redirect:/users/list-account";
+        return "redirect:/users/overview";
     }
 
     @PostMapping("/detail-account")
     public String detail(@ModelAttribute Accounts account) {
-        return Optional.ofNullable(accountsService.updateAccount(account)).map(t -> "redirect:/users/list-account")
-                .orElse("failed");
+        return Optional.ofNullable(accountsService.updateAccount(account)).map(t -> "redirect:/users/overview")
+                .orElse("redirect:/users/overview");
     }
 
     @GetMapping("/delete-account/{id}")
     public String delete(@PathVariable("id") int id) {
         accountsService.deleteById(id);
-        return "redirect:/users/list-account";
+        return "redirect:/users/overview";
 
     }
 

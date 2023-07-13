@@ -17,20 +17,25 @@ public class CustomErrorController implements ErrorController {
     @RequestMapping(ERROR_PATH)
     public String handleError(HttpServletRequest request, Model model) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        if(status != null){
+        if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
-            if(statusCode == HttpStatus.FORBIDDEN.value()){
+            if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "errors/403";
+            }
+            if (statusCode == HttpStatus.NOT_FOUND.value()) {
+                return "errors/404";
+
             }
         }
         // Thêm logic xử lý lỗi tùy chỉnh ở đây
-        // Ví dụ: bạn có thể kiểm tra mã trạng thái và trả về các trang lỗi khác nhau dựa trên nó
-        
-        return "errors/404";
+        // Ví dụ: bạn có thể kiểm tra mã trạng thái và trả về các trang lỗi khác nhau
+        // dựa trên nó
+      return "errors/500";
+
     }
 
     @RequestMapping("/errors/403")
-        public String handleAccessDenied(Model model) {
+    public String handleAccessDenied(Model model) {
         return "errors/403";
     }
 

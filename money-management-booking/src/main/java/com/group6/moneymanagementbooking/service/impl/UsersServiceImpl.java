@@ -2,10 +2,13 @@ package com.group6.moneymanagementbooking.service.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,23 +37,20 @@ public class UsersServiceImpl implements UsersService {
 
     // register
     @Override
-    public String userRegister(Model model, UsersDTORegisterRequest accountDTORegister) throws Exception {
-        String report = "<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: ";
-        int report_length = report.length();
-        report += registerCheckCondition(accountDTORegister);
-        if (report.length() > report_length) {
-            report += "</p>";
-            model.addAttribute("report", report);
-            model.addAttribute("accountDTORegister", accountDTORegister);
-            return "register";
+    public void checkUserRegister(List<String> report, UsersDTORegisterRequest userDTORegister,
+            HttpServletRequest request) throws Exception {
+        registerCheckCondition(userDTORegister, report);
+        if (report.size() == 0) {
+            HttpSession session = request.getSession();
+
         }
-        Users account = UsersMapper.toUsers(accountDTORegister);
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account = usersRepository.save(account);
-        UsersDTOLoginRequest usersDTOLoginRequest = UsersDTOLoginRequest.builder().email(accountDTORegister.getEmail())
-                .build();
-        model.addAttribute("usersDTOLoginRequest", usersDTOLoginRequest);
-        return "redirect:/login";
+    }
+
+    @Override
+    public void addUser(UsersDTORegisterRequest userDTORegister) {
+        Users user = UsersMapper.toUsers(userDTORegister);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user = usersRepository.save(user);
     }
 
     // update avatar
@@ -63,7 +63,7 @@ public class UsersServiceImpl implements UsersService {
 
     // update_user
     @Override
-    public void updateInfo(UserDTOEditProfileRequest userDTOEditProfile) throws Exception {
+    public void updateInfo(UserDTOEditProfileRequest userDTOEditProfile, HttpServletRequest request) throws Exception {
         Optional<Users> usersOptional = usersRepository.findByEmail(userDTOEditProfile.getEmail());
         if (usersOptional.isPresent()) {
             Users users = usersOptional.get();
@@ -71,6 +71,11 @@ public class UsersServiceImpl implements UsersService {
             users.setFirstName(userDTOEditProfile.getFirstName());
             users.setLastName(userDTOEditProfile.getLastName());
             users.setPhone(userDTOEditProfile.getPhone());
+            if (!request.getSession().getAttribute("userFullName")
+                    .equals(users.getFirstName() + " " + users.getLastName())) {
+                HttpSession session = request.getSession();
+                session.setAttribute("userFullName", users.getFirstName() + " " + users.getLastName());
+            }
             try {
                 usersRepository.save(users);
             } catch (Exception e) {
@@ -84,41 +89,69 @@ public class UsersServiceImpl implements UsersService {
 
     // change_password
     @Override
-    public void changePassword(String newPass) {
+    public void checkChangePassword(String[] listPass) throws Exception {
+        if (listPass[0].isEmpty() || listPass[1].isEmpty() || listPass[2].isEmpty()) {
+            throw new Exception("All of input cannot be empty");
+        }
+        if (listPass[0].equals(listPass[1])) {
+            throw new Exception("This new password is the same with your old password");
+        }
+        if (!passwordEncoder.matches(listPass[0], getUsers().getPassword())) {
+            throw new Exception("Old password is incorrect");
+        }
+        if (!listPass[1].equals(listPass[2])) {
+            throw new Exception("Password and re-password are not the same");
+        }
+        if (!StringUtils.checkPasswordValidate(listPass[1])) {
+            throw new Exception("Password must conform to regex");
+        }
+    }
+
+    @Override
+    public void changePassword(String newPassword) {
         Users users = getUsers();
-        users.setPassword(newPass);
+        users.setPassword(passwordEncoder.encode(newPassword));
         usersRepository.save(users);
     }
 
     // forgot_password
     @Override
-    public String forgotPassword(Model model, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest) {
+    public void checkForgotPassword(List<String> report, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest) {
         String email = usersDTOForgotPasswordRequest.getEmail();
         Optional<Users> usersOptional = usersRepository.findByEmail(email);
         if (usersOptional.isPresent()) {
             Users users = usersOptional.get();
-            if (usersDTOForgotPasswordRequest.getPassword().equals(usersDTOForgotPasswordRequest.getRepeatPassword())) {
+            if (!StringUtils.checkPasswordValidate(usersDTOForgotPasswordRequest.getPassword())) {
+                report.add(" Warning: Your new password must conform regex");
+            }
+            if (!usersDTOForgotPasswordRequest.getPassword()
+                    .equals(usersDTOForgotPasswordRequest.getRepeatPassword())) {
+                report.add(" Warning: Password and re-password are not the same");
+            }
+            if (usersDTOForgotPasswordRequest.getPassword().isEmpty()
+                    || usersDTOForgotPasswordRequest.getRepeatPassword().isEmpty()) {
+                report.add(" Warning: Input can not be empty");
+            }
+            if(usersDTOForgotPasswordRequest.getPassword().equals(users.getPassword())){
+                report.add(" Warning: This new password is the same with your old password");
+            }
+            if (report.size() == 0) {
                 users.setPassword(passwordEncoder.encode(usersDTOForgotPasswordRequest.getPassword()));
                 usersRepository.save(users);
-            } else {
-                String report = "<p style='padding-left:20px; height: 100%; line-height:100%; font-size:12px;' > Warning: Password and re-password are not the same </p>";
-                model.addAttribute("report", report);
-                return "forgot-password";
             }
         } else {
-            String report = "<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Your account not exits </p>";
-            model.addAttribute("report", report);
-            return "forgot-password";
+            report.add("Warning: Your account not exits");
         }
-        UsersDTOLoginRequest usersDTOLoginRequest = UsersDTOLoginRequest.builder().email(email).build();
-        model.addAttribute("usersDTOLoginRequest", usersDTOLoginRequest);
-        return "login";
+
     }
 
     // get user by email
     @Override
     public Users getUserByEmail(String email) {
-        return (usersRepository.findByEmail(email)).get();
+        if (usersRepository.findByEmail(email).isPresent()) {
+            return usersRepository.findByEmail(email).get();
+        }
+        return null;
     }
 
     // check_condition
@@ -128,36 +161,16 @@ public class UsersServiceImpl implements UsersService {
             throws IOException {
         String userEmail = request.getParameter("userEmail");
         try (PrintWriter out = response.getWriter()) {
-            if (StringUtils.patternMatchesEmail(userEmail,
+            if (!userEmail.isEmpty() && StringUtils.patternMatchesEmail(userEmail,
                     "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}(.[a-z]{2,3})+$|^$")) {
                 if (checkEmailDuplicate(userEmail)) {
-                    out.println("<h5 style='color:red;'>Your email already exist!!!</h5>");
+                    out.println("<p class='alert alert-danger text-center mess' >Your email already exist!!!</p>");
                 } else {
-                    out.println("<h5 style='color:green;'>Your email address is accepted!!!</h5>");
+                    out.println(
+                            "<p class='alert alert-success text-center mess' >Your email address is accepted!!!</p>");
                 }
             } else {
-                out.println("<h5 style='color:red;'>Your email is invalid!!!</h5>");
-            }
-        }
-    }
-
-    // 2. check phone condition
-    @Override
-    public void checkPhoneCondition(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String userPhone = request.getParameter("userPhone");
-        try (PrintWriter out = response.getWriter()) {
-            if (!StringUtils.isDigit(userPhone)) {
-                out.println("<h5 style='color:red;'>Your phone number must be digit!!!</h5>");
-            } else {
-                if (userPhone.length() > 10 || userPhone.length() < 10) {
-                    out.println("<h5 style='color:red;'>Your phone number must have 10 digit!!!</h5>");
-                } else {
-                    if (checkPhoneDuplicate(userPhone)) {
-                        out.println("<h5 style='color:red;'>Your phone number already exist!!!</h5>");
-                    } else {
-                        out.println("<h5 style='color:green;'>Your phone number is accepted!!!</h5>");
-                    }
-                }
+                out.println("<p  class='alert alert-danger text-center mess'>Your email is invalid!!!</p>");
             }
         }
     }
@@ -198,14 +211,6 @@ public class UsersServiceImpl implements UsersService {
     }
 
     // support function
-    private boolean checkPhoneDuplicate(String phone) {
-        Optional<Users> accouOptional = usersRepository.findByPhone(phone);
-        if (accouOptional.isPresent()) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean checkEmailDuplicate(String email) {
         Optional<Users> accouOptional = usersRepository.findByEmail(email);
         if (!accouOptional.isPresent()) {
@@ -215,32 +220,29 @@ public class UsersServiceImpl implements UsersService {
         return true;
     }
 
-    private String registerCheckCondition(UsersDTORegisterRequest accountDTORegister) {
-        String report = "";
-        String pass =  accountDTORegister.getPassword();
+    private void registerCheckCondition(UsersDTORegisterRequest accountDTORegister, List<String> report) {
+        String pass = accountDTORegister.getPassword();
         if (checkEmailDuplicate(accountDTORegister.getEmail())) {
-            report = "This email already exits!! </br>";
+            report.add("This email already exits!!");
         }
-        if(pass.length() < 6){
-            report = "Password length must be >= 6";
+        if (!StringUtils.isValidEmail(accountDTORegister.getEmail())) {
+            report.add("This email is not valid!!");
         }
-        boolean isUpperCharacter = false;
-        for(int i = 0; i <  pass.length(); i++){
-            if(Character.isUpperCase(pass.charAt(i))){
-                isUpperCharacter = true;
-            }
-        }
-        if(!isUpperCharacter){
-            report = "Password must contain a capital letter!!!";
+        if (!StringUtils.checkPasswordValidate(pass)) {
+            report.add("Password must conform to regex!!");
         }
 
+        if (!accountDTORegister.getPhone().isEmpty() &&
+                !StringUtils.isDigit(accountDTORegister.getPhone())) {
+            report.add("Phone number must not have character!!");
+
+        }
         if (!pass.equals(accountDTORegister.getRepeatPassword())) {
-            report += "Password and password is different!!! </br>";
+            report.add("Password and re-password are not the same!!");
         }
         if (pass.isEmpty() || accountDTORegister.getRepeatPassword().isEmpty()) {
-            report += "Password/Re-password cannot be empty!!! </br>";
+            report.add("Password/Re-password cannot be empty!!");
         }
-        return report;
     }
 
     @Override

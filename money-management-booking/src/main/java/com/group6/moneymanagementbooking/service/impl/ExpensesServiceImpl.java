@@ -40,21 +40,18 @@ public class ExpensesServiceImpl implements ExpensesService {
     private final UsersService usersService;
 
     @Override
-    public Expenses addExpenses(Expenses expenses, Model model) {
-        try {
-            expenses.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
-            double amountExpense = expenses.getAmount();
-            double balanceAccount = accountsRepository.findById(expenses.getAccounts().getId()).get().getBalance();
-            if (amountExpense <= 0)
-                throw new Exception("Amount must be greater than 0");
-            if (balanceAccount - amountExpense < 0)
-                model.addAttribute("mess", "Warning account with amount less than 0");
-            accountsRepository.addBalanceById(balanceAccount - amountExpense, expenses.getAccounts().getId());
-            return expensesRepository.save(expenses);
-        } catch (Exception e) {
-            model.addAttribute("mess", e.getMessage());
+    public Expenses addExpenses(Expenses expenses, Model model) throws Exception {
+        expenses.setUserId(usersRepository.findByEmail(SecurityUtils.getCurrentUsername()).get().getId());
+        double amountExpense = expenses.getAmount();
+        double balanceAccount = accountsRepository.findById(expenses.getAccounts().getId()).get().getBalance();
+        if (amountExpense <= 0)
+            throw new Exception("Amount must be greater than 0");
+        if (balanceAccount - amountExpense < 0) {
+            model.addAttribute("report", "Warning account with amount less than 0");
         }
-        return null;
+
+        accountsRepository.addBalanceById(balanceAccount - amountExpense, expenses.getAccounts().getId());
+        return expensesRepository.save(expenses);
     }
 
     @Override

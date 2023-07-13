@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.mail.EmailException;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.group6.moneymanagementbooking.dto.request.UsersDTORegisterRequest;
 import com.group6.moneymanagementbooking.enity.OTP;
 import com.group6.moneymanagementbooking.service.EmailService;
 import com.group6.moneymanagementbooking.service.OTPService;
+import com.group6.moneymanagementbooking.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,49 +33,82 @@ import lombok.RequiredArgsConstructor;
 public class OTPController {
     private final OTPService otpService;
     private final EmailService emailService;
+    private final UsersService usersService;
 
     @GetMapping(value = "/sendOTP")
     @ResponseStatus(value = HttpStatus.OK)
     public void sendOTPMail(HttpServletRequest request, HttpServletResponse response)
-            throws EmailException, IOException {
-        String email = (String) request.getParameter("userInput");
-        int otpCode = 0;
-        Random rand = new Random();
-        otpCode = rand.nextInt(1000000);
-        String htmlContent = "<h1>Active your account by code here: " + otpCode
-                + "</h1> <h2>Note: The email can only exist in 1 minute from the time it started sending!!!!!</h2>";
-        PrintWriter out = response.getWriter();
-
-        try {
-            emailService.sendVerifyEmail(email, "Dear MyFriend, ", htmlContent);
-            System.out.println("Mail sent successfully.");
-        } catch (EmailException e) {
-            out.println(e.getMessage());
-        }
-        OTP otp = OTP.builder().date_create(LocalDateTime.now()).email(email).code(String.valueOf(otpCode)).build();
-        otpService.saveOTP(otp);
-    }
-
-    @GetMapping(value = "confirmOTP")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void confirmOTP(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        PrintWriter out = response.getWriter();
-        try {
-            otpService.confirm(request, response, model);
-        } catch (Exception e) {
-            out.println(e.getMessage());
-        }
-    }
-
-    @PostMapping("/confirm-otp")
-    public String confirmOTPOnPost(HttpServletRequest request, HttpServletResponse response, Model model)
             throws Exception {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("emailOTP") != null) {
+            String email = (String) session.getAttribute("emailOTP");
+            int otpCode = 0;
+            Random rand = new Random();
+            otpCode = rand.nextInt(1000000);
+            String htmlContent = otpService.OTPEmailTemplate(String.valueOf(otpCode));
+            PrintWriter out = response.getWriter();
+
+            try {
+                emailService.sendVerifyEmail(email, "Dear MyFriend, ", htmlContent);
+                System.out.println("Mail sent successfully.");
+            } catch (EmailException e) {
+                out.println(e.getMessage());
+            }
+            OTP otp = OTP.builder().date_create(LocalDateTime.now()).email(email).code(String.valueOf(otpCode)).build();
+            otpService.saveOTP(otp);
+        } else {
+            throw new Exception("Không tồn tại email");
+        }
+
+    }
+
+    @GetMapping(value = { "", "/", "index" })
+    public String OTPPage(HttpServletRequest request) {
+
+        return "otp";
+    }
+
+    @PostMapping(value = "/confirm")
+    public void confirmOTP(HttpServletRequest request, HttpServletResponse response, RedirectAttributes model)
+            throws Exception {
+        HttpSession session = request.getSession(false);
+        String userEmailOTP = (String) session.getAttribute("emailOTP");
+        String otpUserInput = request.getParameter("otp");
         PrintWriter out = response.getWriter();
+        String report = "";
         try {
-            otpService.confirm(request, response, model);
+            otpService.confirm(userEmailOTP, otpUserInput);
+            register(session, userEmailOTP);
+            changePassword(userEmailOTP, session);
         } catch (Exception e) {
+            report = e.getMessage();
             out.println(e.getMessage());
         }
-        return "redirect:/users/new-password";
+        if (report.isEmpty()) {
+            if (session.getAttribute("userRegister") == null && session.getAttribute("changePassword") == null) {
+                out.println("resetPassword");
+            } else {
+                out.println("login");
+                session.removeAttribute("emailOTP");
+            }
+        }
     }
+
+    private void register(HttpSession session, String userEmailOTP) {
+        if (session.getAttribute("userRegister") != null) {
+            UsersDTORegisterRequest usersDTORegisterRequest = (UsersDTORegisterRequest) session
+                    .getAttribute("userRegister");
+            if (userEmailOTP.equals(usersDTORegisterRequest.getEmail())) {
+                usersService.addUser(usersDTORegisterRequest);
+                session.removeAttribute("userRegister");
+            }
+        }
+    }
+
+    private void changePassword(String userEmailOTP, HttpSession session) {
+        if (session.getAttribute("changePassword") != null) {
+            usersService.changePassword((String) session.getAttribute("changePassword"));
+        }
+    }
+
 }

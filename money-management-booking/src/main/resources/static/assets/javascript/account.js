@@ -6,7 +6,7 @@
 
 function DeleteCategory(id){
     if(confirm("Confirm to Delete")){
-        window.location="/users/delete-category/" +id
+        window.location="/settings/delete-category/" +id
     }
 }
 

@@ -23,10 +23,6 @@
 
 <body>
     <section id="mainContent">
-
-
-
-
         <div class="container bootstrap snippets bootdey" style="margin-top: 10px;" >
             <h1 class="text-primary">Edit Profile</h1>
         
@@ -38,7 +34,7 @@
                         <img th:src="${userDTOEditProfile.avatar}" alt="Avatar" class=" rounded-circle "
                             id="img-avatar" style="margin-bottom: 12px; " width="200" height="200">
 
-                        <form  th:action="@{/users/upload-avatar}" method="POST" enctype="multipart/form-data" style="width: 100%; display: flex; justify-content: center; flex-wrap: wrap;">
+                        <form  th:action="@{/settings/upload-avatar}" method="POST" enctype="multipart/form-data" style="width: 100%; display: flex; justify-content: center; flex-wrap: wrap;">
                             <label class="btn btn-outline-primary" >
                                 <span>Upload new photo</span>
                                 <input type="file" data-img="img-avatar" data-max-size="5242880"
@@ -57,7 +53,7 @@
                 </div>
 
                 <div class="col-md-9 personal-info">
-                    <form th:action="@{/users/profile}" th:object="${userDTOEditProfile}" method="POST" id="edit-profile-form">
+                    <form th:action="@{/settings/profile}" th:object="${userDTOEditProfile}" method="POST" id="edit-profile-form">
                         <input type="text" style="display: none;" th:field="*{id}" readonly>
                         <h3>Personal info</h3>
                         <div class="form-group">

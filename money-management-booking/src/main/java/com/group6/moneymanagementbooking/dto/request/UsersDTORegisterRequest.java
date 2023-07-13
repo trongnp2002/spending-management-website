@@ -13,8 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsersDTORegisterRequest {
-    private String firstName;
-    private String lastName;
+
     private String email;
     private String password;
     private String repeatPassword;

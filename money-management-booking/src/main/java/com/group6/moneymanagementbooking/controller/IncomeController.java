@@ -43,8 +43,7 @@ public class IncomeController {
 
     @GetMapping("/list-income")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int pageSize,
-            Model model, @ModelAttribute("mess") String mess) {
-        model.addAttribute("mess", mess);
+            Model model) {
         model.addAttribute("listincome", incomeService.findAll());
         model.addAttribute("record", incomeService.findAll().size());
         model.addAttribute("listaccount", accountsService.findByActive());

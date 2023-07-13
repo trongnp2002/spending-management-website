@@ -32,7 +32,7 @@ public class AdminController {
     private final UsersRepository usersRepository;
     private final String HOME = "admin-home";
 
-    @GetMapping(value = {"/home", "/index", "/"})
+    @GetMapping(value = {"","/home", "/index", "/"})
     public String adminHomePage(Model model) {
         List<UsersForAdminDTOResponse> groupOfUsers = adminService.getPageGroupOfUsers(model, 1);
         return WebUtils.adminDispartcher(HOME, model, groupOfUsers, 1,
@@ -137,13 +137,11 @@ public class AdminController {
     @GetMapping("/addfast")
     public String addFast() {
         for (int i = 1; i <= 100; i++) {
-            String fist_name = "trong" + i;
-            String last_name = "nguyen" + i;
             String email = "trongnguyen" + i + "@gmail.com";
             String password = "$2a$10$tCfT.g3xn99ISNlniDJy/ehNibU5vCqKS.5nDWtmpfozWHpOHo/fu";
             String address = "Ninh Binh";
             String phone = String.valueOf(1000000000 + i);
-            UsersDTORegisterRequest usersDTORegisterRequest = new UsersDTORegisterRequest(fist_name, last_name, email,
+            UsersDTORegisterRequest usersDTORegisterRequest = new UsersDTORegisterRequest( email,
                     password, password, phone, address);
             Users users = UsersMapper.toUsers(usersDTORegisterRequest);
             usersRepository.save(users);

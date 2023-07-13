@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/de1d9009fe.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/alert-report.css}">
+
     <title th:replace="${title}">Dashboard Sidebar Menu</title>
     <th:block th:replace="${otherStaticResource}">
 
@@ -79,7 +81,7 @@
                     </li>
 
                     <li class="main-layout_nav-link">
-                        <a th:href="@{/users/setting}">
+                        <a th:href="@{/settings/index}">
                             <i class="fa-solid fa-gear icon"></i>
                             <span class="main-layout_text main-layout_nav-text">Setting</span>
                         </a>
@@ -105,7 +107,7 @@
         </div>
     </nav>
     <div class="main-layout_top-header">
-        <h6> Hi there <span th:text="${currentUser}"></span>!
+        <h6> Hi there <span th:text="${session.userFullName}"></span>!
         </h6>
         <div class="main-layout_total-money"> 
             <i class="fa-solid fa-sack-dollar icon" ></i>
@@ -116,10 +118,13 @@
     <section class="main-layout_home" th:insert="${mainContent}">
 
     </section>
+    <script th:src="@{/assets/javascript/script.js}"></script>
+    <script th:src="@{/assets/javascript/alert-report.js}"></script>
+
     <th:block th:replace="${javascript}">
 
     </th:block>
-    <script th:src="@{/assets/javascript/script.js}"></script>
+   
 </body>
 
 </html>

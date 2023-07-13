@@ -2,6 +2,8 @@ package com.group6.moneymanagementbooking.security;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +56,10 @@ public class SpringSecurity {
                 http.csrf().disable()
                                 .authorizeHttpRequests((authorize) -> authorize.mvcMatchers("/register").permitAll()
                                                 .mvcMatchers("/check/**").permitAll()
+                                                .mvcMatchers("/find-email").permitAll()
                                                 .mvcMatchers("/otps/**").permitAll()
+                                                .mvcMatchers("/").permitAll()
+                                                .mvcMatchers("/homepage").permitAll()
                                                 .mvcMatchers("/forgot-password").permitAll()
                                                 .mvcMatchers("/login").permitAll()
                                                 .mvcMatchers("/admins/**").hasRole("ADMIN")
@@ -73,6 +78,10 @@ public class SpringSecurity {
                                                                         String email = request.getParameter("email");
                                                                         Users users = usersRepository.findByEmail(email)
                                                                                         .get();
+                                                                        HttpSession session = request.getSession();
+                                                                        session.setAttribute("userFullName", users
+                                                                                        .getFirstName() + " "
+                                                                                        + users.getLastName());
                                                                         users.setFailed_attempt(0);
                                                                         users.setNonLocked(true);
                                                                         usersRepository.save(users);
@@ -97,8 +106,8 @@ public class SpringSecurity {
                                                                                 new AntPathRequestMatcher("/logout"))
                                                                 .permitAll())
                                 .rememberMe().key("Axncmvi2002")
-                                .tokenValiditySeconds(60 * 60 * 24 *10*30);
-                http.addFilterBefore(new BeforeAuthenticationFilter(usersRepository, accountsService),
+                                .tokenValiditySeconds(60 * 60 * 24 * 10 * 30);
+                http.addFilterBefore(new BeforeAuthenticationFilter(accountsService),
                                 UsernamePasswordAuthenticationFilter.class);
                 return http.build();
         }

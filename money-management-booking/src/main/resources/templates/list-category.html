@@ -105,12 +105,12 @@
                             <div class="card-body">
                                 <div class="pagination">
                                     <a th:classappend="${page.hasPrevious() ? '' : 'disabled'}"
-                                        th:href="@{/users/list-category(page=${page.number - 1})}"
+                                        th:href="@{/setttings/category(page=${page.number - 1})}"
                                         class="btn btn-dangers">Previous</a>
                                     <span>Page <span th:text="${page.number + 1}"></span> / <span
                                             th:text="${page.totalPages}"></span></span>
                                     <a th:classappend="${page.hasNext() ? '' : 'disabled'}"
-                                        th:href="@{/users/list-category(page=${page.number + 1})}"
+                                        th:href="@{/settings/category(page=${page.number + 1})}"
                                         class="btn btn-dangers">Next</a>
                                 </div>
                             </div>
@@ -122,7 +122,6 @@
     </div>
     <th:block id="admin_javascript">
         <script th:src="@{/assets/javascript/account.js}"></script>
-        <script th:src="@{/assets/javascript/admin.js}"></script>
 
 
     </th:block>

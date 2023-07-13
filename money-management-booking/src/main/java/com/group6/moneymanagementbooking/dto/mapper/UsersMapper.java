@@ -19,11 +19,12 @@ public class UsersMapper {
     }
 
     public static Users toUsers(UsersDTORegisterRequest accountDTORegister) {
-        return Users.builder().firstName(accountDTORegister.getFirstName())
-                .lastName(accountDTORegister.getLastName()).email(accountDTORegister.getEmail())
+        return Users.builder().firstName("")
+                .lastName("").email(accountDTORegister.getEmail())
                 .password(accountDTORegister.getPassword()).currency("$").phone(accountDTORegister.getPhone())
                 .active(true).nonLocked(true).address(accountDTORegister.getAddress())
-                .active(true).role("ROLE_USER").build();
+                .active(true).role("ROLE_USER").annuallySpending(0).monthlySaving(0)
+                .monthlySpending(0).monthlyEarning(0).build();
     }
 
     public static UsersForAdminDTOResponse toUsersForAdminDTOResponse(Users users) {

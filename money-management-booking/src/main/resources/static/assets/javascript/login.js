@@ -92,18 +92,18 @@ function report(error, turn) {
     if (error == "login-fail") {
       if(turn !== null){
         if (turn > 0) {
-          $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!! </br> Your account has been locked due to "+turn+" failed attempts</p>");
+          $('#report').html("Warning: Email or password not correct!! </br> Your account has been locked due to "+turn+" failed attempts");
   
         }else{
-          $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Your account has been locked after 24 hours</p>");
+          $('#report').html(" Warning: Your account has been locked after 24 hours");
         }
       }
      
     }
     else if (error == "disabled") {
-      $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Your account has been disabled!!!</p>");
+      $('#report').html(" Warning: Your account has been disabled!!");
     }else{
-      $('#report').html("<p style='padding-left:20px; height: 100%; line-height:100%;' > Warning: Email or password not correct!!!</p>");
+      $('#report').html("Warning: Email or password not correct!!");
     }
     $('.alert').addClass("show");
     $('.alert').removeClass("hide");
@@ -112,8 +112,10 @@ function report(error, turn) {
       $('.alert').removeClass("show");
       $('.alert').addClass("hide");
     }, 5000);
-
-    $('.close-btn').click(function () {
+    setTimeout(function () {
+      $('.alert').css("display","none");
+    }, 6000);
+    $('.alert_close-btn').click(function () {
       $('.alert').removeClass("show");
       $('.alert').addClass("hide");
     });

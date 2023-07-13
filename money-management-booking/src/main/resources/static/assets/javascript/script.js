@@ -1,11 +1,13 @@
+
+
 const body = document.querySelector('body'),
-      sidebar = body.querySelector('nav'),
-      toggle = body.querySelector(".toggle"),
-      modeSwitch = body.querySelector(".toggle-switch"),
-      modeText = body.querySelector(".mode-text");
+    sidebar = body.querySelector('nav'),
+    toggle = body.querySelector(".toggle"),
+    modeSwitch = body.querySelector(".toggle-switch"),
+    modeText = body.querySelector(".mode-text");
 
 
-toggle.addEventListener("click" , () =>{
+toggle.addEventListener("click", () => {
     sidebar.classList.toggle("main-layout_close");
     sidebar.classList.toggle("main-layout_box-shadow");
 

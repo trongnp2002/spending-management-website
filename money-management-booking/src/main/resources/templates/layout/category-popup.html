@@ -3,7 +3,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true"
     th:fragment="add-category-popup(addcategory)">
 
-    <form th:action="@{/users/add-category}" th:object="${addcategory}" method="post">
+    <form th:action="@{/settings/add-category}" th:object="${addcategory}" method="post">
 
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -51,7 +51,7 @@
 <!-------------------------------------------------------------------------------------->
 <div class="modal fade" th:id="'editModal'+${item.id}" tabindex="-1" role="dialog"
     th:aria-labelledby="'editModalLabel' + ${item.id}" aria-hidden="true" th:fragment="edit-category-popup(item)">
-    <form th:action="@{/users/detail-category}" method="post">
+    <form th:action="@{/settings/detail-category}" method="post">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

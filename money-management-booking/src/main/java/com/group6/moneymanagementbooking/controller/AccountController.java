@@ -41,15 +41,14 @@ public class AccountController {
         try{
             accountsService.addAccounts(addaccounts, redirectAttributes);  
         }catch(Exception e){
-          redirectAttributes.addAttribute("mess", e.getMessage());
+          redirectAttributes.addAttribute("report", e.getMessage());
         }
         return "redirect:/users/overview";
     }
 
     @GetMapping("/overview")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int pageSize,
-            Model model, @ModelAttribute("mess") String mess) {
-        model.addAttribute("mess", mess);
+            Model model) {
         model.addAttribute("listaccount", accountsService.findAll());
         model.addAttribute("record", accountsService.findAll().size());
         Pageable pageable = PaginationUtil.getPageable(page, pageSize);

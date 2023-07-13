@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import com.group6.moneymanagementbooking.enity.Expenses;
 
 public interface ExpensesService {
-    public Expenses addExpenses(Expenses expenses,Model model);
+    public Expenses addExpenses(Expenses expenses,Model model) throws Exception;
 
     public List<Expenses> findAll();
 

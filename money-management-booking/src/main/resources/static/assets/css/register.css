@@ -1,244 +1,271 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-  outline: none;
-  font-family: 'Poppins', sans-serif;
+@font-face {
+  font-family: "Muli-Regular";
+  src: url("../fonts/muli/Muli-Regular.ttf");
 }
-body{
+
+@font-face {
+  font-family: "Muli-SemiBold";
+  src: url("../fonts/muli/Muli-SemiBold.ttf");
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Muli-Regular";
+  font-size: 14px;
+  margin: 0;
+  color: #999;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: "Muli-Regular";
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+ul {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+:focus {
+  outline: none;
+}
+
+.wrapper {
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  overflow: hidden;
-  background: url("https://wallpapercave.com/wp/wp5054620.png");
+  background-image: url("https://wallpapercave.com/wp/wp5054620.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
-::selection{
-  color: #fff;
-  background: #d43f8d;
+
+.inner {
+  position: relative;
+  width: 435px;
 }
-.register_container{
-  width: 330px;
-  background: #fff;
-  text-align: center;
-  border-radius: 5px;
-  padding: 50px 35px 10px 35px;
-}
-.register_container header{
-  font-size: 35px;
-  font-weight: 600;
-  margin: 0 0 30px 0;
-}
-.register_container .register_form-outer{
+
+/* .image-1 {
+  position: absolute;
+  bottom: -12px;
+  left: -400px;
+  z-index: 99; }
+
+.image-2 {
+  position: absolute;
+  bottom: 0;
+  right: -129px; } */
+#emailMess {
   width: 100%;
+  padding: 0;
+}
+
+.mess {
+  padding: 4px !important;
+  width: 100% !important;
+}
+
+form {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  padding: 77px 61px 66px;
+  background: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+h3 {
+  text-transform: uppercase;
+  font-size: 25px;
+  font-family: "Muli-SemiBold";
+  color: #333;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 33px;
+}
+
+.form-holder {
+  position: relative;
+  margin-bottom: 21px;
+}
+
+.form-holder span {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #333;
+}
+
+.form-holder span.lnr-lock {
+  left: 2px;
+}
+
+.form-control {
+  border: none;
+  border-bottom: 1px solid #e6e6e6;
+  display: block;
+  width: 100%;
+  height: 38px;
+  background: none;
+  padding: 3px 42px 0px;
+  color: #666;
+  font-family: "Muli-SemiBold";
+  font-size: 16px;
+}
+
+.form-control::-webkit-input-placeholder {
+  font-size: 14px;
+  font-family: "Muli-Regular";
+  color: #999;
+  transform: translateY(1px);
+}
+
+.form-control::-moz-placeholder {
+  font-size: 14px;
+  font-family: "Muli-Regular";
+  color: #999;
+  transform: translateY(1px);
+}
+
+.form-control:-ms-input-placeholder {
+  font-size: 14px;
+  font-family: "Muli-Regular";
+  color: #999;
+  transform: translateY(1px);
+}
+
+.form-control:-moz-placeholder {
+  font-size: 14px;
+  font-family: "Muli-Regular";
+  color: #999;
+  transform: translateY(1px);
+}
+
+.form-control:focus {
+  border-bottom: 1px solid #accffe;
+}
+
+button {
+  border: none;
+  width: 100%;
+  height: 49px;
+  margin-top: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #99ccff;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "Muli-SemiBold";
+  font-size: 15px;
+  letter-spacing: 2px;
+  transition: all 0.5s;
+  position: relative;
   overflow: hidden;
 }
-.register_container .register_form-outer form{
-  display: flex;
-  width: 400%;
-}
-.register_form-outer form .register_page{
-  width: 25%;
-  transition: margin-left 0.3s ease-in-out;
-}
-.register_form-outer form .register_page .register_title{
-  text-align: left;
-  font-size: 25px;
-  font-weight: 500;
-}
-.register_form-outer form .register_page .register_field{
-  width: 330px;
-  height: 45px;
-  margin: 45px 0;
-  display: flex;
+
+button span {
   position: relative;
+  z-index: 2;
 }
-form .register_page .register_field .register_label{
-  position: absolute;
-  top: -30px;
-  font-weight: 500;
-}
-form .register_page .register_field input{
-  height: 100%;
-  width: 100%;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  padding-left: 15px;
-  font-size: 18px;
-}
-form .register_page .register_field select{
-  width: 100%;
-  padding-left: 10px;
-  font-size: 17px;
-  font-weight: 500;
-}
-form .register_page .register_field button{
-  width: 100%;
-  height: calc(100% + 5px);
-  border: none;
-  background: #d33f8d;
-  margin-top: -20px;
-  border-radius: 5px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: 0.5s ease;
-}
-form .register_page .register_field button:hover{
-  background: #000;
-}
-form .register_page .register_btns button{
-  margin-top: -20px!important;
-}
-form .register_page .register_btns button.register_prev{
-  margin-right: 3px;
-  font-size: 17px;
-}
-form .register_page .register_btns button.register_next{
-  margin-left: 3px;
-}
-.register_container .register_progress-bar{
-  display: flex;
-  margin: 40px 0;
-  user-select: none;
-}
-.register_container .register_progress-bar .register_step{
-  text-align: center;
-  width: 100%;
-  position: relative;
-}
-.register_container .register_progress-bar .register_step p{
-  font-weight: 500;
-  font-size: 18px;
-  color: #000;
-  margin-bottom: 8px;
-}
-.register_progress-bar .register_step .register_bullet{
-  height: 25px;
-  width: 25px;
-  border: 2px solid #000;
-  display: inline-block;
-  border-radius: 50%;
-  position: relative;
-  transition: 0.2s;
-  font-weight: 500;
-  font-size: 17px;
-  line-height: 25px;
-}
-.register_progress-bar .register_step .register_bullet.active{
-  border-color: #d43f8d;
-  background: #d43f8d;
-}
-.register_progress-bar .register_step .register_bullet span{
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.register_progress-bar .register_step .register_bullet.active span{
-  display: none;
-}
-.register_progress-bar .register_step .register_bullet:before,
-.register_progress-bar .register_step .register_bullet:after{
-  position: absolute;
+
+button:before,
+button:after {
   content: '';
-  bottom: 11px;
-  right: -51px;
-  height: 3px;
-  width: 44px;
-  background: #262626;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(52, 152, 253, 0.25);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+  -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+  transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
 }
-.register_progress-bar .register_step .register_bullet.active:after{
-  background: #d43f8d;
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: animate 0.3s linear forwards;
+
+button:after {
+  -webkit-transition-delay: 0.2s;
+  transition-delay: 0.2s;
 }
-@keyframes animate {
-  100%{
-    transform: scaleX(1);
+
+button:hover:before,
+button:hover:after {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+@media (max-width: 991px) {
+  .inner {
+    width: 400px;
+    left: 4%;
   }
 }
-.register_progress-bar .register_step:last-child .register_bullet:before,
-.register_progress-bar .register_step:last-child .register_bullet:after{
-  display: none;
-}
-.register_progress-bar .register_step p.active{
-  color: #d43f8d;
-  transition: 0.2s linear;
-}
-.register_progress-bar .register_step .register_check{
-  position: absolute;
-  left: 50%;
-  top: 70%;
-  font-size: 15px;
-  transform: translate(-50%, -50%);
-  display: none;
-}
-.register_progress-bar .register_step .register_check.active{
-  display: block;
-  color: #fff;
-}
-.register_OTP{
-    display: flex;
-    float: left;
+
+@media (max-width: 767px) {
+  .inner {
     width: 100%;
-    height: 100%;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    float: left;
-}
-.register_sendOTP_button{
-    flex-grow: 1;
-    height: 100%;
+    left: 0;
+  }
+
+  .image-1,
+  .image-2 {
+    display: none;
+  }
+
+  form {
+    padding: 35px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+  }
+
+  .wrapper {
+    background: none;
+  }
 }
 
-.register_inputOTP{
-    width: 70%;
-    margin-right: 12px;
-    height: 100%;
-}
-.register_sendOTP_button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-left: 12px;
-    margin-top: 20px;
-    
-}
-.register_sendOTP_button button{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.register_sendOTP_button p{
-
-    font-size: 12px;
-
-    justify-content: center;
-}
-#message{
-  height: 24px;
-  line-height: 24px;
-}
-
-.register_progress-bar .register_step .register_bullet:before,
-.register_progress-bar .register_step .register_bullet:after{
-  position: absolute;
-  content: '';
-  bottom: 11px;
-  right: -51px;
-  height: 3px;
-  width: 44px;
-  background: #262626;
-}
+/*# sourceMappingURL=style.css.map */

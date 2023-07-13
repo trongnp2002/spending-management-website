@@ -37,14 +37,17 @@ public class ExpensesController {
 
     @PostMapping("/add-expenses")
     public String addExpense(@ModelAttribute Expenses addexpense, RedirectAttributes redirectAttributes) {
-        expensesService.addExpenses(addexpense, redirectAttributes);
+        try {
+            expensesService.addExpenses(addexpense, redirectAttributes);
+        } catch (Exception e) {
+            redirectAttributes.addAttribute("report", e.getMessage());
+        }
         return "redirect:/users/list-expenses";
     }
 
     @GetMapping("/list-expenses")
     public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int pageSize,
-            Model model, @ModelAttribute("mess") String mess) {
-        model.addAttribute("mess", mess);
+            Model model) {
         model.addAttribute("listexpenses", expensesService.findAll());
         model.addAttribute("record", expensesService.findAll().size());
         model.addAttribute("listaccount", accountsService.findByActive());

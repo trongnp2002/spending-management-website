@@ -44,7 +44,7 @@ public class IncomeServiceImpl implements IncomeService {
             accountsRepository.addBalanceById(amountIcome + balanceAccount, income.getAccounts().getId());
             return incomeRepository.save(income);
         } catch (Exception e) {
-            model.addAttribute("mess", e.getMessage());
+            model.addAttribute("report", e.getMessage());
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package com.group6.moneymanagementbooking.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,26 +15,29 @@ import com.group6.moneymanagementbooking.enity.Users;
 
 public interface UsersService {
 
-      public String userRegister(Model model, UsersDTORegisterRequest accountDTORegister)
-                  throws Exception;
+  public void checkUserRegister(List<String> report, UsersDTORegisterRequest accountDTORegister,
+      HttpServletRequest request)
+      throws Exception;
 
-      public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
-                  throws IOException;
+  public void checkEmailCondition(HttpServletRequest request, HttpServletResponse response)
+      throws IOException;
 
-      public void checkPhoneCondition(HttpServletRequest request, HttpServletResponse response) throws IOException;
+  public void addUser(UsersDTORegisterRequest userDTORegister);
 
-      public String forgotPassword(Model model, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest);
+  public void checkForgotPassword(List<String> report, UsersDTOForgotPasswordRequest usersDTOForgotPasswordRequest);
 
-      public Users getUserByEmail(String email);
+  public Users getUserByEmail(String email);
 
-      public Users getUsers();
+  public void changePassword(String newPassword);
 
-      public void addAdjustForUser(Users users, Model model);
+  public Users getUsers();
 
-    public void uploadAvatar(String avatar);
+  public void addAdjustForUser(Users users, Model model);
 
-    public void updateInfo(UserDTOEditProfileRequest userDTOEditProfile) throws Exception;
+  public void uploadAvatar(String avatar);
 
-    public void changePassword(String newPass);
+  public void updateInfo(UserDTOEditProfileRequest userDTOEditProfile, HttpServletRequest request) throws Exception;
+
+  public void checkChangePassword(String[] newPass) throws Exception;
 
 }

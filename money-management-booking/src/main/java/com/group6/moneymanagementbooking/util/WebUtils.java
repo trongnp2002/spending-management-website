@@ -2,6 +2,9 @@ package com.group6.moneymanagementbooking.util;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
 
 public class WebUtils {
@@ -43,5 +46,14 @@ public class WebUtils {
             i++;
         }
         return url;
+    }
+
+    public static void clearSession(HttpServletRequest request,String... sessionName){
+        HttpSession session = request.getSession();
+        for (String string : sessionName) {
+            if(session.getAttribute(string) != null){
+                session.removeAttribute(string);
+            }
+        }
     }
 }
